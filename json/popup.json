@@ -1,0 +1,314 @@
+[
+    {
+        "opcion": [
+            {
+                "menu": 0,
+                "orden": 0
+            }
+        ],
+        "tipo": "titulo",
+        "svg": null,
+        "titulo": "FILTROS",
+        "accion": null,
+        "param": null,
+        "orden": 1
+    },
+    {
+        "opcion": [
+            {
+                "menu": 0,
+                "orden": 0
+            }
+        ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Descripcion del Amparo",
+        "accion": "[entreComponentes] BUSQUEDA_DESCRIPCION__LOAD01",
+        "param": {
+            "item": null,
+            "accion": "find"
+        },
+        "orden": 2
+    },
+    {
+        "opcion": [
+            {
+                "menu": 0,
+                "orden": 0
+            }
+        ],
+        "tipo": "linea",
+        "svg": null,
+        "titulo": "",
+        "accion": null,
+        "param": null,
+        "orden": 3
+    },
+    {
+        "opcion": [
+            {
+                "menu": 0,
+                "orden": 0
+            }
+        ],
+        "tipo": null,
+        "svg": "CUMPLIDO",
+        "titulo": "Cumplidos",
+        "accion": "[entreComponentes] AMPAROS__FILTER01",
+        "param": {
+            "campo": "estado",
+            "valor": "cumplida"
+        },
+        "orden": 4
+    },
+    {
+        "opcion": [
+            {
+                "menu": 0,
+                "orden": 0
+            }
+        ],
+        "tipo": null,
+        "svg": "VIGENTE",
+        "titulo": "Vigentes",
+        "accion": "[entreComponentes] AMPAROS__FILTER01",
+        "param": {
+            "campo": "estado",
+            "valor": "vigente"
+        },
+        "orden": 5
+    },
+    {
+        "opcion": [
+            {
+                "menu": 0,
+                "orden": 0
+            }
+        ],
+        "tipo": null,
+        "svg": "PENDIETE",
+        "titulo": "Pendientes",
+        "accion": "[entreComponentes] AMPAROS__FILTER01",
+        "param": {
+            "campo": "estado",
+            "valor": "pendiente"
+        },
+        "orden": 6
+    },
+    {
+        "opcion": [
+            {
+                "menu": 0,
+                "orden": 0
+            }
+        ],
+        "tipo": null,
+        "svg": "ALERTADO",
+        "titulo": "Alertados",
+        "accion": "[entreComponentes] AMPAROS__FILTER01",
+        "param": {
+            "campo": "estado",
+            "valor": "alerta"
+        },
+        "orden": 7
+    },
+    {
+        "opcion": [
+            {
+                "menu": 0,
+                "orden": 0
+            }
+        ],
+        "tipo": null,
+        "svg": "VENCIDO",
+        "titulo": "Vencidos",
+        "accion": "[entreComponentes] AMPAROS__FILTER01",
+        "param": {
+            "campo": "estado",
+            "valor": "vencida"
+        },
+        "orden": 8
+    },
+    {
+        "opcion": [
+            {
+                "menu": 0,
+                "orden": 0
+            }
+        ],
+        "tipo": "linea",
+        "svg": null,
+        "titulo": "",
+        "accion": null,
+        "param": null,
+        "orden": 9
+    },
+    {
+        "opcion": [
+            {
+                "menu": 0,
+                "orden": 0
+            }
+        ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Sacar filtros",
+        "accion": "[entreComponentes] AMPAROS__SACAR_FILTER01",
+        "param": null,
+        "orden": 10
+    },
+    {
+        "opcion": [
+            {
+                "menu": 1,
+                "orden": 0
+            }
+        ],
+        "tipo": "titulo",
+        "svg": null,
+        "titulo": "AMPAROS",
+        "accion": null,
+        "param": null
+    },
+    {
+        "opcion": [
+            {
+                "menu": 1,
+                "orden": 1
+            },
+            {
+                "menu": 2,
+                "orden": 1
+            }
+        ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Nueva tarea simple",
+        "accion": "[entreComponentes] TAREA_CARGA__LOAD01",
+        "param": {
+            "accion": "add",
+            "item": null
+        }
+    },
+    {
+        "opcion": [
+            {
+                "menu": 1,
+                "orden": 2
+            }
+        ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Modificar el amparo",
+        "accion": "[entreComponentes] PLAN_CARGA__LOAD01",
+        "param": {
+            "accion": "edit",
+            "item": null
+        }
+    },
+    {
+        "opcion": [
+            {
+                "menu": 1,
+                "orden": 3
+            }
+        ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Ver amparo",
+        "accion": "[entreComponentes] PLAN_CARGA__LOAD01",
+        "param": {
+            "accion": "view",
+            "item": null
+        }
+    },
+    {
+        "opcion": [
+            {
+                "menu": 2,
+                "orden": 0
+            },
+            {
+                "menu": 3,
+                "orden": 0
+            }
+        ],
+        "tipo": "titulo",
+        "svg": null,
+        "titulo": "TAREAS",
+        "accion": null,
+        "param": null
+    },
+    {
+        "opcion": [
+            {
+                "menu": 2,
+                "orden": 2
+            }
+        ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Nueva tarea multiple por lapso",
+        "accion": "[entreComponentes] TAREA_CARGA__LOAD02",
+        "param": {
+            "accion": "add",
+            "item": null
+        }
+    },
+    {
+        "opcion": [
+            {
+                "menu": 2,
+                "orden": 3
+            }
+        ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Nueva tarea multiple por fecha",
+        "accion": "[entreComponentes] TAREA_CARGA__LOAD03",
+        "param": {
+            "accion": "add",
+            "item": null
+        }
+    },
+    {
+        "opcion": [
+            {
+                "menu": 2,
+                "orden": 4
+            },
+            {
+                "menu": 3,
+                "orden": 1
+            }
+        ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Dar como cumplida",
+        "accion": "[eventos] EJECUTAR_TAREA_DAR_CUMPLIMIENTO",
+        "param": {
+            "accion": "darCumplimiento",
+            "item": null
+        }
+    },
+    {
+        "opcion": [
+            {
+                "menu": 2,
+                "orden": 5
+            },
+            {
+                "menu": 3,
+                "orden": 2
+            }
+        ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Ver tarea",
+        "accion": "[entreComponentes] TAREA_CARGA__LOAD01",
+        "param": {
+            "accion": "view",
+            "item": null
+        }
+    }
+]
