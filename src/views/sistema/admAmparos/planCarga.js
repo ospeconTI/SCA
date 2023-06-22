@@ -111,6 +111,9 @@ export class planCargaScreen extends connect(store, PLAN_ADD, PLAN_ADD_ERROR, PL
             *[hidden] {
                 display: none;
             }
+            svg {
+                fill: var(--on-formulario);
+            }
         `;
     }
     get _descripcion() {
