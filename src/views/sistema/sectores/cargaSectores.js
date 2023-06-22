@@ -70,6 +70,7 @@ export class cargaSectores extends connect(store, PATCH_SECTOR, PATCH_SECTOR_ERR
 				padding-top: 2rem;
 				height: 2rem;
 				justify-self: center;
+				color: var(--on-formulario);
 			}
 			hr {
 				border-top: 1px solid var(--on-formulario-bajada);
@@ -98,8 +99,8 @@ export class cargaSectores extends connect(store, PATCH_SECTOR, PATCH_SECTOR_ERR
 				top: 1rem;
 				right: 1rem;
 				font-size: 1.2rem;
-				color: var(--negro);
 				cursor: pointer;
+				color: var(--on-formulario);
 			}
 		`;
 	}

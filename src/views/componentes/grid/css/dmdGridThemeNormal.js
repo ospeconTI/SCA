@@ -12,14 +12,14 @@ export const dmdGridThemeNormal = css`
 	}
 	.dmd-grid-cabecera {
 		background: var(--primario);
-		color: var(--formulario);
+		color: var(--on-primario);
 		font-size: 0.8rem;
 		-webkit-box-shadow: 1px 1px 11px 1px rgba(0, 0, 0, 0.27);
 		box-shadow: 1px 1px 11px 1px rgba(0, 0, 0, 0.27);
 		z-index: 3;
 	}
 	.dmd-grid-cabecera svg {
-		fill: var(--formulario);
+		fill: var(--on-primario);
 		width: 1.8rem;
 		height: 1.8rem;
 	}
