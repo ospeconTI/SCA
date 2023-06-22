@@ -8,8 +8,8 @@ let webApi = SERVICE_URL + "/api/v1";
 let webApiNomenclador = NOMENCLADOR_URL + "/api";
 
 const expedienteOdataFactory = ODataFetchFactory({
-	fetch: fetch,
-	domain: webApiExpedientes,
+    fetch: fetch,
+    domain: webApiExpedientes,
 });
 
 export const loginFetch = fetchFactory(webApi, "LoginOS");
@@ -24,6 +24,7 @@ export const prestacionPorPrestadorGetAllFetch = fetchFactory(webApiNomenclador,
 export const planesByIdFetch = fetchFactory(webApi, "Plan");
 export const planesGetAllFetch = fetchFactory(webApi, "Plan/GetAll");
 export const planesAddFetch = fetchFactory(webApi, "Plan/NuevoPlan");
+export const planesModificarFetch = fetchFactory(webApi, "Plan/Modificar");
 export const planesAddSimpleFetch = fetchFactory(webApi, "Plan/AgregarTareas");
 export const planesAddLapsoFetch = fetchFactory(webApi, "Plan/AgregarMultiplesTareasPorLapso");
 export const planesAddFechaFetch = fetchFactory(webApi, "Plan/AgregarMultiplesTareasEnFecha");

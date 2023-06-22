@@ -1,3 +1,5 @@
+/** @format */
+
 export const GET = "[planes] GET";
 export const GET_BY_ID = "[planes] GET_BY_ID";
 export const GET_ALL = "[planes] GET_ALL";
@@ -33,75 +35,74 @@ export const UPDATE_ERROR = "[planes] UPDATE error";
 export const REMOVE_ERROR = "[planes] REMOVE error";
 
 export const get = (options) => ({
-	type: GET,
-	options: options,
-	success: GET_SUCCESS,
-	error: GET_ERROR,
+    type: GET,
+    options: options,
+    success: GET_SUCCESS,
+    error: GET_ERROR,
 });
 
 export const getById = (id) => ({
-	type: GET_BY_ID,
-	id: id,
-	success: GET_BY_ID_SUCCESS,
-	error: GET_BY_ID_ERROR,
+    type: GET_BY_ID,
+    id: id,
+    success: GET_BY_ID_SUCCESS,
+    error: GET_BY_ID_ERROR,
 });
 
 export const getAll = (options) => ({
-	type: GET_ALL,
-	options: options,
-	success: GET_ALL_SUCCESS,
-	error: GET_ALL_ERROR,
+    type: GET_ALL,
+    options: options,
+    success: GET_ALL_SUCCESS,
+    error: GET_ALL_ERROR,
 });
 
 export const add = (body, token) => ({
-	type: ADD,
-	body: body,
-	token: token,
+    type: ADD,
+    body: body,
+    token: token,
 });
 
 export const addSimple = (body, token) => ({
-	type: ADD_SIMPLE,
-	body: body,
-	token: token,
+    type: ADD_SIMPLE,
+    body: body,
+    token: token,
 });
 
 export const addLapso = (body, token) => ({
-	type: ADD_LAPSO,
-	body: body,
-	token: token,
+    type: ADD_LAPSO,
+    body: body,
+    token: token,
 });
 
 export const addFecha = (body, token) => ({
-	type: ADD_FECHA,
-	body: body,
-	token: token,
+    type: ADD_FECHA,
+    body: body,
+    token: token,
 });
 
-export const update = (id, body, token) => ({
-	type: UPDATE,
-	id: id,
-	body: body,
-	token: token,
+export const update = (body, token) => ({
+    type: UPDATE,
+    body: body,
+    token: token,
 });
 
 export const patch = (id, body, token) => ({
-	type: PATCH,
-	id: id,
-	body: body,
-	token: token,
+    type: PATCH,
+    id: id,
+    body: body,
+    token: token,
 });
 
 export const remove = (id, token) => ({
-	type: REMOVE,
-	id: id,
-	token: token,
+    type: REMOVE,
+    id: id,
+    token: token,
 });
 
 export const edit = (modo, item) => ({
-	type: EDIT,
-	item: item || {
-		Descripcion: 0,
-		Activo: 1,
-	},
-	modo: modo,
+    type: EDIT,
+    item: item || {
+        Descripcion: 0,
+        Activo: 1,
+    },
+    modo: modo,
 });
