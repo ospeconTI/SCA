@@ -20,6 +20,8 @@ import { inicialScreen } from "../views/sistema/inicial";
 import { busquedaDescripcionScreen } from "../views/sistema/admAmparos/busquedaDescripcion";
 import { tareaCargaScreen } from "../views/sistema/admAmparos/tareaCarga";
 import { planCargaScreen } from "../views/sistema/admAmparos/planCarga";
+import { verSectores } from "../views/sistema/sectores/verSectores";
+import { cargaSectores } from "../views/sistema/sectores/cargaSectores";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -82,6 +84,8 @@ export class viewManager extends connect(store, MEDIA_CHANGE, SCREEN, SELECTION)
 			<busqueda-descripcion-screen id="busquedaDescripcion" class="body"></busqueda-descripcion-screen>
 			<tarea-carga-screen id="tareaCarga" class="body"></tarea-carga-screen>
 			<plan-carga-screen id="planCarga" class="body"></plan-carga-screen>
+			<ver-sectores id="verSectores" class="body"></ver-sectores>
+			<carga-sectores id="cargaSectores" class="body"></carga-sectores>
 
 			<pantalla-warning id="warning"></pantalla-warning>
 			<alert-control></alert-control>

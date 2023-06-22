@@ -63,7 +63,13 @@ export const fetchFactory = (url, entity) => {
 		},
 
 		put: (id, body, token) => {
-			let newUrl = url + "/" + id;
+			//let newUrl = url + "/" + id;
+			let newUrl = "";
+			if (id) {
+				newUrl = url + "/" + id;
+			} else {
+				newUrl = url;
+			}
 			return fetch(newUrl, {
 				method: "PUT",
 				body: JSON.stringify(body),

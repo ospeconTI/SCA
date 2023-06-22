@@ -156,7 +156,7 @@ export class amparosScreen extends connect(store, EVENTO_EJECUTAR_TAREA_DAR_CUMP
 			return html` <div id="div-titulo">
 					<div id="div-menu" @click="${this.filtroMenu}" title="filtro de amparos">${FILTRO}</div>
 					<div id="div-sacar-filtro" @click="${this.filtroSacar}" ?hidden=${!this.filtro} title="Sacar filtros">${FILTROSACAR}</div>
-					<div id="div-alta-amparo" @click="${this.altaAmparo}" title="Alta de nuevo amparo">${MAS}</div>
+					<div id="div-alta-amparo" @click="${this.altaAmparo}" title="Alta de nuevo plan">${MAS}</div>
 					<div>Administracion de amparos</div>
 				</div>
 				<div class="div-arbol">

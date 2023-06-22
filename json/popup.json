@@ -22,7 +22,7 @@
         ],
         "tipo": null,
         "svg": null,
-        "titulo": "Descripcion del Amparo",
+        "titulo": "Descripcion del plan",
         "accion": "[entreComponentes] BUSQUEDA_DESCRIPCION__LOAD01",
         "param": {
             "item": null,
@@ -166,7 +166,7 @@
         ],
         "tipo": "titulo",
         "svg": null,
-        "titulo": "AMPAROS",
+        "titulo": "PLANES",
         "accion": null,
         "param": null
     },
@@ -199,7 +199,7 @@
         ],
         "tipo": null,
         "svg": null,
-        "titulo": "Modificar el amparo",
+        "titulo": "Modificar el plan",
         "accion": "[entreComponentes] PLAN_CARGA__LOAD01",
         "param": {
             "accion": "edit",
@@ -215,7 +215,7 @@
         ],
         "tipo": null,
         "svg": null,
-        "titulo": "Ver amparo",
+        "titulo": "Ver plan",
         "accion": "[entreComponentes] PLAN_CARGA__LOAD01",
         "param": {
             "accion": "view",

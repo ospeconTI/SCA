@@ -33,4 +33,10 @@ export const tareaByPlanIdFetch = fetchFactory(webApi, "Tarea/GetByPlanId");
 export const tareaDarCumplimientoFetch = fetchFactory(webApi, "Tarea/DarCumplimiento");
 export const tareaAddSimpleFetch = fetchFactory(webApi, "Tarea/SumarCondicion");
 
+export const sectoresGetByIdFetch = fetchFactory(webApi, "Sector");
 export const sectoresGetAllFetch = fetchFactory(webApi, "Sector/all");
+export const sectoresGetByDescripcioniFetch = fetchFactory(webApi, "Sector/getByDescripcion");
+export const sectoresAddFetch = fetchFactory(webApi, "Sector/add");
+export const sectoresUpdateFetch = fetchFactory(webApi, "Sector/update");
+export const sectoresSumarIntegranteFetch = fetchFactory(webApi, "Sector/SumarIntegrante");
+export const sectoresQuitarIntegranteFetch = fetchFactory(webApi, "Sector/QuitarIntegrante");

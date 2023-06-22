@@ -172,7 +172,8 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, USUARIO,
 			<div id="opciones" class="grid column" @click=${this.toggleMenu}>
 				<button raised circle action class="menu-button">${RIGHT}</button>
 				<button link ?selected="${this.selectedOption[0]}" @click=${this.click} .option=${"inicial"}>Home</button>
-				<button link ?selected="${this.selectedOption[1]}" @click=${this.click} .option=${"amparos"}>Amparos</button>
+				<button link ?selected="${this.selectedOption[1]}" @click=${this.click} .option=${"amparos"}>Planes</button>
+				<button link ?selected="${this.selectedOption[2]}" @click=${this.click} .option=${"verSectores"}>Sectores</button>
 				<button link etiqueta ?selected="${this.selectedOption[3]}" @click=${this.click} .option=${"opcion3"}>
 					<div>${PERSON}</div>
 					<div class="justify-self-start">Login</div>

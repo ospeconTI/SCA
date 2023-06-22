@@ -137,9 +137,9 @@ export class planCargaScreen extends connect(store, PLAN_ADD, PLAN_ADD_ERROR, PL
 			return html`
 				<div id="cuerpo">
 					<div class="x" @click="${this.volver}">X</div>
-					<div id="titulo" ?hidden=${this.accion != "add"}>Nuevo Amparo</div>
-					<div id="titulo" ?hidden=${this.accion != "view"}>Visualizacion de Amparo</div>
-					<div id="titulo" ?hidden=${this.accion != "edit"}>Mofidicacion de Amparo</div>
+					<div id="titulo" ?hidden=${this.accion != "add"}>Nuevo Plan</div>
+					<div id="titulo" ?hidden=${this.accion != "view"}>Visualizacion del Plan</div>
+					<div id="titulo" ?hidden=${this.accion != "edit"}>Mofidicacion del Plan</div>
 					<hr />
 					<div id="datos">
 						<div class="dmd-input" helper ?hidden=${this.accion != "view"}>

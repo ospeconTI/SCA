@@ -5,6 +5,7 @@ export const TAREA_CARGA__LOAD03 = "[entreComponentes] TAREA_CARGA__LOAD03"; //P
 export const PLAN_CARGA__LOAD01 = "[entreComponentes] PLAN_CARGA__LOAD01";
 export const AMPAROS__FILTER01 = "[entreComponentes] AMPAROS__FILTER01";
 export const AMPAROS__SACAR_FILTER01 = "[entreComponentes] AMPAROS__SACAR_FILTER01";
+export const CARGA_SECTORES__LOAD01 = "[entreComponentes] CARGA_SECTORES__LOAD01";
 
 export const busqueDescripcion_Load01 = (item, accion) => ({
 	type: BUSQUEDA_DESCRIPCION__LOAD01,
@@ -44,4 +45,10 @@ export const amparos_Filter01 = (campo, valor) => ({
 
 export const amparos_SacarFilter01 = () => ({
 	type: AMPAROS__SACAR_FILTER01,
+});
+
+export const cargaSectores_Load01 = (item, accion) => ({
+	type: CARGA_SECTORES__LOAD01,
+	item: item,
+	accion: accion,
 });

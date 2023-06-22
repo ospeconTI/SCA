@@ -12,8 +12,8 @@ import { dmdButton } from "../../css/dmdButton";
 import { dmdInput } from "../../css/dmdInput";
 import { dmdSelect } from "../../css/dmdSelect";
 
-import { getById as tareaGetById } from "../../../redux/tareas/actions";
-import { addSimple as addTareaSimple, addLapso as addTareaLapso, addFecha as addTareaFecha, getAll as getPlanesAll } from "../../../redux/planes/actions";
+import { getById as tareaGetById, addSimple as addTareaSimpleDeTarea, addLapso as addTareaLapsoDeTarea, addFecha as addTareaFechaDeTarea } from "../../../redux/tareas/actions";
+import { addSimple as addTareaSimpleDePlan, addLapso as addTareaLapsoDePlan, addFecha as addTareaFechaDePlan, getAll as getPlanesAll } from "../../../redux/planes/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -22,12 +22,16 @@ const TAREA_BY_ID_ERROR = "tareas.byId.errorTimeStamp";
 const I_SHOW = "entreComponentes.tareaCarga_Load01.timeStamp";
 const I_SHOW_LAPSO = "entreComponentes.tareaCarga_Load02.timeStamp";
 const I_SHOW_FECHA = "entreComponentes.tareaCarga_Load03.timeStamp";
-const ADD_TAREA_SIMPLE = "planes.addSimpleTimeStamp";
-const ADD_TAREA_LAPSO = "planes.addLapsoTimeStamp";
-const ADD_TAREA_FECHA = "planes.addFechaTimeStamp";
-const ADD_ERROR = "planes.commandErrorTimeStamp";
+const ADD_TAREA_SIMPLE_DE_PLAN = "planes.addSimpleTimeStamp";
+const ADD_TAREA_LAPSO_DE_PLAN = "planes.addLapsoTimeStamp";
+const ADD_TAREA_FECHA_DE_PLAN = "planes.addFechaTimeStamp";
+const ADD_ERROR_DE_PLAN = "planes.commandErrorTimeStamp";
+const ADD_TAREA_SIMPLE_DE_TAREA = "tareas.addSimpleTimeStamp";
+const ADD_TAREA_LAPSO_DE_TAREA = "tareas.addLapsoTimeStamp";
+const ADD_TAREA_FECHA_DE_TAREA = "tareas.addFechaTimeStamp";
+const ADD_ERROR_DE_TAREA = "tareas.commandErrorTimeStamp";
 
-export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE, ADD_TAREA_LAPSO, ADD_TAREA_FECHA, ADD_ERROR, TAREA_BY_ID, TAREA_BY_ID_ERROR, I_SHOW, I_SHOW_LAPSO, I_SHOW_FECHA, MEDIA_CHANGE, SCREEN)(LitElement) {
+export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, ADD_TAREA_LAPSO_DE_TAREA, ADD_TAREA_FECHA_DE_TAREA, ADD_ERROR_DE_TAREA, ADD_TAREA_SIMPLE_DE_PLAN, ADD_TAREA_LAPSO_DE_PLAN, ADD_TAREA_FECHA_DE_PLAN, ADD_ERROR_DE_PLAN, TAREA_BY_ID, TAREA_BY_ID_ERROR, I_SHOW, I_SHOW_LAPSO, I_SHOW_FECHA, MEDIA_CHANGE, SCREEN)(LitElement) {
 	constructor() {
 		super();
 		this.hidden = true;
@@ -35,6 +39,7 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE, ADD_TAREA
 		this.current = "";
 		this.accion = "";
 		this.item = {};
+		this.origen = "";
 		this.plan_tarea = {};
 		this.tarea = {};
 		this.tipoTarea = "";
@@ -264,7 +269,7 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE, ADD_TAREA
 						</div>
 
 						<div class="dmd-input" helper ?hidden=${this.tipoTarea == "simple"}>
-							<label>Cantidad</label>
+							<label>Cantidad De repeticiones</label>
 							<input type="number" id="cantidad" autocomplete="off" autocomplete="off" placeholder="" value="" ?disabled=${this.accion == "view"} />
 							<div>Debe ingresar un numero</div>
 							<span>Ingrese la cantidad</span>
@@ -314,15 +319,21 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE, ADD_TAREA
 		if (name == TAREA_BY_ID_ERROR && state.screen.name == "amparos") {
 			store.dispatch(showWarning("Atencion!", "No se puede mostrar la tarea, intente nuevamente", "fondoError", 3000));
 		}
-		if ((name == ADD_TAREA_SIMPLE || name == ADD_TAREA_LAPSO || name == ADD_TAREA_FECHA) && !this.hidden) {
+		if ((name == ADD_TAREA_SIMPLE_DE_PLAN || name == ADD_TAREA_LAPSO_DE_PLAN || name == ADD_TAREA_FECHA_DE_PLAN) && !this.hidden) {
 			store.dispatch(getPlanesAll());
 			this.hidden = true;
 			this._botonAceptar.disabled = false;
 			store.dispatch(showWarning("Atencion!", "La tarea se agrego correctamente", "fondoOk", 3000));
 		}
-		if (name == ADD_ERROR && !this.hidden) {
+		if (name == (ADD_ERROR_DE_PLAN || ADD_ERROR_DE_TAREA) && !this.hidden) {
 			this._botonAceptar.disabled = false;
 			store.dispatch(showWarning("Atencion!", "No se pudo agregar la tarea, intente nuevamente", "fondoError", 3000));
+		}
+		if ((name == ADD_TAREA_SIMPLE_DE_TAREA || name == ADD_TAREA_LAPSO_DE_TAREA || name == ADD_TAREA_FECHA_DE_TAREA) && !this.hidden) {
+			store.dispatch(getPlanesAll());
+			this.hidden = true;
+			this._botonAceptar.disabled = false;
+			store.dispatch(showWarning("Atencion!", "La tarea se agrego correctamente", "fondoOk", 3000));
 		}
 		if (name == I_SHOW || name == I_SHOW_LAPSO || name == I_SHOW_FECHA) {
 			if (name == I_SHOW) {
@@ -330,16 +341,19 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE, ADD_TAREA
 				this.item = state.entreComponentes.tareaCarga_Load01.item;
 				this.accion = state.entreComponentes.tareaCarga_Load01.accion;
 				this.plan_tarea = state.entreComponentes.tareaCarga_Load01.item;
+				this.origen = this.item.clase;
 			} else if (name == I_SHOW_LAPSO) {
 				this.tipoTarea = "lapso";
 				this.item = state.entreComponentes.tareaCarga_Load02.item;
 				this.accion = state.entreComponentes.tareaCarga_Load02.accion;
 				this.plan_tarea = state.entreComponentes.tareaCarga_Load01.item;
+				this.origen = this.item.clase;
 			} else if (name == I_SHOW_FECHA) {
 				this.tipoTarea = "fecha";
 				this.item = state.entreComponentes.tareaCarga_Load03.item;
 				this.accion = state.entreComponentes.tareaCarga_Load03.accion;
 				this.plan_tarea = state.entreComponentes.tareaCarga_Load01.item;
+				this.origen = this.item.clase;
 			}
 			//this.plan_tarea = state.popup.show.item;
 
@@ -454,14 +468,26 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE, ADD_TAREA
 				body.cantidad = this._cantidad.value;
 				body.diaDelMes = this._diaDelMes.value;
 			}
-			if (this.tipoTarea == "simple") {
-				store.dispatch(addTareaSimple(body));
-			} else if (this.tipoTarea == "lapso") {
-				store.dispatch(addTareaLapso(body));
-			} else if (this.tipoTarea == "fecha") {
-				store.dispatch(addTareaFecha(body));
+			if (this.origen == "plan") {
+				if (this.tipoTarea == "simple") {
+					store.dispatch(addTareaSimpleDePlan(body));
+				} else if (this.tipoTarea == "lapso") {
+					store.dispatch(addTareaLapsoDePlan(body));
+				} else if (this.tipoTarea == "fecha") {
+					store.dispatch(addTareaFechaDePlan(body));
+				}
+			} else {
+				body.tareaId = this.plan_tarea.id;
+				if (this.tipoTarea == "simple") {
+					store.dispatch(addTareaSimpleDeTarea(body));
+				} else if (this.tipoTarea == "lapso") {
+					store.dispatch(addTareaLapsoDeTarea(body));
+				} else if (this.tipoTarea == "fecha") {
+					store.dispatch(addTareaFechaDeTarea(body));
+				}
 			}
 		} else {
+			this._botonAceptar.disabled = false;
 			if (mensageError == "") {
 				mensageError = "Falta cargar campos.";
 			}
