@@ -232,8 +232,8 @@ export class cargaUsuarios extends connect(store, ADD_USUARIO, ADD_USUARIO_ERROR
 				//store.dispatch(updateSector(null, body));
 			} else if (this.accion == "delete") {
 				body = {};
+				body.identificador = this.item.identificacion;
 				body.sectorId = this.sector.id;
-				body.identificador = this.identificador;
 				store.dispatch(deleteUsuario(body));
 			}
 		} else {
