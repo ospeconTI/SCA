@@ -80,7 +80,7 @@ export const sumarIntegrante =
 	(action) => {
 		next(action);
 		if (action.type === SUMAR_INTEGRANTE) {
-			dispatch(RESTAdd(sectoresSumarIntegranteFetch, action.body, SUMAR_INTEGRANTE_SUCCESS, SUMAR_INTEGRANTE_ERROR, action.token));
+			dispatch(RESTUpdate(sectoresSumarIntegranteFetch, null, action.body, SUMAR_INTEGRANTE_SUCCESS, SUMAR_INTEGRANTE_ERROR, action.token));
 		}
 	};
 
@@ -90,7 +90,7 @@ export const quitarIntegrante =
 	(action) => {
 		next(action);
 		if (action.type === QUITAR_INTEGRANTE) {
-			dispatch(RESTAdd(sectoresQuitarIntegranteFetch, action.body, QUITAR_INTEGRANTE_SUCCESS, QUITAR_INTEGRANTE_ERROR, action.token));
+			dispatch(RESTUpdate(sectoresQuitarIntegranteFetch, null, action.body, QUITAR_INTEGRANTE_SUCCESS, QUITAR_INTEGRANTE_ERROR, action.token));
 		}
 	};
 

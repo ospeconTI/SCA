@@ -1,4 +1,4 @@
-import { BUSQUEDA_DESCRIPCION__LOAD01, TAREA_CARGA__LOAD01, TAREA_CARGA__LOAD02, TAREA_CARGA__LOAD03, PLAN_CARGA__LOAD01, AMPAROS__FILTER01, AMPAROS__SACAR_FILTER01, CARGA_SECTORES__LOAD01 } from "./actions";
+import { BUSQUEDA_DESCRIPCION__LOAD01, TAREA_CARGA__LOAD01, TAREA_CARGA__LOAD02, TAREA_CARGA__LOAD03, PLAN_CARGA__LOAD01, AMPAROS__FILTER01, AMPAROS__SACAR_FILTER01, CARGA_SECTORES__LOAD01, VER_USUARIOS__LOAD01, CARGA_USUARIOS__LOAD01 } from "./actions";
 
 const initialState = {
 	busqueDescripcion_Load01: {
@@ -35,6 +35,17 @@ const initialState = {
 		timeStamp: null,
 	},
 	cargaSectores_Load01: {
+		timeStamp: null,
+		item: null,
+		accion: null,
+	},
+	verUsuarios_Load01: {
+		timeStamp: null,
+		item: null,
+		accion: null,
+		sectorItem: null,
+	},
+	cargaUsuarios_Load01: {
 		timeStamp: null,
 		item: null,
 		accion: null,
@@ -84,6 +95,17 @@ export const reducer = (state = initialState, action) => {
 			newState.cargaSectores_Load01.timeStamp = new Date().getTime();
 			newState.cargaSectores_Load01.item = action.item || action.param?.item;
 			newState.cargaSectores_Load01.accion = action.accion || action.param.accion;
+			break;
+		case VER_USUARIOS__LOAD01:
+			newState.verUsuarios_Load01.timeStamp = new Date().getTime();
+			newState.verUsuarios_Load01.usuariosItems = action.usuariosItems || action.param?.usuariosItems;
+			newState.verUsuarios_Load01.sectorItem = action.sectorItem || action.param.sectorItem;
+			break;
+		case CARGA_USUARIOS__LOAD01:
+			newState.cargaUsuarios_Load01.timeStamp = new Date().getTime();
+			newState.cargaUsuarios_Load01.item = action.item || action.param?.item;
+			newState.cargaUsuarios_Load01.itemSector = action.itemSector || action.param?.itemSector;
+			newState.cargaUsuarios_Load01.accion = action.accion || action.param.accion;
 			break;
 	}
 	return newState;

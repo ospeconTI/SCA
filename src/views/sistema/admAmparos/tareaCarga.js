@@ -346,13 +346,13 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 				this.tipoTarea = "lapso";
 				this.item = state.entreComponentes.tareaCarga_Load02.item;
 				this.accion = state.entreComponentes.tareaCarga_Load02.accion;
-				this.plan_tarea = state.entreComponentes.tareaCarga_Load01.item;
+				this.plan_tarea = state.entreComponentes.tareaCarga_Load02.item;
 				this.origen = this.item.clase;
 			} else if (name == I_SHOW_FECHA) {
 				this.tipoTarea = "fecha";
 				this.item = state.entreComponentes.tareaCarga_Load03.item;
 				this.accion = state.entreComponentes.tareaCarga_Load03.accion;
-				this.plan_tarea = state.entreComponentes.tareaCarga_Load01.item;
+				this.plan_tarea = state.entreComponentes.tareaCarga_Load03.item;
 				this.origen = this.item.clase;
 			}
 			//this.plan_tarea = state.popup.show.item;

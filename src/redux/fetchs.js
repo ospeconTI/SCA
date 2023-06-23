@@ -8,8 +8,8 @@ let webApi = SERVICE_URL + "/api/v1";
 let webApiNomenclador = NOMENCLADOR_URL + "/api";
 
 const expedienteOdataFactory = ODataFetchFactory({
-    fetch: fetch,
-    domain: webApiExpedientes,
+	fetch: fetch,
+	domain: webApiExpedientes,
 });
 
 export const loginFetch = fetchFactory(webApi, "LoginOS");
@@ -33,6 +33,8 @@ export const tareaByIdFetch = fetchFactory(webApi, "Tarea");
 export const tareaByPlanIdFetch = fetchFactory(webApi, "Tarea/GetByPlanId");
 export const tareaDarCumplimientoFetch = fetchFactory(webApi, "Tarea/DarCumplimiento");
 export const tareaAddSimpleFetch = fetchFactory(webApi, "Tarea/SumarCondicion");
+export const tareaAddLapsoFetch = fetchFactory(webApi, "Tarea/AgregarMultiplesCondicionesPorLapso");
+export const tareaAddFechaFetch = fetchFactory(webApi, "Tarea/AgregarMultiplesCondicionesEnFecha");
 
 export const sectoresGetByIdFetch = fetchFactory(webApi, "Sector");
 export const sectoresGetAllFetch = fetchFactory(webApi, "Sector/all");

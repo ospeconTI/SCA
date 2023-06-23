@@ -189,7 +189,7 @@ export class tareaComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitEle
 						</div>
 						<div class="lineas">
 							<div id="div-avisar">${"Avisar: " + dateToFrench(this.registro.alerta)}</div>
-							<div class="div-linea-dos">${"Cumplida:"}</div>
+							<div class="div-linea-dos">${this.registro.cumplidaEl ? "Cumplida: " + dateToFrench(this.registro.cumplidaEl) : ""}</div>
 						</div>
 						<textarea id="textarea-titulo" readonly>${this.registro.descripcion}</textarea>
 						<div id="div-botonera">

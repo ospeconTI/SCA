@@ -37,7 +37,7 @@ import {
 import { RESTRequest, RESTAdd, RESTDelete, RESTUpdate, RESTPatch } from "../rest/actions";
 
 import { apiRequest } from "../api/actions";
-import { tareaByPlanIdFetch, tareaByIdFetch, tareaDarCumplimientoFetch, tareaAddSimpleFetch } from "../fetchs";
+import { tareaByPlanIdFetch, tareaByIdFetch, tareaDarCumplimientoFetch, tareaAddSimpleFetch, tareaAddLapsoFetch, tareaAddFechaFetch } from "../fetchs";
 
 export const get =
 	({ dispatch }) =>
@@ -94,7 +94,7 @@ export const addLapso =
 	(action) => {
 		next(action);
 		if (action.type === ADD_LAPSO) {
-			//dispatch(RESTAdd(tareaAddSimpleFetch, action.body, ADD_LAPSO_SUCCESS, ADD_LAPSO_ERROR, action.token));
+			dispatch(RESTAdd(tareaAddLapsoFetch, action.body, ADD_LAPSO_SUCCESS, ADD_LAPSO_ERROR, action.token));
 		}
 	};
 
@@ -104,7 +104,7 @@ export const addFecha =
 	(action) => {
 		next(action);
 		if (action.type === ADD_FECHA) {
-			//dispatch(RESTAdd(tareaAddSimpleFetch, action.body, ADD_FECHA_SUCCESS, ADD_FECHA_ERROR, action.token));
+			dispatch(RESTAdd(tareaAddFechaFetch, action.body, ADD_FECHA_SUCCESS, ADD_FECHA_ERROR, action.token));
 		}
 	};
 

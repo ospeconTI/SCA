@@ -47,6 +47,7 @@ export const reducer = (state = initialState, action) => {
 			break;
 		case GET_BY_PLAN_ID_SUCCESS:
 			newState.byPlanId.entities = action.payload.receive;
+			//newState.byPlanId.entities = action.payload.receive.sort((a, b) => b.vigenteDesde.localeCompare(a.vigenteDesde));
 			newState.byPlanId.timeStamp = new Date().getTime();
 			break;
 		case DAR_CUMPLIMIENTO_SUCCESS:

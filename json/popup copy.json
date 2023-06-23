@@ -1,6 +1,11 @@
 [
     {
-        "opcion": 0,
+        "opcion": [
+            {
+                "menu": 0,
+                "orden": 0
+            }
+        ],
         "tipo": "titulo",
         "svg": null,
         "titulo": "FILTROS",
@@ -9,10 +14,15 @@
         "orden": 1
     },
     {
-        "opcion": 0,
+        "opcion": [
+            {
+                "menu": 0,
+                "orden": 0
+            }
+        ],
         "tipo": null,
         "svg": null,
-        "titulo": "Descripcion del Amparo",
+        "titulo": "Descripcion del plan",
         "accion": "[entreComponentes] BUSQUEDA_DESCRIPCION__LOAD01",
         "param": {
             "item": null,
@@ -21,7 +31,12 @@
         "orden": 2
     },
     {
-        "opcion": 0,
+        "opcion": [
+            {
+                "menu": 0,
+                "orden": 0
+            }
+        ],
         "tipo": "linea",
         "svg": null,
         "titulo": "",
@@ -30,7 +45,12 @@
         "orden": 3
     },
     {
-        "opcion": 0,
+        "opcion": [
+            {
+                "menu": 0,
+                "orden": 0
+            }
+        ],
         "tipo": null,
         "svg": "CUMPLIDO",
         "titulo": "Cumplidos",
@@ -42,7 +62,12 @@
         "orden": 4
     },
     {
-        "opcion": 0,
+        "opcion": [
+            {
+                "menu": 0,
+                "orden": 0
+            }
+        ],
         "tipo": null,
         "svg": "VIGENTE",
         "titulo": "Vigentes",
@@ -54,7 +79,12 @@
         "orden": 5
     },
     {
-        "opcion": 0,
+        "opcion": [
+            {
+                "menu": 0,
+                "orden": 0
+            }
+        ],
         "tipo": null,
         "svg": "PENDIETE",
         "titulo": "Pendientes",
@@ -66,7 +96,12 @@
         "orden": 6
     },
     {
-        "opcion": 0,
+        "opcion": [
+            {
+                "menu": 0,
+                "orden": 0
+            }
+        ],
         "tipo": null,
         "svg": "ALERTADO",
         "titulo": "Alertados",
@@ -78,7 +113,12 @@
         "orden": 7
     },
     {
-        "opcion": 0,
+        "opcion": [
+            {
+                "menu": 0,
+                "orden": 0
+            }
+        ],
         "tipo": null,
         "svg": "VENCIDO",
         "titulo": "Vencidos",
@@ -90,7 +130,12 @@
         "orden": 8
     },
     {
-        "opcion": 0,
+        "opcion": [
+            {
+                "menu": 0,
+                "orden": 0
+            }
+        ],
         "tipo": "linea",
         "svg": null,
         "titulo": "",
@@ -99,7 +144,12 @@
         "orden": 9
     },
     {
-        "opcion": 0,
+        "opcion": [
+            {
+                "menu": 0,
+                "orden": 0
+            }
+        ],
         "tipo": null,
         "svg": null,
         "titulo": "Sacar filtros",
@@ -108,16 +158,29 @@
         "orden": 10
     },
     {
-        "opcion": 1,
+        "opcion": [
+            {
+                "menu": 1,
+                "orden": 0
+            }
+        ],
         "tipo": "titulo",
         "svg": null,
-        "titulo": "AMPAROS",
+        "titulo": "PLANES",
         "accion": null,
-        "param": null,
-        "orden": 0
+        "param": null
     },
     {
-        "opcion": 1,
+        "opcion": [
+            {
+                "menu": 1,
+                "orden": 1
+            },
+            {
+                "menu": 2,
+                "orden": 1
+            }
+        ],
         "tipo": null,
         "svg": null,
         "titulo": "Nueva tarea simple",
@@ -125,92 +188,120 @@
         "param": {
             "accion": "add",
             "item": null
-        },
-        "orden": 1
+        }
     },
     {
-        "opcion": 1,
+        "opcion": [
+            {
+                "menu": 1,
+                "orden": 2
+            }
+        ],
         "tipo": null,
         "svg": null,
-        "titulo": "Modificar el amparo",
+        "titulo": "Modificar el plan",
         "accion": "[entreComponentes] PLAN_CARGA__LOAD01",
         "param": {
             "accion": "edit",
             "item": null
-        },
-        "orden": 2
+        }
     },
     {
-        "opcion": 1,
+        "opcion": [
+            {
+                "menu": 1,
+                "orden": 3
+            }
+        ],
         "tipo": null,
         "svg": null,
-        "titulo": "Ver amparo",
+        "titulo": "Ver plan",
         "accion": "[entreComponentes] PLAN_CARGA__LOAD01",
         "param": {
             "accion": "view",
             "item": null
-        },
-        "orden": 3
+        }
     },
     {
-        "opcion": 2,
+        "opcion": [
+            {
+                "menu": 2,
+                "orden": 0
+            },
+            {
+                "menu": 3,
+                "orden": 0
+            }
+        ],
         "tipo": "titulo",
         "svg": null,
         "titulo": "TAREAS",
         "accion": null,
-        "param": null,
-        "orden": 0
+        "param": null
     },
     {
-        "opcion": 2,
-        "tipo": null,
-        "svg": null,
-        "titulo": "Nueva tarea simple",
-        "accion": "[entreComponentes] TAREA_CARGA__LOAD01",
-        "param": {
-            "accion": "add",
-            "item": null
-        },
-        "orden": 1
-    },
-    {
-        "opcion": 2,
+        "opcion": [
+            {
+                "menu": 2,
+                "orden": 2
+            }
+        ],
         "tipo": null,
         "svg": null,
         "titulo": "Nueva tarea multiple por lapso",
-        "accion": "[entreComponentes] TAREA_CARGA__LOAD01",
+        "accion": "[entreComponentes] TAREA_CARGA__LOAD02",
         "param": {
             "accion": "add",
             "item": null
-        },
-        "orden": 2
+        }
     },
     {
-        "opcion": 2,
+        "opcion": [
+            {
+                "menu": 2,
+                "orden": 3
+            }
+        ],
         "tipo": null,
         "svg": null,
         "titulo": "Nueva tarea multiple por fecha",
-        "accion": "[entreComponentes] TAREA_CARGA__LOAD01",
+        "accion": "[entreComponentes] TAREA_CARGA__LOAD03",
         "param": {
             "accion": "add",
             "item": null
-        },
-        "orden": 3
+        }
     },
     {
-        "opcion": 2,
+        "opcion": [
+            {
+                "menu": 2,
+                "orden": 4
+            },
+            {
+                "menu": 3,
+                "orden": 1
+            }
+        ],
         "tipo": null,
         "svg": null,
         "titulo": "Dar como cumplida",
-        "accion": "[entreComponentes] TAREA_CARGA__LOAD01",
+        "accion": "[eventos] EJECUTAR_TAREA_DAR_CUMPLIMIENTO",
         "param": {
-            "accion": "add",
+            "accion": "darCumplimiento",
             "item": null
-        },
-        "orden": 4
+        }
     },
     {
-        "opcion": 2,
+        "opcion": [
+            {
+                "menu": 2,
+                "orden": 5
+            },
+            {
+                "menu": 3,
+                "orden": 2
+            }
+        ],
         "tipo": null,
         "svg": null,
         "titulo": "Ver tarea",
@@ -218,7 +309,6 @@
         "param": {
             "accion": "view",
             "item": null
-        },
-        "orden": 5
+        }
     }
 ]

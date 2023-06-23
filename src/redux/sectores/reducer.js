@@ -71,10 +71,10 @@ export const reducer = (state = initialState, action) => {
 			newState.addTimeStamp = new Date().getTime();
 			break;
 		case SUMAR_INTEGRANTE_SUCCESS:
-			newState.sumarIntegrante.addTimeStamp = new Date().getTime();
+			newState.sumarIntegrante.timeStamp = new Date().getTime();
 			break;
 		case QUITAR_INTEGRANTE_SUCCESS:
-			newState.quitarIntegrante.addTimeStamp = new Date().getTime();
+			newState.quitarIntegrante.timeStamp = new Date().getTime();
 			break;
 		case GET_BY_ID_ERROR:
 			newState.byId.errorTimeStamp = new Date().getTime();

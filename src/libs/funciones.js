@@ -110,12 +110,29 @@ export const isEmpty = (value) => {
 	if (value == 0) return true;
 };
 
+function recursiveSearch(arr, target) {
+	for (let i = 0; i < arr.length; i++) {
+		if (arr[i].id === target) {
+			return arr[i];
+		}
+		if (arr[i].condiciones) {
+			const result = recursiveSearch(arr[i].condiciones, target);
+			if (result) {
+				return result;
+			}
+		}
+	}
+	return null;
+}
+
 export const armoTareas = (padre, array) => {
 	let newAr = [];
 	if (padre == "0") {
 		newAr = array;
 	} else {
-		newAr = array.find(({ id }) => id == padre).condiciones;
+		//let a = array.find((item) => item.id == padre);
+		let a = recursiveSearch(array, padre);
+		newAr = a.condiciones;
 	}
 	let ar = [];
 	newAr.map((item, index) => {
@@ -135,6 +152,7 @@ export const armoTareas = (padre, array) => {
 			js.padreClase = "tarea";
 			js.padre = padre;
 		}
+		js.cumplidaEl = item.cumplidaEl == "0001-01-01T00:00:00" ? null : item.cumplidaEl;
 		js.creacion = item.creacion;
 		js.creador = item.creador;
 		js.ejecutor = item.ejecutor;
@@ -156,4 +174,8 @@ export const dateToFrench = (fecha) => {
 export const dateReturnForComponente = (pFecha) => {
 	let fecha = new Date(pFecha);
 	return fecha.getFullYear() + "-" + ("0" + (fecha.getMonth() + 1)).slice(-2) + "-" + ("0" + fecha.getDate()).slice(-2);
+};
+
+export const uuidv4 = () => {
+	return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16));
 };
