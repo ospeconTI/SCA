@@ -9,7 +9,7 @@ import { showWarning } from "../../../redux/ui/actions";
 import { INFO } from "../../../../assets/icons/svgs";
 import { dmdButton } from "../../css/dmdButton";
 import { dmdInput } from "../../css/dmdInput";
-import { uuidv4 } from "../../../libs/funciones";
+import { uuidv4, validaMail } from "../../../libs/funciones";
 
 import { sumarIntegrante as addUsuario, quitarIntegrante as deleteUsuario, getAll as getAllSectores, modificarIntegrante as modificarUsuario } from "../../../redux/sectores/actions";
 
@@ -216,7 +216,8 @@ export class cargaUsuarios extends connect(store, MODIFICAR_USUARIO, MODIFICAR_U
 			ok = false;
 			this._nombre.setAttribute("error", "");
 		}
-		if (this._email.value == "") {
+		let rr = validaMail(this._email.value);
+		if (this._email.value == "" || !validaMail(this._email.value)) {
 			ok = false;
 			this._email.setAttribute("error", "");
 		}
