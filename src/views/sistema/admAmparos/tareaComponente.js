@@ -31,7 +31,7 @@ export class tareaComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitEle
 			}
 			.div-etiqueta {
 				display: grid;
-				height: 8rem;
+				height: 9rem;
 				width: 22rem;
 				grid-template-columns: 0.8rem 1fr;
 				grid-gap: 0;
@@ -39,13 +39,15 @@ export class tareaComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitEle
 				align-content: center;
 				padding: 0;
 				border-radius: 4px;
+				border: solid 1px var(--formulario);
 			}
 			.div-etiqueta[cursorpointer] {
-				cursor: pointer;
+				/* cursor: pointer; */
 			}
 			.div-etiqueta[seleccionado] {
 				background-color: var(--aplicacion);
 				box-shadow: 2px 2px 7px -1px var(--on-aplicacion);
+				border: solid 1px var(--terciario);
 			}
 			svg {
 				cursor: pointer;
@@ -89,7 +91,6 @@ export class tareaComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitEle
 				font-weight: 300;
 				color: var(--on-formulario);
 				align-self: center;
-				text-align: left;
 				border-bottom: solid 0.5px var(--on-formulario-bajada);
 			}
 			.div-linea-dos {
@@ -129,6 +130,7 @@ export class tareaComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitEle
 				color: var(--on-formulario);
 				border: solid var(--on-formulario) 1px;
 				height: fit-content;
+				cursor: pointer;
 			}
 			#div-menu {
 				display: grid;
@@ -180,15 +182,15 @@ export class tareaComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitEle
 					<div class="estado" ?cumplido=${this.registro.estado == "cumplida"} ?alertado=${this.registro.estado == "alerta"} ?vencida=${this.registro.estado == "vencida"} ?pendiente=${this.registro.estado == "pendiente"} ?vigente=${this.registro.estado == "vigente"} ?pausada=${this.registro.estado == "pausada"} ?anulada=${this.registro.estado == "anualada"}></div>
 					<div class="div-cuerpo">
 						<div class="lineas">
-							<div id="div-dequien" class="lineas">${"De:" + dateToFrench(this.registro.vigenteDesde) + " " + this.registro.creador.descripcion}</div>
+							<div id="div-dequien">${"De:" + dateToFrench(this.registro.vigenteDesde) + " " + this.registro.creador.descripcion}</div>
 							<div class="div-linea-dos">${this.registro.tipo.toUpperCase()}</div>
 						</div>
 						<div class="lineas">
-							<div id="div-aquien" class="lineas">${"A: " + this.registro.ejecutor.descripcion}</div>
-							<div class="div-linea-dos">${"Vence: " + dateToFrench(this.registro.vencimiento)}</div>
+							<div id="div-aquien">${"A: " + this.registro.ejecutor.descripcion}</div>
+							<div class="div-linea-dos">${(this.registro.conTareas ? "Vencia: " : "Vence: ") + dateToFrench(this.registro.vencimiento)}</div>
 						</div>
 						<div class="lineas">
-							<div id="div-avisar">${"Avisar: " + dateToFrench(this.registro.alerta)}</div>
+							<div id="div-avisar">${(this.registro.conTareas ? "Avisaba: " : "Avisar: ") + dateToFrench(this.registro.alerta)}</div>
 							<div class="div-linea-dos">${this.registro.cumplidaEl ? "Cumplida: " + dateToFrench(this.registro.cumplidaEl) : ""}</div>
 						</div>
 						<textarea id="textarea-titulo" readonly>${this.registro.descripcion}</textarea>

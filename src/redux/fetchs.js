@@ -43,3 +43,4 @@ export const sectoresAddFetch = fetchFactory(webApi, "Sector/add");
 export const sectoresUpdateFetch = fetchFactory(webApi, "Sector/update");
 export const sectoresSumarIntegranteFetch = fetchFactory(webApi, "Sector/SumarIntegrante");
 export const sectoresQuitarIntegranteFetch = fetchFactory(webApi, "Sector/QuitarIntegrante");
+export const sectoresModificarIntegranteFetch = fetchFactory(webApi, "Sector/ModificarIntegrante");

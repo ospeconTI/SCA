@@ -49,22 +49,22 @@ export const reducer = (state = initialState, action) => {
 			let ar = [];
 			action.payload.receive.map((item, index) => {
 				let js = {};
+				js.clase = "plan";
 				js.id = item.id;
-				js.urlReferencia = item.urlReferencia;
+				js.planId = item.id;
 				js.descripcion = item.descripcion;
+				js.urlReferencia = item.urlReferencia;
 				js.estado = item.estado;
 				js.conTareas = item.conTareas;
+				js.hijo = item.conTareas;
 				js.padre = "0";
 				js.padreClase = "";
-				js.clase = "plan";
-				js.planId = item.id;
-				js.hijo = item.conTareas;
 				js.tipo = "";
 				js.fechaDeAlta = item.fechaDeAlta;
 				ar.push(js);
 			});
-			//newState.all.entities = ar.sort((a, b) => b.fechaDeAlta.localeCompare(a.fechaDeAlta));
-			newState.all.entities = ar;
+			newState.all.entities = ar.sort((a, b) => b.fechaDeAlta.localeCompare(a.fechaDeAlta));
+			//newState.all.entities = ar;
 			newState.all.timeStamp = new Date().getTime();
 			break;
 		case EDIT:

@@ -11,7 +11,7 @@ import { dmdButton } from "../../css/dmdButton";
 import { dmdInput } from "../../css/dmdInput";
 import { uuidv4 } from "../../../libs/funciones";
 
-import { sumarIntegrante as addUsuario, quitarIntegrante as deleteUsuario, getAll as getAllSectores } from "../../../redux/sectores/actions";
+import { sumarIntegrante as addUsuario, quitarIntegrante as deleteUsuario, getAll as getAllSectores, modificarIntegrante as modificarUsuario } from "../../../redux/sectores/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -20,10 +20,12 @@ const SHOW = "entreComponentes.cargaUsuarios_Load01.timeStamp";
 
 const ADD_USUARIO = "sectores.sumarIntegrante.timeStamp";
 const ADD_USUARIO_ERROR = "sectores.sumarIntegrante.errorTimeStamp";
+const MODIFICAR_USUARIO = "sectores.modificarIntegrante.timeStamp";
+const MODIFICAR_USUARIO_ERROR = "sectores.modificarIntegrante.errorTimeStamp";
 const DELETE_USUARIO = "sectores.quitarIntegrante.timeStamp";
 const DELETE_USUARIO_ERROR = "sectores.quitarIntegrante.errorTimeStamp";
 
-export class cargaUsuarios extends connect(store, ADD_USUARIO, ADD_USUARIO_ERROR, DELETE_USUARIO, DELETE_USUARIO_ERROR, SHOW, MEDIA_CHANGE, SCREEN)(LitElement) {
+export class cargaUsuarios extends connect(store, MODIFICAR_USUARIO, MODIFICAR_USUARIO_ERROR, ADD_USUARIO, ADD_USUARIO_ERROR, DELETE_USUARIO, DELETE_USUARIO_ERROR, SHOW, MEDIA_CHANGE, SCREEN)(LitElement) {
 	constructor() {
 		super();
 		this.hidden = true;
@@ -187,12 +189,12 @@ export class cargaUsuarios extends connect(store, ADD_USUARIO, ADD_USUARIO_ERROR
 			}
 			this.hidden = false;
 		}
-		if ((name == ADD_USUARIO || name == DELETE_USUARIO) && !this.hidden) {
+		if ((name == ADD_USUARIO || name == MODIFICAR_USUARIO || name == DELETE_USUARIO) && !this.hidden) {
 			store.dispatch(getAllSectores());
 			store.dispatch(showWarning("Atencion!", "El sector se actulizo correctamente", "fondoOk", 3000));
 			this.hidden = true;
 		}
-		if ((name == ADD_USUARIO_ERROR || name == DELETE_USUARIO_ERROR) && !this.hidden) {
+		if ((name == ADD_USUARIO_ERROR || name == MODIFICAR_USUARIO_ERROR || name == DELETE_USUARIO_ERROR) && !this.hidden) {
 			store.dispatch(showWarning("Atencion!", "El usuario no fue actulizado, intente nuevamente", "fondoError", 3000));
 		}
 	}
@@ -228,8 +230,8 @@ export class cargaUsuarios extends connect(store, ADD_USUARIO, ADD_USUARIO_ERROR
 			if (this.accion == "add") {
 				store.dispatch(addUsuario(body));
 			} else if (this.accion == "edit") {
-				//body.id = this.item.id;
-				//store.dispatch(updateSector(null, body));
+				body.identificador = this.item.identificacion;
+				store.dispatch(modificarUsuario(body));
 			} else if (this.accion == "delete") {
 				body = {};
 				body.identificador = this.item.identificacion;

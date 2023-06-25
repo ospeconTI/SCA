@@ -7,11 +7,11 @@ import { goTo } from "../../../redux/routing/actions";
 import { isInLayout } from "../../../redux/screens/screenLayouts";
 import { showWarning } from "../../../redux/ui/actions";
 import { dmdButton } from "../../css/dmdButton";
-import { FILTRO, FILTROSACAR, MAS } from "../../../../assets/icons/svgs";
+import { FILTRO, FILTROSACAR, REFRESH, MAS } from "../../../../assets/icons/svgs";
 
 import { popupControl } from "../../../views/componentes/popup";
 
-import { armoTareas } from "../../../libs/funciones";
+import { armoTareas, recursiveSearch } from "../../../libs/funciones";
 
 import { UPDATE, getAll as getPlanesAll } from "../../../redux/planes/actions";
 import { getByPlanId as getTareasByPlanId, darCumplimiento as tareaDarCumplimiento } from "../../../redux/tareas/actions";
@@ -44,7 +44,9 @@ const EVENTO_EJECUTAR_TAREA_DAR_CUMPLIMIENTO = "eventos.ejecutarTareaDarCumplimi
 const PLAN_ADD = "planes.addTimeStamp";
 const PLAN_UPDATE = "planes.updateTimeStamp";
 
-export class amparosScreen extends connect(store, EVENTO_EJECUTAR_TAREA_DAR_CUMPLIMIENTO, TAREA_DAR_CUMPLIMIENTO_OK, TAREA_DAR_CUMPLIMIENTO_ERROR, FILTRO_AMPAROS, PLAN_ADD, SACAR_FILTRO_AMPAROS, EVENTO_MOSTRAR_POPUP_PLANES, EVENTO_MOSTRAR_POPUP_TAREAS, EVENTO_MOSTRAR_HIJOS, PLANES_OK, PLANES_ERROR, PLAN_UPDATE, TAREAS_BY_PLAN_ID_OK, TAREAS_BY_PLAN_ID_ERROR, MEDIA_CHANGE, SCREEN)(LitElement) {
+const TAREA_CARGA_A_AMPARO__RETORNO = "entreComponentes.tareaCargaAAmparo_Retorno01.timeStamp";
+
+export class amparosScreen extends connect(store, TAREA_CARGA_A_AMPARO__RETORNO, EVENTO_EJECUTAR_TAREA_DAR_CUMPLIMIENTO, TAREA_DAR_CUMPLIMIENTO_OK, TAREA_DAR_CUMPLIMIENTO_ERROR, FILTRO_AMPAROS, PLAN_ADD, SACAR_FILTRO_AMPAROS, EVENTO_MOSTRAR_POPUP_PLANES, EVENTO_MOSTRAR_POPUP_TAREAS, EVENTO_MOSTRAR_HIJOS, PLANES_OK, PLANES_ERROR, PLAN_UPDATE, TAREAS_BY_PLAN_ID_OK, TAREAS_BY_PLAN_ID_ERROR, MEDIA_CHANGE, SCREEN)(LitElement) {
 	constructor() {
 		super();
 		this.hidden = true;
@@ -54,6 +56,7 @@ export class amparosScreen extends connect(store, EVENTO_EJECUTAR_TAREA_DAR_CUMP
 		this.rama = -1;
 		this.itemsSeleccionados = [];
 		this.filtro = false;
+		this.cargaArbolDe0 = true;
 	}
 	static get styles() {
 		return css`
@@ -81,22 +84,27 @@ export class amparosScreen extends connect(store, EVENTO_EJECUTAR_TAREA_DAR_CUMP
 				align-content: center;
 				text-align: center;
 			}
-			#div-menu {
-				position: absolute;
-				left: 4rem;
-				top: 0.2rem;
-			}
-			#div-sacar-filtro {
-				position: absolute;
-				left: 7rem;
-				top: 0.2rem;
-			}
 			#div-alta-amparo {
 				position: absolute;
 				left: 1rem;
 				top: 0.2rem;
 			}
-			#div-buscar {
+			#div-refresh {
+				position: absolute;
+				left: 4rem;
+				top: 0.2rem;
+			}
+			#div-menu {
+				position: absolute;
+				left: 7rem;
+				top: 0.2rem;
+			}
+			#div-sacar-filtro {
+				position: absolute;
+				left: 10rem;
+				top: 0.2rem;
+			}
+			x #div-buscar {
 				display: grid;
 				position: relative;
 				width: 100vw;
@@ -155,9 +163,10 @@ export class amparosScreen extends connect(store, EVENTO_EJECUTAR_TAREA_DAR_CUMP
 	render() {
 		if (this.arbol) {
 			return html` <div id="div-titulo">
+					<div id="div-alta-amparo" @click="${this.altaAmparo}" title="Alta de nuevo plan">${MAS}</div>
+					<div id="div-refresh" @click="${this.refresh}" title="Refrescar la lista de planes">${REFRESH}</div>
 					<div id="div-menu" @click="${this.filtroMenu}" title="filtro de amparos">${FILTRO}</div>
 					<div id="div-sacar-filtro" @click="${this.filtroSacar}" ?hidden=${!this.filtro} title="Sacar filtros">${FILTROSACAR}</div>
-					<div id="div-alta-amparo" @click="${this.altaAmparo}" title="Alta de nuevo plan">${MAS}</div>
 					<div>Administracion de amparos</div>
 				</div>
 				<div class="div-arbol">
@@ -185,32 +194,32 @@ export class amparosScreen extends connect(store, EVENTO_EJECUTAR_TAREA_DAR_CUMP
 				</div>`;
 		}
 	}
+	inicializarArbol() {
+		if (this.cargaArbolDe0) {
+			this.itemsSeleccionados = [];
+			this.rama = -1;
+			this.filtro = false;
+		}
+	}
 	filtroMenu(e) {
-		store.dispatch(showPopup(0, null, e.clientX, e.clientY));
+		store.dispatch(showPopup("0.0", null, e.clientX, e.clientY));
 	}
 	altaAmparo() {
 		store.dispatch(planCarga_Load01(null, "add"));
 	}
 	filtrar(campo, valor) {
 		if (this.arbol.length > 0) {
-			this.itemsSeleccionados = [];
-			this.rama = -1;
+			this.inicializarArbol();
+			this.filtro = true;
 			this.arbol.splice(1);
 			this.arbol[0] = this.arbol[0].filter((it) => {
 				if (campo == "estado") return it[campo] == valor;
 				if (campo == "descripcion") return it[campo].toLowerCase().includes(valor.toLowerCase());
 			});
-
-			[].forEach.call(this.shadowRoot.querySelectorAll(".div-rama"), (element) => {
-				element.style.animation = "fadeOutUp 2s";
-			});
-			setTimeout(this.update(), 1000);
+			this.update();
 		}
 	}
 	filtroSacar() {
-		this.itemsSeleccionados = [];
-		this.rama = -1;
-		this.filtro = false;
 		store.dispatch(getPlanesAll());
 	}
 	clickNodo(e) {
@@ -232,11 +241,18 @@ export class amparosScreen extends connect(store, EVENTO_EJECUTAR_TAREA_DAR_CUMP
 					this.arbol.splice(1);
 					store.dispatch(getTareasByPlanId(item.planId));
 				} else {
-					this.arbol.splice(this.rama + 2);
-					this.update();
+					//this.arbol.splice(this.rama + 2);
+					//this.update();
+					this.arbol.splice(this.rama + 1);
+					store.dispatch(getTareasByPlanId(item.planId));
 				}
 			}
 		}
+	}
+	refresh() {
+		this.cargaArbolDe0 = true;
+		this.inicializarArbol();
+		store.dispatch(getPlanesAll());
 	}
 	stateChanged(state, name) {
 		if (name == SCREEN || name == MEDIA_CHANGE) {
@@ -249,65 +265,86 @@ export class amparosScreen extends connect(store, EVENTO_EJECUTAR_TAREA_DAR_CUMP
 			const SeMuestraEnUnasDeEstasPantallas = "-amparos-".indexOf("-" + state.screen.name + "-") != -1;
 			if (haveBodyArea && SeMuestraEnUnasDeEstasPantallas) {
 				if (hiddenAnterior) {
-					this.itemsSeleccionados = [];
-					this.rama = -1;
-					this.filtro = false;
-					if (this.shadowRoot.getElementById("bus")) this.shadowRoot.getElementById("bus").value = "";
 					store.dispatch(getPlanesAll());
 				}
 				this.hidden = false;
 			}
 		}
 		if (name == PLANES_OK) {
-			this.itemsSeleccionados = [];
-			this.rama = -1;
-			this.filtro = false;
+			this.inicializarArbol();
 			this.arbol = [state.planes.all.entities];
-			this.update();
+			if (this.cargaArbolDe0) {
+				this.update();
+			} else {
+				store.dispatch(getTareasByPlanId(this.itemsSeleccionados[0].planId));
+			}
 		}
 		if (name == PLANES_ERROR) {
+			this.inicializarArbol();
 			store.dispatch(showWarning("Error!", "No se pudo recuperar los amparos, intente nuevamente", "fondoError", 3000));
+			this.update();
 		}
 		if (name == TAREAS_BY_PLAN_ID_OK) {
-			let newRama = [];
-			if (this.rama == 0) {
-				newRama = armoTareas("0", state.tareas.byPlanId.entities);
+			if (this.cargaArbolDe0) {
+				let newRama = [];
+				if (this.rama == 0) {
+					newRama = armoTareas("0", state.tareas.byPlanId.entities);
+				} else {
+					newRama = armoTareas(this.itemsSeleccionados[this.rama].id, state.tareas.byPlanId.entities);
+				}
+				this.arbol.push(newRama);
 			} else {
-				newRama = armoTareas(this.itemsSeleccionados[this.rama].id, state.tareas.byPlanId.entities);
+				this.cargaArbolDe0 = true;
+				if (this.itemsSeleccionados.length > 0) {
+					this.arbol.splice(1);
+					this.itemsSeleccionados.map((item, index) => {
+						let newRama = [];
+						if (index == 0) {
+							newRama = armoTareas("0", state.tareas.byPlanId.entities);
+						} else {
+							newRama = armoTareas(this.itemsSeleccionados[index].id, state.tareas.byPlanId.entities);
+						}
+						if (newRama.length > 0) {
+							this.arbol.push(newRama);
+						} else {
+							this.rama = this.arbol.length - 2;
+						}
+					});
+					let rr = this.arbol;
+				}
 			}
-			this.arbol.push(newRama);
 			this.update();
 		}
 		if (name == TAREAS_BY_PLAN_ID_ERROR) {
+			this.cargaArbolDe0 = true;
 			store.dispatch(showWarning("Error!", "No se pudo recuperar las tareas, intente nuevamente", "fondoError", 3000));
 		}
 		if (name == EVENTO_MOSTRAR_HIJOS) {
 			this.clickNodo(state.eventos.mostrarHijos.nombreComponente);
-			//store.dispatch(getTareasByPlanId(state.eventos.mostrarHijos.plan.id));
 		}
 		if (name == EVENTO_MOSTRAR_POPUP_PLANES) {
-			store.dispatch(showPopup(1, state.eventos.mostrarPopupPlanes.registro, state.eventos.mostrarPopupPlanes.x + "px", state.eventos.mostrarPopupPlanes.y + "px"));
+			if (state.eventos.mostrarPopupPlanes.registro?.conTareas) {
+				store.dispatch(showPopup("1.1", state.eventos.mostrarPopupPlanes.registro, state.eventos.mostrarPopupPlanes.x + "px", state.eventos.mostrarPopupPlanes.y + "px"));
+			} else {
+				store.dispatch(showPopup("1.0", state.eventos.mostrarPopupPlanes.registro, state.eventos.mostrarPopupPlanes.x + "px", state.eventos.mostrarPopupPlanes.y + "px"));
+			}
 		}
 		if (name == EVENTO_MOSTRAR_POPUP_TAREAS) {
-			if (state.eventos.mostrarPopupTareas.registro?.tipo == "simple") {
-				store.dispatch(showPopup(2, state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+			if (state.eventos.mostrarPopupTareas.registro?.conTareas) {
+				store.dispatch(showPopup("2.1", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 			} else {
-				//store.dispatch(showPopup(3, state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-				store.dispatch(showPopup(2, state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				store.dispatch(showPopup("2.0", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 			}
 		}
 		if (name == FILTRO_AMPAROS) {
-			this.filtro = true;
 			this.filtrar(state.entreComponentes.amparos_Filter01.campo, state.entreComponentes.amparos_Filter01.valor);
 		}
 		if (name == SACAR_FILTRO_AMPAROS || name == PLAN_ADD || name == PLAN_UPDATE) {
-			this.itemsSeleccionados = [];
-			this.rama = -1;
-			this.filtro = false;
 			store.dispatch(getPlanesAll());
 		}
 		if (name == TAREA_DAR_CUMPLIMIENTO_OK) {
 			store.dispatch(showWarning("Atencion", "Se dio como cumplido la tarea", "fondoOk", 3000));
+			this.cargaArbolDe0 = false;
 			store.dispatch(getPlanesAll());
 		}
 		if (name == TAREA_DAR_CUMPLIMIENTO_ERROR) {
@@ -317,6 +354,32 @@ export class amparosScreen extends connect(store, EVENTO_EJECUTAR_TAREA_DAR_CUMP
 			let body = {};
 			body.tareaId = state.eventos.ejecutarTareaDarCumplimiento.idTarea;
 			store.dispatch(tareaDarCumplimiento(body));
+		}
+		if (name == TAREA_CARGA_A_AMPARO__RETORNO) {
+			if (state.entreComponentes.tareaCargaAAmparo_Retorno01.accion == "add") {
+				this.cargaArbolDe0 = false;
+				let registroPadre = state.entreComponentes.tareaCargaAAmparo_Retorno01.itemPadre;
+				if (registroPadre.clase == "plan") {
+					this.arbol[0].map((item) => {
+						if (item.planId == registroPadre.planId) {
+							this.itemsSeleccionados[0] = item;
+							this.itemsSeleccionados.splice(1);
+							this.rama = 0;
+						}
+					});
+				} else {
+					this.arbol.map((item1, index1) => {
+						item1.map((item2, index2) => {
+							if (index1 > 0 && item2.id == registroPadre.id) {
+								this.itemsSeleccionados[index1] = registroPadre;
+								this.itemsSeleccionados.splice(index1 + 1);
+								this.rama = index1;
+							}
+						});
+					});
+				}
+				store.dispatch(getPlanesAll());
+			}
 		}
 	}
 	static get properties() {

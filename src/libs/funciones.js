@@ -110,7 +110,7 @@ export const isEmpty = (value) => {
 	if (value == 0) return true;
 };
 
-function recursiveSearch(arr, target) {
+export const recursiveSearch = (arr, target) => {
 	for (let i = 0; i < arr.length; i++) {
 		if (arr[i].id === target) {
 			return arr[i];
@@ -123,7 +123,7 @@ function recursiveSearch(arr, target) {
 		}
 	}
 	return null;
-}
+};
 
 export const armoTareas = (padre, array) => {
 	let newAr = [];
@@ -141,17 +141,18 @@ export const armoTareas = (padre, array) => {
 		js.id = item.id;
 		js.planId = item.planId;
 		js.descripcion = item.descripcion;
-		js.hijo = item.condiciones.length > 0;
+		js.urlReferencia = "";
 		js.estado = item.estado;
 		js.conTareas = item.condiciones.length > 0;
-		js.urlReferencia = "";
+		js.hijo = item.condiciones.length > 0;
 		if (padre == "0") {
-			js.padreClase = "plan";
 			js.padre = item.planId;
+			js.padreClase = "plan";
 		} else {
-			js.padreClase = "tarea";
 			js.padre = padre;
+			js.padreClase = "tarea";
 		}
+		js.tipo = item.tipo;
 		js.cumplidaEl = item.cumplidaEl == "0001-01-01T00:00:00" ? null : item.cumplidaEl;
 		js.creacion = item.creacion;
 		js.creador = item.creador;
@@ -160,7 +161,6 @@ export const armoTareas = (padre, array) => {
 		js.vencimiento = item.vencimiento;
 		js.vigenteDesde = item.vigenteDesde;
 		js.alerta = item.alerta;
-		js.tipo = item.tipo;
 		ar.push(js);
 	});
 	return ar;

@@ -1,6 +1,6 @@
 /** @format */
 
-import { SHOW_SPINNER, HIDE_SPINNER, SHOW_ERROR, HIDE_ERROR, SET_MEDIA, SET_MEDIA_ORIENTATION, SELECTION, STEP, SHOW_ALERT, SHOW_CONFIRM, SHOW_WARNING, HIDE_WARNING } from "./actions";
+import { SHOW_SPINNER, HIDE_SPINNER, SHOW_ERROR, HIDE_ERROR, SET_MEDIA, SET_MEDIA_ORIENTATION, SELECTION, STEP, SHOW_ALERT, SHOW_CONFIRM, SHOW_WARNING, HIDE_WARNING, AMPARO_CARGA_ARBOL_DEL_INICIO } from "./actions";
 
 const initialState = {
 	spinner: {
@@ -44,6 +44,7 @@ const initialState = {
 		hidden: true,
 		tineOut: 1500,
 	},
+	ampara_carga_arbol_del_inicio: true,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -107,6 +108,9 @@ export const reducer = (state = initialState, action) => {
 			newState.warning.subTitulo = "";
 			newState.warning.hidden = true;
 			newState.warning.timeOut = 1500;
+			break;
+		case AMPARO_CARGA_ARBOL_DEL_INICIO:
+			newState.ampara_carga_arbol_del_inicio = action.inicio;
 			break;
 	}
 	return newState;

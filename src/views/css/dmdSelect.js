@@ -6,11 +6,12 @@ export const dmdSelect = css`
 		position: relative;
 		grid-template-rows: 1fr auto 1fr;
 		grid-gap: 0rem;
+		color: var(--on-formulario);
+}
 	}
 	.dmd-select label {
-		color: var(--on-formulario);
 		font-size: 0.9rem;
-		font-weight: 500;
+		font-weight: 300;
 		padding-left: 0.6rem;
 	}
 

@@ -1,8 +1,39 @@
-import { GET_BY_ID, GET_BY_ID_SUCCESS, GET_BY_ID_ERROR, GET_ALL, GET_ALL_SUCCESS, GET_ALL_ERROR, ADD, ADD_SUCCESS, ADD_ERROR, UPDATE, UPDATE_SUCCESS, UPDATE_ERROR, PATCH, PATCH_SUCCESS, PATCH_ERROR, REMOVE, REMOVE_SUCCESS, REMOVE_ERROR, GET_BY_DESCRIPCION, GET_BY_DESCRIPCION_SUCCESS, GET_BY_DESCRIPCION_ERROR, SUMAR_INTEGRANTE, SUMAR_INTEGRANTE_SUCCESS, SUMAR_INTEGRANTE_ERROR, QUITAR_INTEGRANTE, QUITAR_INTEGRANTE_SUCCESS, QUITAR_INTEGRANTE_ERROR } from "./actions";
+import {
+	GET_BY_ID,
+	GET_BY_ID_SUCCESS,
+	GET_BY_ID_ERROR,
+	GET_ALL,
+	GET_ALL_SUCCESS,
+	GET_ALL_ERROR,
+	ADD,
+	ADD_SUCCESS,
+	ADD_ERROR,
+	UPDATE,
+	UPDATE_SUCCESS,
+	UPDATE_ERROR,
+	PATCH,
+	PATCH_SUCCESS,
+	PATCH_ERROR,
+	REMOVE,
+	REMOVE_SUCCESS,
+	REMOVE_ERROR,
+	GET_BY_DESCRIPCION,
+	GET_BY_DESCRIPCION_SUCCESS,
+	GET_BY_DESCRIPCION_ERROR,
+	SUMAR_INTEGRANTE,
+	SUMAR_INTEGRANTE_SUCCESS,
+	SUMAR_INTEGRANTE_ERROR,
+	QUITAR_INTEGRANTE,
+	QUITAR_INTEGRANTE_SUCCESS,
+	QUITAR_INTEGRANTE_ERROR,
+	MODIFICAR_INTEGRANTE,
+	MODIFICAR_INTEGRANTE_SUCCESS,
+	MODIFICAR_INTEGRANTE_ERROR,
+} from "./actions";
 
 import { RESTRequest, RESTAdd, RESTDelete, RESTUpdate, RESTPatch } from "../rest/actions";
 
-import { sectoresGetByIdFetch, sectoresGetAllFetch, sectoresGetByDescripcioniFetch, sectoresAddFetch, sectoresUpdateFetch, sectoresSumarIntegranteFetch, sectoresQuitarIntegranteFetch } from "../fetchs";
+import { sectoresGetByIdFetch, sectoresGetAllFetch, sectoresGetByDescripcioniFetch, sectoresAddFetch, sectoresUpdateFetch, sectoresSumarIntegranteFetch, sectoresQuitarIntegranteFetch, sectoresModificarIntegranteFetch } from "../fetchs";
 
 export const getById =
 	({ dispatch }) =>
@@ -94,6 +125,16 @@ export const quitarIntegrante =
 		}
 	};
 
+export const modificarIntegrante =
+	({ dispatch }) =>
+	(next) =>
+	(action) => {
+		next(action);
+		if (action.type === MODIFICAR_INTEGRANTE) {
+			dispatch(RESTUpdate(sectoresModificarIntegranteFetch, null, action.body, MODIFICAR_INTEGRANTE_SUCCESS, MODIFICAR_INTEGRANTE_ERROR, action.token));
+		}
+	};
+
 export const processGet =
 	({ dispatch }) =>
 	(next) =>
@@ -121,4 +162,4 @@ export const processError =
 		}
 	};
 
-export const middleware = [getById, getByDescripcion, getAll, add, update, patch, remove, sumarIntegrante, quitarIntegrante, processGet, processComand, processError];
+export const middleware = [getById, getByDescripcion, getAll, add, update, patch, remove, sumarIntegrante, quitarIntegrante, modificarIntegrante, processGet, processComand, processError];

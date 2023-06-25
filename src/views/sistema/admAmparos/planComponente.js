@@ -37,13 +37,15 @@ export class planComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitElem
 				padding: 0rem;
 				border-radius: 4px;
 				gap: 0m;
+				border: solid 1px var(--formulario);
 			}
 			#div-trajeta[cursorpointer] {
-				cursor: pointer;
+				/* cursor: pointer; */
 			}
 			#div-trajeta[seleccionado] {
 				background-color: var(--aplicacion);
 				box-shadow: 2px 2px 7px -1px var(--on-aplicacion);
+				border: solid 1px var(--terciario);
 			}
 			#div-estado {
 				height: inherit;
@@ -181,7 +183,7 @@ export class planComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitElem
 	mostrarAmparo(e) {
 		e.preventDefault();
 		e.stopPropagation();
-		window.open(this.registro.urlReferencia, "_blank");
+		window.open("https://www.uocra.net/Amparos/Index.html?dni=" + this.registro.urlReferencia, "_blank");
 	}
 	mostrarTareas(e) {
 		e.preventDefault();

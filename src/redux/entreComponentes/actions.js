@@ -2,6 +2,7 @@ export const BUSQUEDA_DESCRIPCION__LOAD01 = "[entreComponentes] BUSQUEDA_DESCRIP
 export const TAREA_CARGA__LOAD01 = "[entreComponentes] TAREA_CARGA__LOAD01"; //Simple
 export const TAREA_CARGA__LOAD02 = "[entreComponentes] TAREA_CARGA__LOAD02"; //Por Lapso
 export const TAREA_CARGA__LOAD03 = "[entreComponentes] TAREA_CARGA__LOAD03"; //Por Fecha
+export const TAREA_CARGA_A_AMPARO__RETORNO = "[entreComponentes] TAREA_CARGA_A_AMPARO__RETORNO"; //Simple
 export const PLAN_CARGA__LOAD01 = "[entreComponentes] PLAN_CARGA__LOAD01";
 export const AMPAROS__FILTER01 = "[entreComponentes] AMPAROS__FILTER01";
 export const AMPAROS__SACAR_FILTER01 = "[entreComponentes] AMPAROS__SACAR_FILTER01";
@@ -65,5 +66,12 @@ export const cargaUsuarios_Load01 = (item, itemSector, accion) => ({
 	type: CARGA_USUARIOS__LOAD01,
 	item: item,
 	itemSector: itemSector,
+	accion: accion,
+});
+
+export const tareaCargaAAmparo_Retorno01 = (item, itemPadre, accion) => ({
+	type: TAREA_CARGA_A_AMPARO__RETORNO,
+	item: item,
+	itemPadre: itemPadre,
 	accion: accion,
 });

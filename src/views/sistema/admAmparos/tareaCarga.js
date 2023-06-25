@@ -14,6 +14,7 @@ import { dmdSelect } from "../../css/dmdSelect";
 
 import { getById as tareaGetById, addSimple as addTareaSimpleDeTarea, addLapso as addTareaLapsoDeTarea, addFecha as addTareaFechaDeTarea } from "../../../redux/tareas/actions";
 import { addSimple as addTareaSimpleDePlan, addLapso as addTareaLapsoDePlan, addFecha as addTareaFechaDePlan, getAll as getPlanesAll } from "../../../redux/planes/actions";
+import { tareaCargaAAmparo_Retorno01 } from "../../../redux/entreComponentes/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -43,6 +44,7 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 		this.plan_tarea = {};
 		this.tarea = {};
 		this.tipoTarea = "";
+		this.body = {};
 	}
 	static get styles() {
 		return css`
@@ -98,7 +100,7 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 				grid-auto-flow: row;
 				grid-gap: 1rem;
 				justify-self: center;
-				overflow-y: auto;
+				overflow-y: scroll;
 			}
 			#datos::-webkit-scrollbar {
 				display: none;
@@ -320,20 +322,21 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 			store.dispatch(showWarning("Atencion!", "No se puede mostrar la tarea, intente nuevamente", "fondoError", 3000));
 		}
 		if ((name == ADD_TAREA_SIMPLE_DE_PLAN || name == ADD_TAREA_LAPSO_DE_PLAN || name == ADD_TAREA_FECHA_DE_PLAN) && !this.hidden) {
-			store.dispatch(getPlanesAll());
 			this.hidden = true;
 			this._botonAceptar.disabled = false;
 			store.dispatch(showWarning("Atencion!", "La tarea se agrego correctamente", "fondoOk", 3000));
+			store.dispatch(tareaCargaAAmparo_Retorno01(this.body, this.item, "add"));
+		}
+		if ((name == ADD_TAREA_SIMPLE_DE_TAREA || name == ADD_TAREA_LAPSO_DE_TAREA || name == ADD_TAREA_FECHA_DE_TAREA) && !this.hidden) {
+			//store.dispatch(getPlanesAll());
+			this.hidden = true;
+			this._botonAceptar.disabled = false;
+			store.dispatch(showWarning("Atencion!", "La tarea se agrego correctamente", "fondoOk", 3000));
+			store.dispatch(tareaCargaAAmparo_Retorno01(this.body, this.item, "add"));
 		}
 		if (name == (ADD_ERROR_DE_PLAN || ADD_ERROR_DE_TAREA) && !this.hidden) {
 			this._botonAceptar.disabled = false;
 			store.dispatch(showWarning("Atencion!", "No se pudo agregar la tarea, intente nuevamente", "fondoError", 3000));
-		}
-		if ((name == ADD_TAREA_SIMPLE_DE_TAREA || name == ADD_TAREA_LAPSO_DE_TAREA || name == ADD_TAREA_FECHA_DE_TAREA) && !this.hidden) {
-			store.dispatch(getPlanesAll());
-			this.hidden = true;
-			this._botonAceptar.disabled = false;
-			store.dispatch(showWarning("Atencion!", "La tarea se agrego correctamente", "fondoOk", 3000));
 		}
 		if (name == I_SHOW || name == I_SHOW_LAPSO || name == I_SHOW_FECHA) {
 			if (name == I_SHOW) {
@@ -384,6 +387,7 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 		this.hidden = true;
 	}
 	grabar(e) {
+		this.shadowRoot.getElementById("datos").scrollTo = 0;
 		let mensageError = "";
 		this._botonAceptar.disabled = true;
 		[].forEach.call(this.shadowRoot.querySelectorAll("[error]"), (element) => {
@@ -452,38 +456,38 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 		//store.dispatch(showWarning("Atencion!", "Se actualizo la tarea", "fondoOk", 3000));
 		//this.hidden = true;
 		if (ok) {
-			let body = {};
-			body.planId = this.plan_tarea.planId;
-			body.creadorId = this._creador.value;
-			body.ejecutorId = this._ejecutor.value;
-			body.vigenteDesde = this._vigencia.value;
-			body.venceEn = (new Date(this._vencimiento.value).getTime() - new Date(this._vigencia.value).getTime()) / (1000 * 60 * 60 * 24);
-			body.alerta = (new Date(this._vencimiento.value).getTime() - new Date(this._alerta.value).getTime()) / (1000 * 60 * 60 * 24);
-			body.descripcion = this._descripcion.value;
-			body.instrucciones = this._instrucciones.value;
+			this.body = {};
+			this.body.planId = this.plan_tarea.planId;
+			this.body.creadorId = this._creador.value;
+			this.body.ejecutorId = this._ejecutor.value;
+			this.body.vigenteDesde = this._vigencia.value;
+			this.body.venceEn = (new Date(this._vencimiento.value).getTime() - new Date(this._vigencia.value).getTime()) / (1000 * 60 * 60 * 24);
+			this.body.alerta = (new Date(this._vencimiento.value).getTime() - new Date(this._alerta.value).getTime()) / (1000 * 60 * 60 * 24);
+			this.body.descripcion = this._descripcion.value;
+			this.body.instrucciones = this._instrucciones.value;
 			if (this.tipoTarea == "lapso") {
-				body.cantidad = this._cantidad.value;
-				body.lapsoEnDias = this._lapsoEnDias.value;
+				this.body.cantidad = this._cantidad.value;
+				this.body.lapsoEnDias = this._lapsoEnDias.value;
 			} else if (this.tipoTarea == "fecha") {
-				body.cantidad = this._cantidad.value;
-				body.diaDelMes = this._diaDelMes.value;
+				this.body.cantidad = this._cantidad.value;
+				this.body.diaDelMes = this._diaDelMes.value;
 			}
 			if (this.origen == "plan") {
 				if (this.tipoTarea == "simple") {
-					store.dispatch(addTareaSimpleDePlan(body));
+					store.dispatch(addTareaSimpleDePlan(this.body));
 				} else if (this.tipoTarea == "lapso") {
-					store.dispatch(addTareaLapsoDePlan(body));
+					store.dispatch(addTareaLapsoDePlan(this.body));
 				} else if (this.tipoTarea == "fecha") {
-					store.dispatch(addTareaFechaDePlan(body));
+					store.dispatch(addTareaFechaDePlan(this.body));
 				}
 			} else {
-				body.tareaId = this.plan_tarea.id;
+				this.body.tareaId = this.plan_tarea.id;
 				if (this.tipoTarea == "simple") {
-					store.dispatch(addTareaSimpleDeTarea(body));
+					store.dispatch(addTareaSimpleDeTarea(this.body));
 				} else if (this.tipoTarea == "lapso") {
-					store.dispatch(addTareaLapsoDeTarea(body));
+					store.dispatch(addTareaLapsoDeTarea(this.body));
 				} else if (this.tipoTarea == "fecha") {
-					store.dispatch(addTareaFechaDeTarea(body));
+					store.dispatch(addTareaFechaDeTarea(this.body));
 				}
 			}
 		} else {

@@ -8,14 +8,15 @@ export const dmdInput = css`
 		position: relative;
 		grid-template-rows: auto auto auto;
 		grid-gap: 0rem;
+		color: var(--on-aplicacion);
 	}
 	.dmd-input input,
 	.dmd-input textarea {
 		/*padding: 0.15rem 0.6rem;*/
 		padding: 0rem 0.6rem;
+		color: var(--on-formulario);
 		background-color: var(--formulario);
 		border: 1px solid var(--primario);
-		color: var(--on-formulario);
 		font-size: var(--font-bajada-size);
 		font-weight: var(--font-bajada-weight);
 		outline: none;
@@ -41,9 +42,9 @@ export const dmdInput = css`
 		border: 1px solid var(--error);
 	}
 	.dmd-input label {
-		color: var(--on-formulario);
+		color: var(--on-aplicacion);
 		font-size: 0.9rem;
-		font-weight: 500;
+		font-weight: 300;
 		padding-left: 0.6rem;
 		transition: all 0.3s ease-in-out;
 	}
