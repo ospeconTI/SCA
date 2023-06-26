@@ -3,12 +3,12 @@
 import { html, LitElement, css } from "lit";
 import { store } from "../../../redux/store";
 import { connect } from "@brunomon/helpers";
-import { TRESPUNTOS } from "../../../../assets/icons/svgs";
+import { TRESPUNTOS, PERSON_OUTLINED } from "../../../../assets/icons/svgs";
 
 import { dateToFrench } from "../../../libs/funciones";
 
 import { mostrarHijos, mostrarPopupTareas } from "../../../redux/eventos/actions";
-import { tareaCarga_Load01 as mostrarTareaCarga } from "../../../redux/entreComponentes/actions";
+import { tareaCarga_Load01 as mostrarTareaCarga, verUsuarios_Load01 as verUsuarios } from "../../../redux/entreComponentes/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -117,12 +117,15 @@ export class tareaComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitEle
 			}
 			#div-botonera {
 				display: grid;
-				grid-template-columns: auto 1fr auto;
+				grid-template-columns: auto 1fr auto auto;
 				align-items: center;
 				gap: 0.6rem;
 				padding-left: 0.4rem;
 			}
 			.btn {
+				font-family: var(font-header-h1-menos-family);
+				font-size: var(--font-header-h1-menos-size);
+				font-weight: var(--font-header-h1-menos-weight);
 				border-radius: 0.5rem;
 				width: max-content;
 				justify-self: start;
@@ -195,9 +198,10 @@ export class tareaComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitEle
 						</div>
 						<textarea id="textarea-titulo" readonly>${this.registro.descripcion}</textarea>
 						<div id="div-botonera">
-							<button class="btn" @click="${this.verTarea}">TAREA</button>
-							<button class="btn" @click="${this.mostrarTareas}" ?invisible=${!this.registro.conTareas}>${this.registroseleccionado?.id != this.registro.id ? "MOSTRAR" : "OCULTAR"} TAREAS</button>
-							<div id="div-menu" @click="${this.popup}">${TRESPUNTOS}</div>
+							<button class="btn" @click="${this.verTarea}" title="Ver el detlle de la tarea">TAREA</button>
+							<button class="btn" @click="${this.mostrarTareas}" ?invisible=${!this.registro.conTareas} title="Ver las tareas asignadas">${this.registroseleccionado?.id != this.registro.id ? "MOSTRAR" : "OCULTAR"} TAREAS</button>
+							<div id="div-menu" @click="${this.verUsuarios}" title="Ver usuarios del sector">${PERSON_OUTLINED}</div>
+							<div id="div-menu" @click="${this.popup}" title="Menu de opciones">${TRESPUNTOS}</div>
 						</div>
 					</div>
 				</div>
@@ -210,6 +214,11 @@ export class tareaComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitEle
 	}
 	verTarea(e) {
 		store.dispatch(mostrarTareaCarga(this.registro, "view"));
+	}
+	verUsuarios(e) {
+		let sector = this.registro.ejecutor.descripcion;
+		let usuarios = this.registro.ejecutor.usuarios;
+		store.dispatch(verUsuarios(usuarios, this.registro.ejecutor, "view"));
 	}
 	mostrarTareas(e) {
 		e.preventDefault();

@@ -106,6 +106,7 @@ export const reducer = (state = initialState, action) => {
 			newState.verUsuarios_Load01.timeStamp = new Date().getTime();
 			newState.verUsuarios_Load01.usuariosItems = action.usuariosItems || action.param?.usuariosItems;
 			newState.verUsuarios_Load01.sectorItem = action.sectorItem || action.param.sectorItem;
+			newState.verUsuarios_Load01.accion = action.accion || action.param.accion;
 			break;
 		case CARGA_USUARIOS__LOAD01:
 			newState.cargaUsuarios_Load01.timeStamp = new Date().getTime();

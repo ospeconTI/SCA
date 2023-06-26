@@ -56,10 +56,11 @@ export const cargaSectores_Load01 = (item, accion) => ({
 	accion: accion,
 });
 
-export const verUsuarios_Load01 = (usuariosItems, sectorItem) => ({
+export const verUsuarios_Load01 = (usuariosItems, sectorItem, accion) => ({
 	type: VER_USUARIOS__LOAD01,
 	usuariosItems: usuariosItems,
 	sectorItem: sectorItem,
+	accion: accion,
 });
 
 export const cargaUsuarios_Load01 = (item, itemSector, accion) => ({

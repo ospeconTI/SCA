@@ -28,13 +28,16 @@ export class verUsuarios extends dmdGridBase(connect(store, SECTORES_ALL, SHOW, 
 		this.area = "body";
 		this.current = "";
 		this.hidden = true;
+		this.grid = [];
 		this.dataSource = [];
 		this.item = {};
 		this.usuarioRol = "CEMAP";
 		this.sector = null;
+		this.accion = null;
 	}
 	firstUpdated() {
 		super.firstUpdated();
+		this.grid = this.dataSource;
 	}
 	static get styles() {
 		return css`
@@ -101,9 +104,9 @@ export class verUsuarios extends dmdGridBase(connect(store, SECTORES_ALL, SHOW, 
 					<div class="dmd-grid-menu">
 						<div title="Mostar / ocultar barra de menu" @click=${this._menuAmpliarDmdGrid}>${FLECHARIGTH}<label style="display:none"></label></div>
 						<div title="Atras" atras @click=${this.atras}>${BACK}<label style="display:none">Atras</label></div>
-						<div title="Nuevo" @click=${this.alta} ?hidden=${this.usuarioRol == ""}>${MAS} <label style="display:none">Nuevo</label></div>
-						<div title="Modificar" @click=${this.modificar} ?hidden=${this.usuarioRol == ""}>${EDIT}<label style="display:none">Modificar</label></div>
-						<div title="ELiminar" @click=${this.eliminar} ?hidden=${this.usuarioRol == ""}>${TRASH}<label style="display:none">Eliminar</label></div>
+						<div title="Nuevo" @click=${this.alta} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${MAS} <label style="display:none">Nuevo</label></div>
+						<div title="Modificar" @click=${this.modificar} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${EDIT}<label style="display:none">Modificar</label></div>
+						<div title="ELiminar" @click=${this.eliminar} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${TRASH}<label style="display:none">Eliminar</label></div>
 					</div>
 					<div class="dmd-grid-datos">
 						<div class="dmd-grid-datos-titulos">
@@ -117,7 +120,7 @@ export class verUsuarios extends dmdGridBase(connect(store, SECTORES_ALL, SHOW, 
 								<label>Email</label>
 							</div>
 						</div>
-						${this.dataSource.map((item, index) => {
+						${this.grid.map((item, index) => {
 							return html`
 								<div class="dmd-grid-datos-registros" .item=${item} .index=${index} ?fondorojo=${item.estado == "Rechazado"} ?fondoverde=${item.estado == "Conciliado"} @click=${this._seleccionarRegistroDmdGrid}>
 									<div class="dmd-grid-datos-registro" style="text-align:left">${item.apellido}</div>
@@ -165,6 +168,7 @@ export class verUsuarios extends dmdGridBase(connect(store, SECTORES_ALL, SHOW, 
 		if (name == SHOW) {
 			this.dataSource = state.entreComponentes.verUsuarios_Load01.usuariosItems;
 			this.sector = state.entreComponentes.verUsuarios_Load01.sectorItem;
+			this.accion = state.entreComponentes.verUsuarios_Load01.accion;
 			this._buscarDmdGrid();
 			this.hidden = false;
 		}
@@ -183,6 +187,10 @@ export class verUsuarios extends dmdGridBase(connect(store, SECTORES_ALL, SHOW, 
 
 	static get properties() {
 		return {
+			grid: {
+				type: Object,
+				state: true,
+			},
 			mediaSize: {
 				type: String,
 				reflect: true,

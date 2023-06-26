@@ -31,10 +31,12 @@ export class verSectores extends dmdGridBase(connect(store, TABLE, TABLE_ERROR, 
 		this.hidden = true;
 		this.dataSource = [];
 		this.item = {};
+		this.grid = [];
 		this.usuarioRol = "CEMAP";
 	}
 	firstUpdated() {
 		super.firstUpdated();
+		this.grid = this.dataSource;
 	}
 	static get styles() {
 		return css`
@@ -123,7 +125,7 @@ export class verSectores extends dmdGridBase(connect(store, TABLE, TABLE_ERROR, 
 								<label>Usuarios</label>
 							</div>
 						</div>
-						${this.dataSource.map((item, index) => {
+						${this.grid.map((item, index) => {
 							return html`
 								<div class="dmd-grid-datos-registros" .item=${item} .index=${index} ?fondorojo=${item.estado == "Rechazado"} ?fondoverde=${item.estado == "Conciliado"} @click=${this._seleccionarRegistroDmdGrid}>
 									<div class="dmd-grid-datos-registro id" style="text-align:right" .valor=${item.id}>${item.id}</div>
@@ -141,7 +143,7 @@ export class verSectores extends dmdGridBase(connect(store, TABLE, TABLE_ERROR, 
 	usuarios(e) {
 		let seleccionado = this.shadowRoot.querySelector("[seleccionado]");
 		if (seleccionado) {
-			store.dispatch(verUsuarios_Load01(this.item.usuarios, this.item));
+			store.dispatch(verUsuarios_Load01(this.item.usuarios, this.item, "abm"));
 		} else {
 			store.dispatch(showWarning("Atencion!", "No selecciono registro.", "fondoError", 3000));
 		}
@@ -194,6 +196,10 @@ export class verSectores extends dmdGridBase(connect(store, TABLE, TABLE_ERROR, 
 
 	static get properties() {
 		return {
+			grid: {
+				type: Object,
+				state: true,
+			},
 			mediaSize: {
 				type: String,
 				reflect: true,

@@ -107,6 +107,9 @@ export class planComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitElem
 				padding-left: 0.4rem;
 			}
 			.btn {
+				font-family: var(font-header-h1-menos-family);
+				font-size: var(--font-header-h1-menos-size);
+				font-weight: var(--font-header-h1-menos-weight);
 				border-radius: 0.5rem;
 				width: max-content;
 				justify-self: start;
@@ -165,11 +168,9 @@ export class planComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitElem
 					<div id="div-cuerpo">
 						<textarea id="textarea-titulo" readonly>${this.registro.descripcion}</textarea>
 						<div id="div-botonera">
-							<button class="btn" @click="${this.mostrarAmparo}">AMPARO</button>
-							<button class="btn" @click="${this.mostrarTareas}" ?invisible=${!this.registro.conTareas}>${this.registroseleccionado?.id != this.registro.id ? "MOSTRAR" : "OCULTAR"} TAREAS</button>
-							<div id="div-menu" @click="${this.popup}">${TRESPUNTOS}</div>
-							<!-- <div class="div-imagen" ?hidden=${!this.registro.hijo || this.registroseleccionado?.id == this.registro.id}>${POSTERIOR}</div>
-							<div class="div-imagen" ?hidden=${!this.registro.hijo || this.registroseleccionado?.id != this.registro.id}>${ABAJO}</div> -->
+							<button class="btn" @click="${this.mostrarAmparo}" title="Ver el detlle del amparo">AMPARO</button>
+							<button class="btn" @click="${this.mostrarTareas}" ?invisible=${!this.registro.conTareas} title="Ver las tareas asignadas">${this.registroseleccionado?.id != this.registro.id ? "MOSTRAR" : "OCULTAR"} TAREAS</button>
+							<div id="div-menu" @click="${this.popup}" title="Menu de opciones">${TRESPUNTOS}</div>
 						</div>
 					</div>
 				</div>
