@@ -9,6 +9,7 @@ import { showWarning } from "../../../redux/ui/actions";
 import { INFO } from "../../../../assets/icons/svgs";
 import { dmdButton } from "../../css/dmdButton";
 import { dmdInput } from "../../css/dmdInput";
+import { dmdSelect } from "../../css/dmdSelect";
 import { uuidv4, validaMail } from "../../../libs/funciones";
 
 import { sumarIntegrante as addUsuario, quitarIntegrante as deleteUsuario, getAll as getAllSectores, modificarIntegrante as modificarUsuario } from "../../../redux/sectores/actions";
@@ -39,6 +40,7 @@ export class cargaUsuarios extends connect(store, MODIFICAR_USUARIO, MODIFICAR_U
 		return css`
 			${dmdButton}
 			${dmdInput}
+			${dmdSelect}
 			:host {
 				display: grid;
 				position: fixed;
@@ -117,6 +119,9 @@ export class cargaUsuarios extends connect(store, MODIFICAR_USUARIO, MODIFICAR_U
 	get _email() {
 		return this.shadowRoot.querySelector("#email");
 	}
+	get _interno() {
+		return this.shadowRoot.querySelector("#interno");
+	}
 	get _botonAceptar() {
 		return this.shadowRoot.getElementById("btnAceptar");
 	}
@@ -141,7 +146,7 @@ export class cargaUsuarios extends connect(store, MODIFICAR_USUARIO, MODIFICAR_U
 				<div id="datos">
 					<div class="dmd-input" helper>
 						<label>Apellido</label>
-						<input type="text" id="apellido" autocomplete="off" autocomplete="off" placeholder="" value="" />
+						<input type="text" id="apellido" ?disabled=${this.accion == "view"} autocomplete="off" autocomplete="off" placeholder="" value="" />
 						<div>Debe ingresar el apellido</div>
 						<span>Ingrese un texto</span>
 						${INFO}
@@ -149,7 +154,7 @@ export class cargaUsuarios extends connect(store, MODIFICAR_USUARIO, MODIFICAR_U
 
 					<div class="dmd-input" helper>
 						<label>Nombre</label>
-						<input type="text" id="nombre" autocomplete="off" autocomplete="off" placeholder="" value="" />
+						<input type="text" id="nombre" ?disabled=${this.accion == "view"} autocomplete="off" autocomplete="off" placeholder="" value="" />
 						<div>Debe ingresar el nombre</div>
 						<span>Ingrese un texto</span>
 						${INFO}
@@ -157,9 +162,17 @@ export class cargaUsuarios extends connect(store, MODIFICAR_USUARIO, MODIFICAR_U
 
 					<div class="dmd-input" helper>
 						<label>Email</label>
-						<input type="text" id="email" autocomplete="off" autocomplete="off" placeholder="" value="" />
+						<input type="text" id="email" ?disabled=${this.accion == "view"} autocomplete="off" autocomplete="off" placeholder="" value="" />
 						<div>Debe ingresar el email</div>
 						<span>Ingrese un texto</span>
+						${INFO}
+					</div>
+
+					<div class="dmd-input" helper>
+						<label>Numero de interno</label>
+						<input type="number" id="interno" ?disabled=${this.accion == "view"} autocomplete="off" autocomplete="off" placeholder="" value="" />
+						<div>Debe ingresar el interno</div>
+						<span>Ingrese numeros</span>
 						${INFO}
 					</div>
 
@@ -182,10 +195,12 @@ export class cargaUsuarios extends connect(store, MODIFICAR_USUARIO, MODIFICAR_U
 				this._apellido.value = "";
 				this._nombre.value = "";
 				this._email.value = "";
+				this._interno.value = "";
 			} else if (this.accion == "edit" || this.accion == "delete") {
 				this._apellido.value = this.item.apellido;
 				this._nombre.value = this.item.nombre;
 				this._email.value = this.item.email;
+				this._interno.value = this.item.interno;
 			}
 			this.hidden = false;
 		}
@@ -216,16 +231,20 @@ export class cargaUsuarios extends connect(store, MODIFICAR_USUARIO, MODIFICAR_U
 			ok = false;
 			this._nombre.setAttribute("error", "");
 		}
-		let rr = validaMail(this._email.value);
 		if (this._email.value == "" || !validaMail(this._email.value)) {
 			ok = false;
 			this._email.setAttribute("error", "");
+		}
+		if (this._interno.value == "") {
+			ok = false;
+			this._interno.setAttribute("error", "");
 		}
 		if (ok) {
 			let body = {};
 			body.apellido = this._apellido.value;
 			body.nombre = this._nombre.value;
 			body.email = this._email.value;
+			body.interno = Number(this._interno.value);
 			body.identificador = uuidv4();
 			body.sectorId = this.sector.id;
 			if (this.accion == "add") {

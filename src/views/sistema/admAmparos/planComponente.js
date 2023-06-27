@@ -22,9 +22,7 @@ export class planComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitElem
 				display: grid;
 				position: relative;
 				background-color: var(--aplicacion);
-				animation: fadeInDown 2s;
-			}
-			:host .entrar {
+				animation: fadeInDown 1s;
 			}
 			:host::-webkit-scrollbar {
 				display: none;
@@ -133,12 +131,22 @@ export class planComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitElem
 			@keyframes fadeInDown {
 				from {
 					opacity: 0;
-					transform: translate3d(0, -2000px, 0);
+					/* transform: translate3d(0, -2000px, 0); */
 				}
 
 				to {
 					opacity: 1;
-					transform: translate3d(0, 0, 0);
+					/* transform: translate3d(0, 0, 0); */
+				}
+			}
+			@keyframes fadeOutUp {
+				from {
+					opacity: 1;
+				}
+
+				to {
+					opacity: 1;
+					transform: translate3d(0, -2000px, 0);
 				}
 			}
 		`;

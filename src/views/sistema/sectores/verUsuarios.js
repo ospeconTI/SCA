@@ -3,7 +3,7 @@ import { html, LitElement, css } from "lit";
 import { store } from "../../../redux/store";
 import { connect } from "@brunomon/helpers";
 import { isInLayout } from "../../../redux/screens/screenLayouts";
-import { MENU, FLECHARIGTH, BACK, MAS, EDIT, TRASH, SEARCH, CLOSE } from "../../../../assets/icons/svgs";
+import { MENU, FLECHARIGTH, BACK, MAS, EDIT, TRASH, SEARCH, CLOSE, KEY } from "../../../../assets/icons/svgs";
 import { showWarning, showMsgBox } from "../../../redux/ui/actions";
 import { goTo, goHistoryPrev } from "../../../redux/routing/actions";
 
@@ -13,16 +13,20 @@ import { dmdGridThemeNormal } from "../../componentes/grid/css/dmdGridThemeNorma
 import { dmdInput } from "../../css/dmdInput";
 import { dmdButton } from "../../css/dmdButton";
 
+import { getAll as getAllSectores } from "../../../redux/sectores/actions";
 import { cargaUsuarios_Load01 } from "../../../redux/entreComponentes/actions";
+import { usuarioHacerResponsable } from "../../../redux/sectores/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 
 const SECTORES_ALL = "sectores.all.timeStamp";
+const USUARIO_HACER_RESPONSABLE = "sectores.usuarioHacerResponsable.timeStamp";
+const USUARIO_HACER_RESPONSABLE_ERROR = "sectores.usuarioHacerResponsable.errorTimeStamp";
 
 const SHOW = "entreComponentes.verUsuarios_Load01.timeStamp";
 
-export class verUsuarios extends dmdGridBase(connect(store, SECTORES_ALL, SHOW, MEDIA_CHANGE, SCREEN)(LitElement)) {
+export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPONSABLE, USUARIO_HACER_RESPONSABLE_ERROR, SECTORES_ALL, SHOW, MEDIA_CHANGE, SCREEN)(LitElement)) {
 	constructor() {
 		super();
 		this.area = "body";
@@ -72,7 +76,7 @@ export class verUsuarios extends dmdGridBase(connect(store, SECTORES_ALL, SHOW, 
 			}
 			.dmd-grid-datos-titulos,
 			.dmd-grid-datos-registros {
-				grid-template-columns: 18rem 18rem 16rem;
+				grid-template-columns: 14rem 14rem 13rem 8rem 8rem;
 			}
 			.dmd-grid-datos-registros[fondorojo] {
 				color: var(--color-error) !important;
@@ -106,6 +110,7 @@ export class verUsuarios extends dmdGridBase(connect(store, SECTORES_ALL, SHOW, 
 						<div title="Atras" atras @click=${this.atras}>${BACK}<label style="display:none">Atras</label></div>
 						<div title="Nuevo" @click=${this.alta} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${MAS} <label style="display:none">Nuevo</label></div>
 						<div title="Modificar" @click=${this.modificar} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${EDIT}<label style="display:none">Modificar</label></div>
+						<div title="Marcar como responsable" @click=${this.responsable} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${KEY}<label style="display:none">Responsable</label></div>
 						<div title="ELiminar" @click=${this.eliminar} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${TRASH}<label style="display:none">Eliminar</label></div>
 					</div>
 					<div class="dmd-grid-datos">
@@ -119,6 +124,12 @@ export class verUsuarios extends dmdGridBase(connect(store, SECTORES_ALL, SHOW, 
 							<div .campo=${"email"} dmd-grid-orden class="dmd-grid-datos-titulo">
 								<label>Email</label>
 							</div>
+							<div .campo=${"interno"} class="dmd-grid-datos-titulo">
+								<label>Interno</label>
+							</div>
+							<div .campo=${"esResponsable"} class="dmd-grid-datos-titulo">
+								<label>Responsable</label>
+							</div>
 						</div>
 						${this.grid.map((item, index) => {
 							return html`
@@ -126,6 +137,8 @@ export class verUsuarios extends dmdGridBase(connect(store, SECTORES_ALL, SHOW, 
 									<div class="dmd-grid-datos-registro" style="text-align:left">${item.apellido}</div>
 									<div class="dmd-grid-datos-registro" style="text-align:left">${item.nombre}</div>
 									<div class="dmd-grid-datos-registro" style="text-align:left">${item.email}</div>
+									<div class="dmd-grid-datos-registro" style="text-align:rigth">${item.interno}</div>
+									<div class="dmd-grid-datos-registro" style="text-align:center">${item.esResponsable ? "Si" : "No"}</div>
 								</div>
 							`;
 						})}
@@ -133,6 +146,17 @@ export class verUsuarios extends dmdGridBase(connect(store, SECTORES_ALL, SHOW, 
 				</div>
 			</div>
 		`;
+	}
+	responsable(e) {
+		let seleccionado = this.shadowRoot.querySelector("[seleccionado]");
+		if (seleccionado) {
+			let body = {};
+			body.sectorId = this.sector.id;
+			body.identificador = this.item.identificacion;
+			store.dispatch(usuarioHacerResponsable(body));
+		} else {
+			store.dispatch(showWarning("Atencion!", "No selecciono registro.", "fondoError", 3000));
+		}
 	}
 	alta(e) {
 		store.dispatch(cargaUsuarios_Load01(null, this.sector, "add"));
@@ -169,8 +193,16 @@ export class verUsuarios extends dmdGridBase(connect(store, SECTORES_ALL, SHOW, 
 			this.dataSource = state.entreComponentes.verUsuarios_Load01.usuariosItems;
 			this.sector = state.entreComponentes.verUsuarios_Load01.sectorItem;
 			this.accion = state.entreComponentes.verUsuarios_Load01.accion;
+			this.grid = this.dataSource;
 			this._buscarDmdGrid();
 			this.hidden = false;
+		}
+		if (name == USUARIO_HACER_RESPONSABLE) {
+			store.dispatch(showWarning("Atencion!", "El registro fue actualizado.", "fondoOk", 3000));
+			store.dispatch(getAllSectores());
+		}
+		if (name == USUARIO_HACER_RESPONSABLE_ERROR) {
+			store.dispatch(showWarning("Atencion!", "El registro no fue actualizado, intente nuevamente.", "fondoError", 3000));
 		}
 		if (name == SECTORES_ALL) {
 			if (this.sector) {

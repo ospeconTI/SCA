@@ -12,7 +12,7 @@ import { dmdButton } from "../../css/dmdButton";
 import { dmdInput } from "../../css/dmdInput";
 import { dmdSelect } from "../../css/dmdSelect";
 
-import { getById as tareaGetById, addSimple as addTareaSimpleDeTarea, addLapso as addTareaLapsoDeTarea, addFecha as addTareaFechaDeTarea } from "../../../redux/tareas/actions";
+import { getById as tareaGetById, addSimple as addTareaSimpleDeTarea, addLapso as addTareaLapsoDeTarea, addFecha as addTareaFechaDeTarea, remove as eliminarTarea, update as modificarTarea } from "../../../redux/tareas/actions";
 import { addSimple as addTareaSimpleDePlan, addLapso as addTareaLapsoDePlan, addFecha as addTareaFechaDePlan, getAll as getPlanesAll } from "../../../redux/planes/actions";
 import { tareaCargaAAmparo_Retorno01 } from "../../../redux/entreComponentes/actions";
 
@@ -31,8 +31,12 @@ const ADD_TAREA_SIMPLE_DE_TAREA = "tareas.addSimpleTimeStamp";
 const ADD_TAREA_LAPSO_DE_TAREA = "tareas.addLapsoTimeStamp";
 const ADD_TAREA_FECHA_DE_TAREA = "tareas.addFechaTimeStamp";
 const ADD_ERROR_DE_TAREA = "tareas.commandErrorTimeStamp";
+const TAREA_REMOVE = "tareas.removeTimeStamp";
+const TAREA_REMOVE_ERROR = "tareas.commandErrorTimeStamp";
+const TAREA_UPDATE = "tareas.updateTimeStamp";
+const TAREA_UPDATE_ERROR = "tareas.commandErrorTimeStamp";
 
-export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, ADD_TAREA_LAPSO_DE_TAREA, ADD_TAREA_FECHA_DE_TAREA, ADD_ERROR_DE_TAREA, ADD_TAREA_SIMPLE_DE_PLAN, ADD_TAREA_LAPSO_DE_PLAN, ADD_TAREA_FECHA_DE_PLAN, ADD_ERROR_DE_PLAN, TAREA_BY_ID, TAREA_BY_ID_ERROR, I_SHOW, I_SHOW_LAPSO, I_SHOW_FECHA, MEDIA_CHANGE, SCREEN)(LitElement) {
+export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_ERROR, TAREA_REMOVE, TAREA_REMOVE_ERROR, ADD_TAREA_SIMPLE_DE_TAREA, ADD_TAREA_LAPSO_DE_TAREA, ADD_TAREA_FECHA_DE_TAREA, ADD_ERROR_DE_TAREA, ADD_TAREA_SIMPLE_DE_PLAN, ADD_TAREA_LAPSO_DE_PLAN, ADD_TAREA_FECHA_DE_PLAN, ADD_ERROR_DE_PLAN, TAREA_BY_ID, TAREA_BY_ID_ERROR, I_SHOW, I_SHOW_LAPSO, I_SHOW_FECHA, MEDIA_CHANGE, SCREEN)(LitElement) {
 	constructor() {
 		super();
 		this.hidden = true;
@@ -45,6 +49,7 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 		this.tarea = {};
 		this.tipoTarea = "";
 		this.body = {};
+		this.camposEditables = true;
 	}
 	static get styles() {
 		return css`
@@ -172,16 +177,17 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 	render() {
 		if (true) {
 			return html`
-				<div id="cuerpo">
+				<div id="cuerpo" tabindex="1">
 					<div class="x" @click="${this.volver}">X</div>
 					<div id="titulo" ?hidden=${this.accion != "add"}>Nueva tarea</div>
 					<div id="titulo" ?hidden=${this.accion != "view"}>Visualizacion de tarea</div>
 					<div id="titulo" ?hidden=${this.accion != "edit"}>Mofidicacion de tareas</div>
+					<div id="titulo" ?hidden=${this.accion != "delete"}>Eliminar la tarea</div>
 					<hr />
 					<div id="datos">
 						<div class="dmd-input" helper ?hidden=${this.accion != "view"}>
 							<label>Plan</label>
-							<input type="text" id="planControl" autocomplete="off" autocomplete="off" placeholder="" value="" disabled />
+							<input type="text" id="planControl" autocomplete="off" autocomplete="off" placeholder="" disabled />
 							<div></div>
 							<span></span>
 							${INFO}
@@ -189,15 +195,15 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 
 						<div class="dmd-input" helper ?hidden=${this.accion != "view"}>
 							<label>tarea</label>
-							<input type="text" id="tareaControl" autocomplete="off" autocomplete="off" placeholder="" value="" disabled />
+							<input type="text" id="tareaControl" autocomplete="off" autocomplete="off" placeholder="" disabled />
 							<div></div>
 							<span></span>
 							${INFO}
 						</div>
 
-						<div class="dmd-select" helper>
+						<div class="dmd-select" helper ?hidden=${this.accion == "edit"}>
 							<label>Sector originante</label>
-							<select id="creador" ?disabled=${this.accion == "view"}>
+							<select id="creador" ?disabled=${!this.camposEditables}>
 								<option value="-1" disabled selected hidden>Seleccione opcion</option>
 								${store.getState().sectores.all.entities
 									? store.getState().sectores.all.entities.map((item, index) => {
@@ -210,9 +216,9 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 							${INFO}
 						</div>
 
-						<div class="dmd-select" helper>
+						<div class="dmd-select" helper ?hidden=${this.accion == "edit"}>
 							<label>Sector ejecutor</label>
-							<select id="ejecutor" ?disabled=${this.accion == "view"}>
+							<select id="ejecutor" ?disabled=${!this.camposEditables}>
 								<option value="-1" disabled selected hidden>Seleccione opcion</option>
 								${store.getState().sectores.all.entities
 									? store.getState().sectores.all.entities.map((item, index) => {
@@ -225,33 +231,33 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 							${INFO}
 						</div>
 
-						<div class="dmd-input" helper>
+						<div class="dmd-input" helper ?hidden=${this.accion == "edit"}>
 							<label>Fecha de inicio</label>
-							<input type="date" id="vigencia" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${this.accion == "view"} />
+							<input type="date" id="vigencia" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
 							<div>Debe ingresar fecha de inicio</div>
 							<span>Fecha que comienza la tarea</span>
 							${INFO}
 						</div>
 
-						<div class="dmd-input" helper>
+						<div class="dmd-input" helper ?hidden=${this.accion == "edit"}>
 							<label>Fecha de vencimiento</label>
-							<input type="date" id="vencimiento" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" value="" ?disabled=${this.accion == "view"} />
+							<input type="date" id="vencimiento" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
 							<div>Debe ingresar fecha de vencimiento</div>
 							<span>Fecha que vence la tarea</span>
 							${INFO}
 						</div>
 
-						<div class="dmd-input" helper>
+						<div class="dmd-input" helper ?hidden=${this.accion == "edit"}>
 							<label>Fecha de Alerta</label>
-							<input type="date" id="alerta" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" value="" ?disabled=${this.accion == "view"} />
+							<input type="date" id="alerta" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
 							<div>Debe ingresar fecha de alerta</div>
 							<span>Fecha que el estado de la tarea pasa a amarillo</span>
 							${INFO}
 						</div>
 
-						<div class="dmd-select" helper ?hidden=${this.tipoTarea != "fecha"}>
+						<div class="dmd-select" helper ?hidden=${this.tipoTarea != "fecha" || this.accion == "edit"}>
 							<label>Dia del mes</label>
-							<select id="diaDelMes" ?disabled=${this.accion == "view"}>
+							<select id="diaDelMes" ?disabled=${!this.camposEditables}>
 								<option value="-1" disabled selected hidden>Seleccione opcion</option>
 								${Array.from({ length: 30 }, (_, index) => index + 1).map((x) => {
 									return html`<option ?selected=${this.diaDelMes && x == this.diaDelMes} value=${x}>${x}</option> `;
@@ -262,17 +268,17 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 							${INFO}
 						</div>
 
-						<div class="dmd-input" helper ?hidden=${this.tipoTarea != "lapso"}>
+						<div class="dmd-input" helper ?hidden=${this.tipoTarea != "lapso" || this.accion == "edit"}>
 							<label>Lapso en dias</label>
-							<input type="number" id="lapsoEnDias" autocomplete="off" autocomplete="off" placeholder="" value="" ?disabled=${this.accion == "view"} />
+							<input type="number" id="lapsoEnDias" autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
 							<div>Debe ingresar un numero</div>
 							<span>Ingrese el lapso en dias</span>
 							${INFO}
 						</div>
 
-						<div class="dmd-input" helper ?hidden=${this.tipoTarea == "simple"}>
+						<div class="dmd-input" helper ?hidden=${this.tipoTarea == "simple" || this.accion == "edit"}>
 							<label>Cantidad De repeticiones</label>
-							<input type="number" id="cantidad" autocomplete="off" autocomplete="off" placeholder="" value="" ?disabled=${this.accion == "view"} />
+							<input type="number" id="cantidad" autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
 							<div>Debe ingresar un numero</div>
 							<span>Ingrese la cantidad</span>
 							${INFO}
@@ -280,7 +286,7 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 
 						<div class="dmd-input" helper>
 							<label>Descripcion</label>
-							<textarea id="descripcion" placeholder="" value="" rows="5" ?disabled=${this.accion == "view"}></textarea>
+							<textarea id="descripcion" placeholder="" rows="5" ?disabled=${!this.camposEditables}></textarea>
 							<div>Debe ingresar la descripcion de la tarea</div>
 							<span>Ingrese un texto</span>
 							${INFO}
@@ -288,7 +294,7 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 
 						<div class="dmd-input" helper>
 							<label>Instrucciones</label>
-							<textarea id="instrucciones" placeholder="" value="" rows="5" ?disabled=${this.accion == "view"}></textarea>
+							<textarea id="instrucciones" placeholder="" rows="5" ?disabled=${!this.camposEditables}></textarea>
 							<div>Debe las instrucciones de la tarea</div>
 							<span>Ingrese un texto</span>
 							${INFO}
@@ -328,17 +334,30 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 			store.dispatch(tareaCargaAAmparo_Retorno01(this.body, this.item, "add"));
 		}
 		if ((name == ADD_TAREA_SIMPLE_DE_TAREA || name == ADD_TAREA_LAPSO_DE_TAREA || name == ADD_TAREA_FECHA_DE_TAREA) && !this.hidden) {
-			//store.dispatch(getPlanesAll());
 			this.hidden = true;
 			this._botonAceptar.disabled = false;
 			store.dispatch(showWarning("Atencion!", "La tarea se agrego correctamente", "fondoOk", 3000));
 			store.dispatch(tareaCargaAAmparo_Retorno01(this.body, this.item, "add"));
 		}
-		if (name == (ADD_ERROR_DE_PLAN || ADD_ERROR_DE_TAREA) && !this.hidden) {
+		if (name == (ADD_ERROR_DE_PLAN || ADD_ERROR_DE_TAREA || TAREA_REMOVE_ERROR) && !this.hidden) {
 			this._botonAceptar.disabled = false;
 			store.dispatch(showWarning("Atencion!", "No se pudo agregar la tarea, intente nuevamente", "fondoError", 3000));
 		}
+		if (name == TAREA_REMOVE && !this.hidden) {
+			this.hidden = true;
+			this._botonAceptar.disabled = false;
+			store.dispatch(showWarning("Atencion!", "La tarea se elimino correctamente", "fondoOk", 3000));
+			store.dispatch(tareaCargaAAmparo_Retorno01(this.item, null, "delete"));
+		}
+		if (name == TAREA_UPDATE && !this.hidden) {
+			this.hidden = true;
+			this._botonAceptar.disabled = false;
+			store.dispatch(showWarning("Atencion!", "La tarea se modifica correctamente", "fondoOk", 3000));
+			store.dispatch(tareaCargaAAmparo_Retorno01(this.item, null, "edit"));
+		}
 		if (name == I_SHOW || name == I_SHOW_LAPSO || name == I_SHOW_FECHA) {
+			//this.shadowRoot.getElementById("cuerpo").focus();
+			this._creador.scrollIntoView(falso);
 			if (name == I_SHOW) {
 				this.tipoTarea = "simple";
 				this.item = state.entreComponentes.tareaCarga_Load01.item;
@@ -358,7 +377,21 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 				this.plan_tarea = state.entreComponentes.tareaCarga_Load03.item;
 				this.origen = this.item.clase;
 			}
-			//this.plan_tarea = state.popup.show.item;
+			if (this.accion == "view") {
+				this.camposEditables = false;
+			} else if (this.accion == "delete") {
+				this.camposEditables = false;
+				this._botonAceptar.innerText = "Eliminar tarea";
+			} else if (this.accion == "add") {
+				this.camposEditables = true;
+				this._botonAceptar.innerText = "Agregar tarea";
+			} else if (this.accion == "edit") {
+				this.camposEditables = true;
+				this._botonAceptar.innerText = "Modifcar tarea";
+			} else {
+				this.camposEditables = false;
+				this._botonAceptar.innerText = "Aceptar";
+			}
 
 			[].forEach.call(this.shadowRoot.querySelectorAll("[error]"), (element) => {
 				element.removeAttribute("error");
@@ -377,8 +410,22 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 				this._lapsoEnDias.value = "1";
 				this._diaDelMes.value = "1";
 				this._cantidad.value = "";
+
+				this._creador.value = "59D94F07-8C27-482F-9CA8-0D711C8CCFF9";
+				this._ejecutor.value = "3484E196-3CCB-4085-AABF-536CB70CED78";
+				this._vigencia.value = dateReturnForComponente("07/01/2023");
+				this._vencimiento.value = dateReturnForComponente("07/10/2023");
+				this._alerta.value = dateReturnForComponente("07/08/2023");
+				this._descripcion.value = "DEssssss";
+				this._instrucciones.value = "Inssssss";
+				this._planControl.value = "";
+				this._tareaControl.value = "";
+				this._lapsoEnDias.value = "1";
+				this._diaDelMes.value = "1";
+				this._cantidad.value = "";
+
 				this.hidden = false;
-			} else if (this.accion == "view") {
+			} else if (this.accion == "view" || this.accion == "delete" || this.accion == "edit") {
 				store.dispatch(tareaGetById(this.plan_tarea.id));
 			}
 		}
@@ -387,13 +434,34 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 		this.hidden = true;
 	}
 	grabar(e) {
-		this.shadowRoot.getElementById("datos").scrollTo = 0;
+		if (this.accion == "delete") {
+			this.body = {};
+			this.body.tareaId = this.tarea.id;
+			store.dispatch(eliminarTarea(this.body));
+			return;
+		}
 		let mensageError = "";
 		this._botonAceptar.disabled = true;
 		[].forEach.call(this.shadowRoot.querySelectorAll("[error]"), (element) => {
 			element.removeAttribute("error");
 		});
 		var ok = true;
+		if (this._descripcion.value == "") {
+			ok = false;
+			this._descripcion.setAttribute("error", "");
+		}
+		if (this._instrucciones.value == "") {
+			ok = false;
+			this._instrucciones.setAttribute("error", "");
+		}
+		if (this.accion == "edit" && ok) {
+			this.body = {};
+			this.body.tareaId = this.tarea.id;
+			this.body.descripcion = this._descripcion.value;
+			this.body.instrucciones = this._instrucciones.value;
+			store.dispatch(modificarTarea(null, this.body));
+			return;
+		}
 		if (this._creador.value == "-1") {
 			ok = false;
 			this._creador.setAttribute("error", "");
@@ -410,7 +478,6 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 			this._vigencia.setAttribute("error", "");
 			mensageError = "La fecha de vigencia debe ser mayor o igual que hoy";
 		}
-
 		if (this._vencimiento.value == "" || !new Date(this._vencimiento.value)) {
 			ok = false;
 			this._vencimiento.setAttribute("error", "");
@@ -419,7 +486,6 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 			this._vencimiento.setAttribute("error", "");
 			mensageError = "La fecha de vencimiento debe ser mayor o igual a la fecha de vigencia";
 		}
-
 		if (this._alerta.value == "" || !new Date(this._alerta.value)) {
 			ok = false;
 			this._alerta.setAttribute("error", "");
@@ -427,14 +493,6 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 			ok = false;
 			this._alerta.setAttribute("error", "");
 			mensageError = "La fecha de alerta debe ser mayor o igual a la fecha de vigencia y meno o igula a la fecha de vencimiento";
-		}
-		if (this._descripcion.value == "") {
-			ok = false;
-			this._descripcion.setAttribute("error", "");
-		}
-		if (this._instrucciones.value == "") {
-			ok = false;
-			this._instrucciones.setAttribute("error", "");
 		}
 		if (this.tipoTarea == "lapso") {
 			if (this._lapsoEnDias.value == "") {
@@ -453,8 +511,6 @@ export class tareaCargaScreen extends connect(store, ADD_TAREA_SIMPLE_DE_TAREA, 
 				this._cantidad.setAttribute("error", "");
 			}
 		}
-		//store.dispatch(showWarning("Atencion!", "Se actualizo la tarea", "fondoOk", 3000));
-		//this.hidden = true;
 		if (ok) {
 			this.body = {};
 			this.body.planId = this.plan_tarea.planId;

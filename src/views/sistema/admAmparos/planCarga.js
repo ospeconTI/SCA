@@ -161,7 +161,7 @@ export class planCargaScreen extends connect(store, PLAN_ADD, PLAN_ADD_ERROR, PL
 
 						<div class="dmd-input" helper>
 							<label>D.N.I. del amparado</label>
-							<input type="numeric" id="urlReferencia" autocomplete="off" autocomplete="off" placeholder="" ?disabled=${this.accion == "view"} />
+							<input type="number" id="urlReferencia" autocomplete="off" autocomplete="off" placeholder="" ?disabled=${this.accion == "view"} />
 							<div>Debe ingresar numeros</div>
 							<span>Ingrese numeros</span>
 							${INFO}

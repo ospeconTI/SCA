@@ -29,11 +29,14 @@ import {
 	MODIFICAR_INTEGRANTE,
 	MODIFICAR_INTEGRANTE_SUCCESS,
 	MODIFICAR_INTEGRANTE_ERROR,
+	USUARIO_HACER_RESPONSABLE,
+	USUARIO_HACER_RESPONSABLE_SUCCESS,
+	USUARIO_HACER_RESPONSABLE_ERROR,
 } from "./actions";
 
 import { RESTRequest, RESTAdd, RESTDelete, RESTUpdate, RESTPatch } from "../rest/actions";
 
-import { sectoresGetByIdFetch, sectoresGetAllFetch, sectoresGetByDescripcioniFetch, sectoresAddFetch, sectoresUpdateFetch, sectoresSumarIntegranteFetch, sectoresQuitarIntegranteFetch, sectoresModificarIntegranteFetch } from "../fetchs";
+import { sectoresGetByIdFetch, sectoresGetAllFetch, sectoresGetByDescripcioniFetch, sectoresAddFetch, sectoresUpdateFetch, sectoresSumarIntegranteFetch, sectoresQuitarIntegranteFetch, sectoresModificarIntegranteFetch, sectoresUsuarioHacerResponsableFetch } from "../fetchs";
 
 export const getById =
 	({ dispatch }) =>
@@ -135,6 +138,16 @@ export const modificarIntegrante =
 		}
 	};
 
+export const usuarioHacerResponsable =
+	({ dispatch }) =>
+	(next) =>
+	(action) => {
+		next(action);
+		if (action.type === USUARIO_HACER_RESPONSABLE) {
+			dispatch(RESTUpdate(sectoresUsuarioHacerResponsableFetch, null, action.body, USUARIO_HACER_RESPONSABLE_SUCCESS, USUARIO_HACER_RESPONSABLE_ERROR, action.token));
+		}
+	};
+
 export const processGet =
 	({ dispatch }) =>
 	(next) =>
@@ -162,4 +175,4 @@ export const processError =
 		}
 	};
 
-export const middleware = [getById, getByDescripcion, getAll, add, update, patch, remove, sumarIntegrante, quitarIntegrante, modificarIntegrante, processGet, processComand, processError];
+export const middleware = [getById, usuarioHacerResponsable, getByDescripcion, getAll, add, update, patch, remove, sumarIntegrante, quitarIntegrante, modificarIntegrante, processGet, processComand, processError];

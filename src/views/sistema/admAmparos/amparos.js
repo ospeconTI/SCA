@@ -147,17 +147,6 @@ export class amparosScreen extends connect(store, TAREA_CARGA_A_AMPARO__RETORNO,
 				height: 2rem;
 				fill: var(--on-secundario);
 			}
-			@keyframes fadeOutUp {
-				from {
-					opacity: 1;
-					transform: translate3d(0, 0px, 0);
-				}
-
-				to {
-					opacity: 0;
-					transform: translate3d(0, -2000px, 0);
-				}
-			}
 		`;
 	}
 	render() {
@@ -297,7 +286,9 @@ export class amparosScreen extends connect(store, TAREA_CARGA_A_AMPARO__RETORNO,
 				this.cargaArbolDe0 = true;
 				if (this.itemsSeleccionados.length > 0) {
 					this.arbol.splice(1);
-					this.itemsSeleccionados.map((item, index) => {
+					let index = -1;
+					for (const item of this.itemsSeleccionados) {
+						index++;
 						let newRama = [];
 						if (index == 0) {
 							newRama = armoTareas("0", state.tareas.byPlanId.entities);
@@ -307,10 +298,15 @@ export class amparosScreen extends connect(store, TAREA_CARGA_A_AMPARO__RETORNO,
 						if (newRama.length > 0) {
 							this.arbol.push(newRama);
 						} else {
-							this.rama = this.arbol.length - 2;
+							if (index == 0) {
+								this.itemsSeleccionados = [];
+								this.rama = -1;
+							} else {
+								this.rama = this.arbol.length - 2;
+							}
+							break;
 						}
-					});
-					let rr = this.arbol;
+					}
 				}
 			}
 			this.update();
@@ -356,30 +352,39 @@ export class amparosScreen extends connect(store, TAREA_CARGA_A_AMPARO__RETORNO,
 			store.dispatch(tareaDarCumplimiento(body));
 		}
 		if (name == TAREA_CARGA_A_AMPARO__RETORNO) {
-			if (state.entreComponentes.tareaCargaAAmparo_Retorno01.accion == "add") {
-				this.cargaArbolDe0 = false;
-				let registroPadre = state.entreComponentes.tareaCargaAAmparo_Retorno01.itemPadre;
-				if (registroPadre.clase == "plan") {
-					this.arbol[0].map((item) => {
-						if (item.planId == registroPadre.planId) {
-							this.itemsSeleccionados[0] = item;
-							this.itemsSeleccionados.splice(1);
-							this.rama = 0;
+			this.cargaArbolDe0 = false;
+			let registroPadre = null;
+			if ("-delete-edit-".indexOf("-" + state.entreComponentes.tareaCargaAAmparo_Retorno01.accion + "-") != -1) {
+				this.arbol.map((item1) => {
+					item1.map((item) => {
+						if (item.id == state.entreComponentes.tareaCargaAAmparo_Retorno01.item.padre) {
+							registroPadre = item;
 						}
 					});
-				} else {
-					this.arbol.map((item1, index1) => {
-						item1.map((item2, index2) => {
-							if (index1 > 0 && item2.id == registroPadre.id) {
-								this.itemsSeleccionados[index1] = registroPadre;
-								this.itemsSeleccionados.splice(index1 + 1);
-								this.rama = index1;
-							}
-						});
-					});
-				}
-				store.dispatch(getPlanesAll());
+				});
+			} else {
+				registroPadre = state.entreComponentes.tareaCargaAAmparo_Retorno01.itemPadre;
 			}
+			if (registroPadre.clase == "plan") {
+				this.arbol[0].map((item) => {
+					if (item.planId == registroPadre.planId) {
+						this.itemsSeleccionados[0] = item;
+						this.itemsSeleccionados.splice(1);
+						this.rama = 0;
+					}
+				});
+			} else {
+				this.arbol.map((item1, index1) => {
+					item1.map((item2, index2) => {
+						if (index1 > 0 && item2.id == registroPadre.id) {
+							this.itemsSeleccionados[index1] = registroPadre;
+							this.itemsSeleccionados.splice(index1 + 1);
+							this.rama = index1;
+						}
+					});
+				});
+			}
+			store.dispatch(getPlanesAll());
 		}
 	}
 	static get properties() {

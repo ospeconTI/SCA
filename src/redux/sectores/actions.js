@@ -9,6 +9,7 @@ export const EDIT = "[sectores] EDIT";
 export const SUMAR_INTEGRANTE = "[sectores] SUMAR_INTEGRANTE";
 export const QUITAR_INTEGRANTE = "[sectores] QUITAR_INTEGRANTE";
 export const MODIFICAR_INTEGRANTE = "[sectores] MODIFICAR_INTEGRANTE";
+export const USUARIO_HACER_RESPONSABLE = "[sectores] USUARIO_HACER_RESPONSABLE";
 
 export const GET_BY_ID_SUCCESS = "[sectores] GET_BY_ID success";
 export const GET_BY_DESCRIPCION_SUCCESS = "[sectores] GET_BY_DESCRIPCION success";
@@ -20,6 +21,7 @@ export const REMOVE_SUCCESS = "[sectores] REMOVE success";
 export const SUMAR_INTEGRANTE_SUCCESS = "[sectores] SUMAR_INTEGRANTE success";
 export const QUITAR_INTEGRANTE_SUCCESS = "[sectores] QUITAR_INTEGRANTE success";
 export const MODIFICAR_INTEGRANTE_SUCCESS = "[sectores] MODIFICAR_INTEGRANTE success";
+export const USUARIO_HACER_RESPONSABLE_SUCCESS = "[sectores] USUARIO_HACER_RESPONSABLE success";
 
 export const GET_BY_ID_ERROR = "[sectores] GET_BY_ID error";
 export const GET_BY_DESCRIPCION_ERROR = "[sectores] GET_BY_DESCRIPCION error";
@@ -31,6 +33,7 @@ export const REMOVE_ERROR = "[sectores] REMOVE error";
 export const SUMAR_INTEGRANTE_ERROR = "[sectores] SUMAR_INTEGRANTE error";
 export const QUITAR_INTEGRANTE_ERROR = "[sectores] QUITAR_INTEGRANTE error";
 export const MODIFICAR_INTEGRANTE_ERROR = "[sectores] MODIFICAR_INTEGRANTE error";
+export const USUARIO_HACER_RESPONSABLE_ERROR = "[sectores] USUARIO_HACER_RESPONSABLE error";
 
 export const getById = (id) => ({
 	type: GET_BY_ID,
@@ -102,6 +105,12 @@ export const quitarIntegrante = (body, token) => ({
 
 export const modificarIntegrante = (body, token) => ({
 	type: MODIFICAR_INTEGRANTE,
+	body: body,
+	token: token,
+});
+
+export const usuarioHacerResponsable = (body, token) => ({
+	type: USUARIO_HACER_RESPONSABLE,
 	body: body,
 	token: token,
 });

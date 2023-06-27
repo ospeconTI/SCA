@@ -1,4 +1,30 @@
-import { GET_SUCCESS, GET_ERROR, GET_ALL_SUCCESS, GET_ALL_ERROR, PATCH_SUCCESS, PATCH_ERROR, UPDATE_SUCCESS, UPDATE_ERROR, ADD_SUCCESS, ADD_ERROR, REMOVE_SUCCESS, REMOVE_ERROR, EDIT, GET_BY_ID_SUCCESS, GET_BY_ID_ERROR, GET_BY_DESCRIPCION_SUCCESS, GET_BY_DESCRIPCION_ERROR, SUMAR_INTEGRANTE_SUCCESS, SUMAR_INTEGRANTE_ERROR, QUITAR_INTEGRANTE_SUCCESS, QUITAR_INTEGRANTE_ERROR, MODIFICAR_INTEGRANTE_SUCCESS, MODIFICAR_INTEGRANTE_ERROR } from "./actions";
+import {
+	GET_SUCCESS,
+	GET_ERROR,
+	GET_ALL_SUCCESS,
+	GET_ALL_ERROR,
+	PATCH_SUCCESS,
+	PATCH_ERROR,
+	UPDATE_SUCCESS,
+	UPDATE_ERROR,
+	ADD_SUCCESS,
+	ADD_ERROR,
+	REMOVE_SUCCESS,
+	REMOVE_ERROR,
+	EDIT,
+	GET_BY_ID_SUCCESS,
+	GET_BY_ID_ERROR,
+	GET_BY_DESCRIPCION_SUCCESS,
+	GET_BY_DESCRIPCION_ERROR,
+	SUMAR_INTEGRANTE_SUCCESS,
+	SUMAR_INTEGRANTE_ERROR,
+	QUITAR_INTEGRANTE_SUCCESS,
+	QUITAR_INTEGRANTE_ERROR,
+	MODIFICAR_INTEGRANTE_SUCCESS,
+	MODIFICAR_INTEGRANTE_ERROR,
+	USUARIO_HACER_RESPONSABLE_SUCCESS,
+	USUARIO_HACER_RESPONSABLE_ERROR,
+} from "./actions";
 
 const initialState = {
 	entities: null,
@@ -34,6 +60,10 @@ const initialState = {
 		errorTimeStamp: null,
 	},
 	modificarIntegrante: {
+		timeStamp: null,
+		errorTimeStamp: null,
+	},
+	usuarioHacerResponsable: {
 		timeStamp: null,
 		errorTimeStamp: null,
 	},
@@ -83,6 +113,9 @@ export const reducer = (state = initialState, action) => {
 		case MODIFICAR_INTEGRANTE_SUCCESS:
 			newState.modificarIntegrante.timeStamp = new Date().getTime();
 			break;
+		case USUARIO_HACER_RESPONSABLE_SUCCESS:
+			newState.usuarioHacerResponsable.timeStamp = new Date().getTime();
+			break;
 		case GET_BY_ID_ERROR:
 			newState.byId.errorTimeStamp = new Date().getTime();
 			break;
@@ -101,6 +134,9 @@ export const reducer = (state = initialState, action) => {
 			break;
 		case MODIFICAR_INTEGRANTE_ERROR:
 			newState.modificarIntegrante.errorTimeStamp = new Date().getTime();
+			break;
+		case USUARIO_HACER_RESPONSABLE_ERROR:
+			newState.usuarioHacerResponsable.errorTimeStamp = new Date().getTime();
 			break;
 
 		case UPDATE_ERROR:

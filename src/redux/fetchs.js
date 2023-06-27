@@ -35,6 +35,8 @@ export const tareaDarCumplimientoFetch = fetchFactory(webApi, "Tarea/DarCumplimi
 export const tareaAddSimpleFetch = fetchFactory(webApi, "Tarea/SumarCondicion");
 export const tareaAddLapsoFetch = fetchFactory(webApi, "Tarea/AgregarMultiplesCondicionesPorLapso");
 export const tareaAddFechaFetch = fetchFactory(webApi, "Tarea/AgregarMultiplesCondicionesEnFecha");
+export const tareaQuitarFetch = fetchFactory(webApi, "Tarea/QuitarTarea");
+export const tareaModificarDescripcionFetch = fetchFactory(webApi, "Tarea/ModificarDescripcion");
 
 export const sectoresGetByIdFetch = fetchFactory(webApi, "Sector");
 export const sectoresGetAllFetch = fetchFactory(webApi, "Sector/all");
@@ -44,3 +46,4 @@ export const sectoresUpdateFetch = fetchFactory(webApi, "Sector/update");
 export const sectoresSumarIntegranteFetch = fetchFactory(webApi, "Sector/SumarIntegrante");
 export const sectoresQuitarIntegranteFetch = fetchFactory(webApi, "Sector/QuitarIntegrante");
 export const sectoresModificarIntegranteFetch = fetchFactory(webApi, "Sector/ModificarIntegrante");
+export const sectoresUsuarioHacerResponsableFetch = fetchFactory(webApi, "Sector/HacerResponsable");

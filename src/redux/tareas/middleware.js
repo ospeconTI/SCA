@@ -37,7 +37,7 @@ import {
 import { RESTRequest, RESTAdd, RESTDelete, RESTUpdate, RESTPatch } from "../rest/actions";
 
 import { apiRequest } from "../api/actions";
-import { tareaByPlanIdFetch, tareaByIdFetch, tareaDarCumplimientoFetch, tareaAddSimpleFetch, tareaAddLapsoFetch, tareaAddFechaFetch } from "../fetchs";
+import { tareaByPlanIdFetch, tareaByIdFetch, tareaDarCumplimientoFetch, tareaAddSimpleFetch, tareaAddLapsoFetch, tareaAddFechaFetch, tareaQuitarFetch, tareaModificarDescripcionFetch } from "../fetchs";
 
 export const get =
 	({ dispatch }) =>
@@ -114,7 +114,7 @@ export const update =
 	(action) => {
 		next(action);
 		if (action.type === UPDATE) {
-			//dispatch(RESTUpdate(ikePuestos, action.id, action.body, UPDATE_SUCCESS, UPDATE_ERROR, action.token))
+			dispatch(RESTUpdate(tareaModificarDescripcionFetch, null, action.body, UPDATE_SUCCESS, UPDATE_ERROR, action.token));
 		}
 	};
 
@@ -134,6 +134,7 @@ export const remove =
 	(action) => {
 		next(action);
 		if (action.type === REMOVE) {
+			dispatch(RESTUpdate(tareaQuitarFetch, null, action.id, REMOVE_SUCCESS, REMOVE_ERROR, action.token));
 			//dispatch(RESTPatch(ikePuestos, action.id, action.body, PATCH_SUCCESS, PATCH_ERROR, action.token))
 		}
 	};
