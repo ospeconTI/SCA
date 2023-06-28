@@ -10,14 +10,13 @@
         "svg": null,
         "titulo": "FILTROS",
         "accion": null,
-        "param": null,
-        "orden": 1
+        "param": null
     },
     {
         "opcion": [
             {
                 "menu": "0.0",
-                "orden": 0
+                "orden": 1
             }
         ],
         "tipo": null,
@@ -25,30 +24,52 @@
         "titulo": "Descripcion del plan",
         "accion": "[entreComponentes] BUSQUEDA_DESCRIPCION__LOAD01",
         "param": {
-            "item": null,
-            "accion": "find"
-        },
-        "orden": 2
+            "accion": "find",
+            "descripciones": {
+                "titulo": "Busqueda por descripcion",
+                "caption": "Descripcion a buscar",
+                "campo": "descripcion"
+            }
+        }
     },
     {
         "opcion": [
             {
                 "menu": "0.0",
-                "orden": 0
+                "orden": 2
+            }
+        ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Identificador del plan",
+        "accion": "[entreComponentes] BUSQUEDA_DESCRIPCION__LOAD01",
+        "param": {
+            "accion": "find",
+            "descripciones": {
+                "titulo": "Identificador del plan",
+                "caption": "Ingrese el identificador",
+                "campo": "urlReferencia"
+            }
+        }
+    },
+    {
+        "opcion": [
+            {
+                "menu": "0.0",
+                "orden": 3
             }
         ],
         "tipo": "linea",
         "svg": null,
         "titulo": "",
         "accion": null,
-        "param": null,
-        "orden": 3
+        "param": null
     },
     {
         "opcion": [
             {
                 "menu": "0.0",
-                "orden": 0
+                "orden": 4
             }
         ],
         "tipo": null,
@@ -58,14 +79,13 @@
         "param": {
             "campo": "estado",
             "valor": "cumplida"
-        },
-        "orden": 4
+        }
     },
     {
         "opcion": [
             {
                 "menu": "0.0",
-                "orden": 0
+                "orden": 5
             }
         ],
         "tipo": null,
@@ -75,14 +95,13 @@
         "param": {
             "campo": "estado",
             "valor": "vigente"
-        },
-        "orden": 5
+        }
     },
     {
         "opcion": [
             {
                 "menu": "0.0",
-                "orden": 0
+                "orden": 6
             }
         ],
         "tipo": null,
@@ -92,14 +111,13 @@
         "param": {
             "campo": "estado",
             "valor": "pendiente"
-        },
-        "orden": 6
+        }
     },
     {
         "opcion": [
             {
                 "menu": "0.0",
-                "orden": 0
+                "orden": 7
             }
         ],
         "tipo": null,
@@ -109,14 +127,13 @@
         "param": {
             "campo": "estado",
             "valor": "alerta"
-        },
-        "orden": 7
+        }
     },
     {
         "opcion": [
             {
                 "menu": "0.0",
-                "orden": 0
+                "orden": 8
             }
         ],
         "tipo": null,
@@ -126,36 +143,33 @@
         "param": {
             "campo": "estado",
             "valor": "vencida"
-        },
-        "orden": 8
+        }
     },
     {
         "opcion": [
             {
                 "menu": "0.0",
-                "orden": 0
+                "orden": 9
             }
         ],
         "tipo": "linea",
         "svg": null,
         "titulo": "",
         "accion": null,
-        "param": null,
-        "orden": 9
+        "param": null
     },
     {
         "opcion": [
             {
                 "menu": "0.0",
-                "orden": 0
+                "orden": 10
             }
         ],
         "tipo": null,
         "svg": null,
         "titulo": "Sacar filtros",
         "accion": "[entreComponentes] AMPAROS__SACAR_FILTER01",
-        "param": null,
-        "orden": 10
+        "param": null
     },
     {
         "opcion": [
@@ -198,8 +212,7 @@
         "titulo": "Nueva tarea simple",
         "accion": "[entreComponentes] TAREA_CARGA__LOAD01",
         "param": {
-            "accion": "add",
-            "item": null
+            "accion": "add"
         }
     },
     {
@@ -214,8 +227,7 @@
         "titulo": "Modificar el plan",
         "accion": "[entreComponentes] PLAN_CARGA__LOAD01",
         "param": {
-            "accion": "edit",
-            "item": null
+            "accion": "edit"
         }
     },
     {
@@ -230,8 +242,7 @@
         "titulo": "Eliminar el plan",
         "accion": "[entreComponentes] PLAN_CARGA__LOAD01",
         "param": {
-            "accion": "edit",
-            "item": null
+            "accion": "delete"
         }
     },
     {
@@ -250,8 +261,7 @@
         "titulo": "Ver plan",
         "accion": "[entreComponentes] PLAN_CARGA__LOAD01",
         "param": {
-            "accion": "view",
-            "item": null
+            "accion": "view"
         }
     },
     {
@@ -287,8 +297,7 @@
         "titulo": "Nueva tarea multiple por lapso",
         "accion": "[entreComponentes] TAREA_CARGA__LOAD02",
         "param": {
-            "accion": "add",
-            "item": null
+            "accion": "add"
         }
     },
     {
@@ -307,8 +316,7 @@
         "titulo": "Nueva tarea multiple por fecha",
         "accion": "[entreComponentes] TAREA_CARGA__LOAD03",
         "param": {
-            "accion": "add",
-            "item": null
+            "accion": "add"
         }
     },
     {
@@ -323,8 +331,7 @@
         "titulo": "Dar como cumplida",
         "accion": "[eventos] EJECUTAR_TAREA_DAR_CUMPLIMIENTO",
         "param": {
-            "accion": "darCumplimiento",
-            "item": null
+            "accion": "darCumplimiento"
         }
     },
     {
@@ -339,8 +346,7 @@
         "titulo": "Modificar tarea",
         "accion": "[entreComponentes] TAREA_CARGA__LOAD01",
         "param": {
-            "accion": "edit",
-            "item": null
+            "accion": "edit"
         }
     },
     {
@@ -355,8 +361,7 @@
         "titulo": "Eliminar tarea",
         "accion": "[entreComponentes] TAREA_CARGA__LOAD01",
         "param": {
-            "accion": "delete",
-            "item": null
+            "accion": "delete"
         }
     },
     {
@@ -375,8 +380,7 @@
         "titulo": "Ver tarea",
         "accion": "[entreComponentes] TAREA_CARGA__LOAD01",
         "param": {
-            "accion": "view",
-            "item": null
+            "accion": "view"
         }
     }
 ]

@@ -357,7 +357,6 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
 		}
 		if (name == I_SHOW || name == I_SHOW_LAPSO || name == I_SHOW_FECHA) {
 			//this.shadowRoot.getElementById("cuerpo").focus();
-			this._creador.scrollIntoView(falso);
 			if (name == I_SHOW) {
 				this.tipoTarea = "simple";
 				this.item = state.entreComponentes.tareaCarga_Load01.item;

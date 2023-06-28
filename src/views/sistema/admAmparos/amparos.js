@@ -204,6 +204,7 @@ export class amparosScreen extends connect(store, TAREA_CARGA_A_AMPARO__RETORNO,
 			this.arbol[0] = this.arbol[0].filter((it) => {
 				if (campo == "estado") return it[campo] == valor;
 				if (campo == "descripcion") return it[campo].toLowerCase().includes(valor.toLowerCase());
+				if (campo == "urlReferencia") return it[campo].toLowerCase().includes(valor.toLowerCase());
 			});
 			this.update();
 		}

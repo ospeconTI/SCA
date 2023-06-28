@@ -113,18 +113,18 @@ export class busquedaDescripcionScreen extends connect(store, I_SHOW, MEDIA_CHAN
 	}
 
 	render() {
-		if (true) {
+		if (this.item) {
 			return html`
 				<div id="cuerpo">
 					<div class="x" @click="${this.volver}">X</div>
-					<div id="titulo">Busqueda por descripcion</div>
+					<div id="titulo">${this.item.titulo}</div>
 					<hr />
 					<div id="datos">
 						<div class="dmd-input" helper>
-							<label>Descripcion a buscar</label>
+							<label>${this.item.caption}</label>
 							<input type="text" id="descripcion" autocomplete="off" autocomplete="off" placeholder="" value="" />
-							<div>Debe la descripcion a buscar</div>
-							<span>Ingrese un texto</span>
+							<div>Debe ingresar el dato a buscar</div>
+							<span>Ingrese el dato a buscars</span>
 							${INFO}
 						</div>
 
@@ -141,16 +141,12 @@ export class busquedaDescripcionScreen extends connect(store, I_SHOW, MEDIA_CHAN
 			this.current = state.screen.name;
 		}
 		if (name == I_SHOW) {
-			this.item = state.entreComponentes.busqueDescripcion_Load01.item;
+			this.item = state.entreComponentes.busqueDescripcion_Load01.descripciones;
 			this.accion = state.entreComponentes.busqueDescripcion_Load01.accion;
+
 			[].forEach.call(this.shadowRoot.querySelectorAll("[error]"), (element) => {
 				element.removeAttribute("error");
 			});
-			if (this.item) {
-				this._descripcion.value = this.item.descripcion;
-			} else {
-				this._descripcion.value = "";
-			}
 			this.hidden = false;
 		}
 	}
@@ -173,7 +169,7 @@ export class busquedaDescripcionScreen extends connect(store, I_SHOW, MEDIA_CHAN
 		}
 		boton.disabled = false;
 		if (ok) {
-			store.dispatch(amparos_Filter01("descripcion", this._descripcion.value));
+			store.dispatch(amparos_Filter01(this.item.campo, this._descripcion.value));
 			this.hidden = true;
 		} else {
 			if (mensageError == "") {

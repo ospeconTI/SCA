@@ -66,8 +66,8 @@ export const reducer = (state = initialState, action) => {
 	switch (action.type) {
 		case BUSQUEDA_DESCRIPCION__LOAD01:
 			newState.busqueDescripcion_Load01.timeStamp = new Date().getTime();
-			newState.busqueDescripcion_Load01.item = action.item;
-			newState.busqueDescripcion_Load01.accion = action.accion;
+			newState.busqueDescripcion_Load01.descripciones = action.descripciones || action.param?.descripciones;
+			newState.busqueDescripcion_Load01.accion = action.accion || action.param?.accion;
 			break;
 		case PLAN_CARGA__LOAD01:
 			newState.planCarga_Load01.timeStamp = new Date().getTime();

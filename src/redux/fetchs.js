@@ -28,6 +28,7 @@ export const planesModificarFetch = fetchFactory(webApi, "Plan/Modificar");
 export const planesAddSimpleFetch = fetchFactory(webApi, "Plan/AgregarTareas");
 export const planesAddLapsoFetch = fetchFactory(webApi, "Plan/AgregarMultiplesTareasPorLapso");
 export const planesAddFechaFetch = fetchFactory(webApi, "Plan/AgregarMultiplesTareasEnFecha");
+export const planesQuitarFetch = fetchFactory(webApi, "Plan/Quitar");
 
 export const tareaByIdFetch = fetchFactory(webApi, "Tarea");
 export const tareaByPlanIdFetch = fetchFactory(webApi, "Tarea/GetByPlanId");

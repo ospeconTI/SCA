@@ -12,7 +12,7 @@ import { dmdButton } from "../../css/dmdButton";
 import { dmdInput } from "../../css/dmdInput";
 import { dmdSelect } from "../../css/dmdSelect";
 
-import { getById as planGetById, add as planAdd, update } from "../../../redux/planes/actions";
+import { getAll as planGetAll, getById as planGetById, add as planAdd, update, remove as deletePlan } from "../../../redux/planes/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -21,10 +21,11 @@ const PLAN_BY_ID_ERROR = "planes.byId.errorTimeStamp";
 const PLAN_ADD = "planes.addTimeStamp";
 const PLAN_UPDATE = "planes.updateTimeStamp";
 const PLAN_ADD_ERROR = "planes.commandErrorTimeStamp";
+const PLAN_DELETE = "planes.removeTimeStamp";
 
 const I_SHOW = "entreComponentes.planCarga_Load01.timeStamp";
 
-export class planCargaScreen extends connect(store, PLAN_ADD, PLAN_ADD_ERROR, PLAN_BY_ID, PLAN_BY_ID_ERROR, PLAN_UPDATE, I_SHOW, MEDIA_CHANGE, SCREEN)(LitElement) {
+export class planCargaScreen extends connect(store, PLAN_DELETE, PLAN_ADD, PLAN_ADD_ERROR, PLAN_BY_ID, PLAN_BY_ID_ERROR, PLAN_UPDATE, I_SHOW, MEDIA_CHANGE, SCREEN)(LitElement) {
 	constructor() {
 		super();
 		this.hidden = true;
@@ -142,6 +143,7 @@ export class planCargaScreen extends connect(store, PLAN_ADD, PLAN_ADD_ERROR, PL
 					<div id="titulo" ?hidden=${this.accion != "add"}>Nuevo Plan</div>
 					<div id="titulo" ?hidden=${this.accion != "view"}>Visualizacion del Plan</div>
 					<div id="titulo" ?hidden=${this.accion != "edit"}>Modificacion del Plan</div>
+					<div id="titulo" ?hidden=${this.accion != "delete"}>Eliminar del Plan</div>
 					<hr />
 					<div id="datos">
 						<div class="dmd-input" helper ?hidden=${this.accion != "view"}>
@@ -153,17 +155,17 @@ export class planCargaScreen extends connect(store, PLAN_ADD, PLAN_ADD_ERROR, PL
 						</div>
 						<div class="dmd-input" helper>
 							<label>Descripcion</label>
-							<textarea id="descripcion" placeholder="" value="" rows="5" ?disabled=${this.accion == "view"}></textarea>
+							<textarea id="descripcion" placeholder="" value="" rows="5" ?disabled=${this.accion == "view" || this.accion == "delete"}></textarea>
 							<div>Debe ingresar una descripcion</div>
 							<span>Ingrese un texto</span>
 							${INFO}
 						</div>
 
 						<div class="dmd-input" helper>
-							<label>D.N.I. del amparado</label>
-							<input type="number" id="urlReferencia" autocomplete="off" autocomplete="off" placeholder="" ?disabled=${this.accion == "view"} />
-							<div>Debe ingresar numeros</div>
-							<span>Ingrese numeros</span>
+							<label>Identificador del plan</label>
+							<input type="text" id="urlReferencia" autocomplete="off" autocomplete="off" placeholder="" ?disabled=${this.accion == "view" || this.accion == "delete"} />
+							<div>Debe ingresar el identificador</div>
+							<span>Ingrese un texto</span>
 							${INFO}
 						</div>
 
@@ -190,13 +192,17 @@ export class planCargaScreen extends connect(store, PLAN_ADD, PLAN_ADD_ERROR, PL
 		if (name == PLAN_BY_ID_ERROR && state.screen.name == "amparos") {
 			store.dispatch(showWarning("Atencion!", "No se puede mostrar el amparo, intente nuevamente", "fondoError", 3000));
 		}
-
 		if (name == PLAN_ADD && state.screen.name == "amparos") {
 			this.hidden = true;
 			store.dispatch(showWarning("Atencion!", "El amparo se actualizo", "fondoOk", 3000));
 		}
 		if (name == PLAN_UPDATE && state.screen.name == "amparos") {
 			this.hidden = true;
+			store.dispatch(showWarning("Atencion!", "El amparo se actualizo", "fondoOk", 3000));
+		}
+		if (name == PLAN_DELETE && state.screen.name == "amparos") {
+			this.hidden = true;
+			store.dispatch(planGetAll());
 			store.dispatch(showWarning("Atencion!", "El amparo se actualizo", "fondoOk", 3000));
 		}
 		if (name == PLAN_ADD_ERROR && state.screen.name == "amparos") {
@@ -219,6 +225,8 @@ export class planCargaScreen extends connect(store, PLAN_ADD, PLAN_ADD_ERROR, PL
 			} else if (this.accion == "view") {
 				store.dispatch(planGetById(this.plan_tarea.planId));
 			} else if (this.accion == "edit") {
+				store.dispatch(planGetById(this.plan_tarea.planId));
+			} else if (this.accion == "delete") {
 				store.dispatch(planGetById(this.plan_tarea.planId));
 			}
 		}
@@ -251,11 +259,13 @@ export class planCargaScreen extends connect(store, PLAN_ADD, PLAN_ADD_ERROR, PL
 			if (this.accion == "edit") {
 				body.id = this.plan_tarea.planId;
 				store.dispatch(update(body));
-			} else {
+			} else if (this.accion == "add") {
 				store.dispatch(planAdd(body));
+			} else if (this.accion == "delete") {
+				body = {};
+				body.planId = this.plan_tarea.planId;
+				store.dispatch(deletePlan(body));
 			}
-
-			//store.dispatch(showWarning("Atencion!", "Se modifico el amparo", "fondoOk", 3000));
 		} else {
 			if (mensageError == "") {
 				mensageError = "Falta cargar campos.";

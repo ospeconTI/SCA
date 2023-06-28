@@ -3,7 +3,7 @@
 import { html, LitElement, css } from "lit";
 import { store } from "../../../redux/store";
 import { connect } from "@brunomon/helpers";
-import { TRESPUNTOS, PERSON_OUTLINED } from "../../../../assets/icons/svgs";
+import { TRESPUNTOS, PERSON_OUTLINED, PERSON_ADD, PERSON_LIST } from "../../../../assets/icons/svgs";
 
 import { dateToFrench } from "../../../libs/funciones";
 
@@ -117,7 +117,7 @@ export class tareaComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitEle
 			}
 			#div-botonera {
 				display: grid;
-				grid-template-columns: auto 1fr auto auto;
+				grid-template-columns: auto 1fr 1.2rem 1.4rem 1rem;
 				align-items: center;
 				gap: 0.6rem;
 				padding-left: 0.4rem;
@@ -200,7 +200,8 @@ export class tareaComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitEle
 						<div id="div-botonera">
 							<button class="btn" @click="${this.verTarea}" title="Ver el detlle de la tarea">TAREA</button>
 							<button class="btn" @click="${this.mostrarTareas}" ?invisible=${!this.registro.conTareas} title="Ver las tareas asignadas">${this.registroseleccionado?.id != this.registro.id ? "MOSTRAR" : "OCULTAR"} TAREAS</button>
-							<div id="div-menu" @click="${this.verUsuarios}" title="Ver usuarios del sector">${PERSON_OUTLINED}</div>
+							<div id="div-menu" @click="${this.verUsuariosCreador}" title="Usuario que genero la tarea">${PERSON_ADD}</div>
+							<div id="div-menu" @click="${this.verUsuariosEjecutor}" title="Usuarios asignados para la tarea">${PERSON_LIST}</div>
 							<div id="div-menu" @click="${this.popup}" title="Menu de opciones">${TRESPUNTOS}</div>
 						</div>
 					</div>
@@ -215,7 +216,12 @@ export class tareaComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitEle
 	verTarea(e) {
 		store.dispatch(mostrarTareaCarga(this.registro, "view"));
 	}
-	verUsuarios(e) {
+	verUsuariosCreador(e) {
+		let sector = this.registro.ejecutor.descripcion;
+		let usuarios = this.registro.creador.usuarios;
+		store.dispatch(verUsuarios(usuarios, this.registro.creador, "view"));
+	}
+	verUsuariosEjecutor(e) {
 		let sector = this.registro.ejecutor.descripcion;
 		let usuarios = this.registro.ejecutor.usuarios;
 		store.dispatch(verUsuarios(usuarios, this.registro.ejecutor, "view"));
