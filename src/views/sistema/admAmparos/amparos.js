@@ -327,9 +327,13 @@ export class amparosScreen extends connect(store, TAREA_CARGA_A_AMPARO__RETORNO,
 			}
 		}
 		if (name == EVENTO_MOSTRAR_POPUP_TAREAS) {
-			if (state.eventos.mostrarPopupTareas.registro?.conTareas) {
+			if (state.eventos.mostrarPopupTareas.registro?.estado == "cumplida") {
+				store.dispatch(showPopup("2.2", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+			} else if (state.eventos.mostrarPopupTareas.registro?.esPorLapso) {
+				store.dispatch(showPopup("2.3", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+			} else if (state.eventos.mostrarPopupTareas.registro?.conTareas) {
 				store.dispatch(showPopup("2.1", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-			} else {
+			} else if (!state.eventos.mostrarPopupTareas.registro?.conTareas) {
 				store.dispatch(showPopup("2.0", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 			}
 		}

@@ -145,6 +145,7 @@ export const armoTareas = (padre, array) => {
 		js.estado = item.estado;
 		js.conTareas = item.condiciones.length > 0;
 		js.hijo = item.condiciones.length > 0;
+		js.esPorLapso = item.esPorLapso;
 		if (padre == "0") {
 			js.padre = item.planId;
 			js.padreClase = "plan";

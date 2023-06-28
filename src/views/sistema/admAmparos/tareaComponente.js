@@ -186,7 +186,7 @@ export class tareaComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitEle
 					<div class="div-cuerpo">
 						<div class="lineas">
 							<div id="div-dequien">${"De:" + dateToFrench(this.registro.vigenteDesde) + " " + this.registro.creador.descripcion}</div>
-							<div class="div-linea-dos">${this.registro.tipo.toUpperCase()}</div>
+							<div class="div-linea-dos">${this.registro.esPorLapso ? "POR LAPSO" : this.registro.tipo.toUpperCase()}</div>
 						</div>
 						<div class="lineas">
 							<div id="div-aquien">${"A: " + this.registro.ejecutor.descripcion}</div>
