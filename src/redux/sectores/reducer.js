@@ -84,7 +84,7 @@ export const reducer = (state = initialState, action) => {
 			newState.byDescripcion.timeStamp = new Date().getTime();
 			break;
 		case GET_ALL_SUCCESS:
-			newState.all.entities = action.payload.receive;
+			newState.all.entities = action.payload.receive.sort((a, b) => a.descripcion.localeCompare(b.descripcion));
 			newState.all.timeStamp = new Date().getTime();
 			break;
 		case EDIT:
