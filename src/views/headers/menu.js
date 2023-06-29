@@ -324,7 +324,8 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, SELECTIO
         }
         if (name == AUTORIZACION) {
             const profile = this.parseJwt(state.autorizacion.tokenAutentication);
-            this.profile = profile["family_name"] + " " + profile["given_name"] + " (" + state.autorizacion.entities.result.sectores.find((o) => true)?.descripcion + ")";
+            let sector = state.autorizacion.entities.result.sectores.find((o) => true)?.descripcion || "Sin Sector";
+            this.profile = profile["family_name"] + " " + profile["given_name"] + " (" + sector + ")";
         }
         if (name == AUTORIZACION_FALLA) {
             store.dispatch(showConfirm("Control de Accesos", "Acceso denegado, ¿ quiere acceder con otro usuario ?", loguearConNuevoUsuario(), null));
