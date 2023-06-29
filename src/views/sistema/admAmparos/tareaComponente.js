@@ -9,11 +9,15 @@ import { dateToFrench } from "../../../libs/funciones";
 
 import { mostrarHijos, mostrarPopupTareas } from "../../../redux/eventos/actions";
 import { tareaCarga_Load01 as mostrarTareaCarga, verUsuarios_Load01 as verUsuarios } from "../../../redux/entreComponentes/actions";
+import { getById as sectorGetById } from "../../../redux/sectores/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 
-export class tareaComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitElement) {
+const SECTOR_BY_ID = "sectores.byId.timeStamp";
+const SECTOR_BY_ID_ERROR = "sectores.byId.errorTimeStamp";
+
+export class tareaComponente extends connect(store, SECTOR_BY_ID, SECTOR_BY_ID_ERROR, MEDIA_CHANGE, SCREEN)(LitElement) {
 	constructor() {
 		super();
 		this.expandido = false;
@@ -217,14 +221,10 @@ export class tareaComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitEle
 		store.dispatch(mostrarTareaCarga(this.registro, "view"));
 	}
 	verUsuariosCreador(e) {
-		let sector = this.registro.ejecutor.descripcion;
-		let usuarios = this.registro.creador.usuarios;
-		store.dispatch(verUsuarios(usuarios, this.registro.creador, "view"));
+		store.dispatch(sectorGetById(this.registro.creador.id));
 	}
 	verUsuariosEjecutor(e) {
-		let sector = this.registro.ejecutor.descripcion;
-		let usuarios = this.registro.ejecutor.usuarios;
-		store.dispatch(verUsuarios(usuarios, this.registro.ejecutor, "view"));
+		store.dispatch(sectorGetById(this.registro.ejecutor.id));
 	}
 	mostrarTareas(e) {
 		e.preventDefault();
@@ -235,6 +235,12 @@ export class tareaComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitEle
 	stateChanged(state, name) {
 		if (name == SCREEN || name == MEDIA_CHANGE) {
 			this.update();
+		}
+		if (name == SECTOR_BY_ID) {
+			store.dispatch(verUsuarios(state.sectores.byId.entities.usuarios, state.sectores.byId.entities, "view"));
+		}
+		if (name == SECTOR_BY_ID_ERROR) {
+			store.dispatch(showWarning("Error!", "No se pudo recuperar los usuarios, intente nuevamente", "fondoError", 3000));
 		}
 	}
 

@@ -194,8 +194,9 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 			this.sector = state.entreComponentes.verUsuarios_Load01.sectorItem;
 			this.accion = state.entreComponentes.verUsuarios_Load01.accion;
 			this.grid = this.dataSource;
-			this._buscarDmdGrid();
+			//this._buscarDmdGrid();
 			this.hidden = false;
+			this.update();
 		}
 		if (name == USUARIO_HACER_RESPONSABLE) {
 			store.dispatch(showWarning("Atencion!", "El registro fue actualizado.", "fondoOk", 3000));
