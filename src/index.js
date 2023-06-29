@@ -11,14 +11,13 @@ import { store } from "./redux/store";
 import { captureMedia } from "./redux/ui/actions";
 import { goTo } from "./redux/routing/actions";
 import { viewManager } from "./views/manager";
-import { login } from "./redux/autorizacion/actions";
 import { register as registerSW, activate as activateSW } from "./libs/serviceWorker";
 import { getAll as popupAll } from "./redux/popup/actions";
 import { getAll as sectoresAll } from "./redux/sectores/actions";
 
 if (process.env.NODE_ENV === "production") {
-	registerSW();
-	activateSW();
+    registerSW();
+    activateSW();
 }
 
 viewMode("main");
@@ -45,13 +44,13 @@ console.log("Sirviendo datos de :" + SERVICE_URL);
 }
  */
 export default {
-	login: (email, password) => {
-		store.dispatch(login(email, password));
-	},
-	cambioClave: () => {
-		store.dispatch(goTo("cambioClave"));
-	},
-	miembro: () => {
-		store.dispatch(goTo("serMiembro"));
-	},
+    login: (email, password) => {
+        store.dispatch(login(email, password));
+    },
+    cambioClave: () => {
+        store.dispatch(goTo("cambioClave"));
+    },
+    miembro: () => {
+        store.dispatch(goTo("serMiembro"));
+    },
 };

@@ -12,6 +12,7 @@ import { SpinnerControl } from "./componentes/spinner";
 
 import { pantallaWarning } from "./componentes/warning";
 import { AlertControl } from "./componentes/alert";
+import { ConfirmControl } from "./componentes/confirm";
 
 import { menuPrincipal } from "../views/headers/menu";
 
@@ -30,109 +31,110 @@ const SCREEN = "screen.timeStamp";
 const SELECTION = "ui.menu.timeStamp";
 
 export class viewManager extends connect(store, MEDIA_CHANGE, SCREEN, SELECTION)(LitElement) {
-	constructor() {
-		super();
-		window.onpopstate = (event) => {
-			if (event.state) {
-				store.dispatch(goTo(event.state.option, true));
-			} else {
-				window.history.back();
-			}
-		};
-	}
+    constructor() {
+        super();
+        window.onpopstate = (event) => {
+            if (event.state) {
+                store.dispatch(goTo(event.state.option, true));
+            } else {
+                window.history.back();
+            }
+        };
+    }
 
-	static get styles() {
-		return css`
-			${layoutsCSS}
-			${gridLayout}
+    static get styles() {
+        return css`
+            ${layoutsCSS}
+            ${gridLayout}
             :host {
-				display: grid;
-				padding: 0;
-				background-color: var(--aplicacion);
-				overflow: hidden;
-			}
+                display: grid;
+                padding: 0;
+                background-color: var(--aplicacion);
+                overflow: hidden;
+            }
 
-			:host::-webkit-scrollbar {
-				width: 0.5vw;
-				cursor: pointer;
-			}
-			:host::-webkit-scrollbar([media-size="small"]) {
-				display: none;
-			}
-			:host::-webkit-scrollbar-thumb {
-				background: var(--secundario);
-				border-radius: 5px;
-			}
-			#spinner {
-				position: absolute;
-				z-index: 100;
-				height: 3rem;
-				width: 3rem;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%);
-			}
-		`;
-	}
+            :host::-webkit-scrollbar {
+                width: 0.5vw;
+                cursor: pointer;
+            }
+            :host::-webkit-scrollbar([media-size="small"]) {
+                display: none;
+            }
+            :host::-webkit-scrollbar-thumb {
+                background: var(--secundario);
+                border-radius: 5px;
+            }
+            #spinner {
+                position: absolute;
+                z-index: 100;
+                height: 3rem;
+                width: 3rem;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        `;
+    }
 
-	render() {
-		return html`
-			<spinner-control id="spinner" aro></spinner-control>
+    render() {
+        return html`
+            <spinner-control id="spinner" aro></spinner-control>
 
-			<menu-principal id="menu" class="header"></menu-principal>
+            <menu-principal id="menu" class="header"></menu-principal>
 
-			<inicial-screen id="inicial" class="body"></inicial-screen>
-			<amparos-screen id="amparos" class="body"></amparos-screen>
-			<busqueda-descripcion-screen id="busquedaDescripcion" class="body"></busqueda-descripcion-screen>
-			<tarea-carga-screen id="tareaCarga" class="body"></tarea-carga-screen>
-			<plan-carga-screen id="planCarga" class="body"></plan-carga-screen>
-			<ver-sectores id="verSectores" class="body"></ver-sectores>
-			<carga-sectores id="cargaSectores" class="body"></carga-sectores>
-			<ver-usuarios id="verUsuarios" class="body"></ver-usuarios>
-			<carga-usuarios id="cargaUsuarios" class="body"></carga-usuarios>
+            <inicial-screen id="inicial" class="body"></inicial-screen>
+            <amparos-screen id="amparos" class="body"></amparos-screen>
+            <busqueda-descripcion-screen id="busquedaDescripcion" class="body"></busqueda-descripcion-screen>
+            <tarea-carga-screen id="tareaCarga" class="body"></tarea-carga-screen>
+            <plan-carga-screen id="planCarga" class="body"></plan-carga-screen>
+            <ver-sectores id="verSectores" class="body"></ver-sectores>
+            <carga-sectores id="cargaSectores" class="body"></carga-sectores>
+            <ver-usuarios id="verUsuarios" class="body"></ver-usuarios>
+            <carga-usuarios id="cargaUsuarios" class="body"></carga-usuarios>
 
-			<pantalla-warning id="warning"></pantalla-warning>
-			<alert-control></alert-control>
-		`;
-	}
+            <pantalla-warning id="warning"></pantalla-warning>
+            <alert-control></alert-control>
+            <confirm-control></confirm-control>
+        `;
+    }
 
-	stateChanged(state, name) {
-		if (name == MEDIA_CHANGE || name == SCREEN) {
-			this.mediaSize = state.ui.media.size;
-			this.orientation = state.ui.media.orientation;
-			this.layout = getLayout(state).name;
-			if (!window.MSStream && /iPad|iPhone|iPod/.test(navigator.userAgent)) {
-				if ("standalone" in window.navigator && window.navigator.standalone) {
-					this.style.height = document.documentElement.offsetHeight ? document.documentElement.offsetHeight : window.innerHeight + "px";
-				} else {
-					if (state.ui.media.orientation == "portrait") {
-						this.style.height = window.innerHeight < window.innerWidth ? window.innerWidth : window.innerHeight + "px";
-					} else {
-						this.style.height = window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight + "px";
-					}
-				}
-			}
-		}
-		this.update();
-	}
+    stateChanged(state, name) {
+        if (name == MEDIA_CHANGE || name == SCREEN) {
+            this.mediaSize = state.ui.media.size;
+            this.orientation = state.ui.media.orientation;
+            this.layout = getLayout(state).name;
+            if (!window.MSStream && /iPad|iPhone|iPod/.test(navigator.userAgent)) {
+                if ("standalone" in window.navigator && window.navigator.standalone) {
+                    this.style.height = document.documentElement.offsetHeight ? document.documentElement.offsetHeight : window.innerHeight + "px";
+                } else {
+                    if (state.ui.media.orientation == "portrait") {
+                        this.style.height = window.innerHeight < window.innerWidth ? window.innerWidth : window.innerHeight + "px";
+                    } else {
+                        this.style.height = window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight + "px";
+                    }
+                }
+            }
+        }
+        this.update();
+    }
 
-	static get properties() {
-		return {
-			mediaSize: {
-				type: String,
-				reflect: true,
-				attribute: "media-size",
-			},
-			layout: {
-				type: String,
-				reflect: true,
-			},
-			orientation: {
-				type: String,
-				reflect: true,
-			},
-		};
-	}
+    static get properties() {
+        return {
+            mediaSize: {
+                type: String,
+                reflect: true,
+                attribute: "media-size",
+            },
+            layout: {
+                type: String,
+                reflect: true,
+            },
+            orientation: {
+                type: String,
+                reflect: true,
+            },
+        };
+    }
 }
 
 window.customElements.define("view-manager", viewManager);
