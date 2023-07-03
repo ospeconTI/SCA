@@ -16,8 +16,8 @@ import { getAll as popupAll } from "./redux/popup/actions";
 import { getAll as sectoresAll } from "./redux/sectores/actions";
 
 if (process.env.NODE_ENV === "production") {
-    registerSW();
-    activateSW();
+	registerSW();
+	activateSW();
 }
 
 viewMode("main");
@@ -25,6 +25,7 @@ store.dispatch(popupAll());
 store.dispatch(sectoresAll());
 //store.dispatch(popupAll());
 store.dispatch(captureMedia());
+
 store.dispatch(goTo("inicial"));
 
 console.log("Sirviendo datos de :" + SERVICE_URL);
@@ -44,13 +45,13 @@ console.log("Sirviendo datos de :" + SERVICE_URL);
 }
  */
 export default {
-    login: (email, password) => {
-        store.dispatch(login(email, password));
-    },
-    cambioClave: () => {
-        store.dispatch(goTo("cambioClave"));
-    },
-    miembro: () => {
-        store.dispatch(goTo("serMiembro"));
-    },
+	login: (email, password) => {
+		store.dispatch(login(email, password));
+	},
+	cambioClave: () => {
+		store.dispatch(goTo("cambioClave"));
+	},
+	miembro: () => {
+		store.dispatch(goTo("serMiembro"));
+	},
 };

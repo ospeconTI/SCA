@@ -210,6 +210,7 @@ export class amparosScreen extends connect(store, TAREA_CARGA_A_AMPARO__RETORNO,
 		}
 	}
 	filtroSacar() {
+		this.filtro = false;
 		store.dispatch(getPlanesAll());
 	}
 	clickNodo(e) {
@@ -242,7 +243,8 @@ export class amparosScreen extends connect(store, TAREA_CARGA_A_AMPARO__RETORNO,
 	refresh() {
 		this.cargaArbolDe0 = true;
 		this.inicializarArbol();
-		store.dispatch(getPlanesAll());
+		//store.dispatch(getPlanesAll());
+		this.filtroSacar();
 	}
 	stateChanged(state, name) {
 		if (name == SCREEN || name == MEDIA_CHANGE) {
@@ -255,7 +257,8 @@ export class amparosScreen extends connect(store, TAREA_CARGA_A_AMPARO__RETORNO,
 			const SeMuestraEnUnasDeEstasPantallas = "-amparos-".indexOf("-" + state.screen.name + "-") != -1;
 			if (haveBodyArea && SeMuestraEnUnasDeEstasPantallas) {
 				if (hiddenAnterior) {
-					store.dispatch(getPlanesAll());
+					//store.dispatch(getPlanesAll());
+					this.filtroSacar();
 				}
 				this.hidden = false;
 			}
@@ -327,7 +330,9 @@ export class amparosScreen extends connect(store, TAREA_CARGA_A_AMPARO__RETORNO,
 			}
 		}
 		if (name == EVENTO_MOSTRAR_POPUP_TAREAS) {
-			if (state.eventos.mostrarPopupTareas.registro?.estado == "cumplida") {
+			if (state.eventos.mostrarPopupTareas.registro?.creador.id != state.autorizacion.entities.result.sectores[0].id) {
+				store.dispatch(showPopup("2.2", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+			} else if (state.eventos.mostrarPopupTareas.registro?.estado == "cumplida") {
 				store.dispatch(showPopup("2.2", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 			} else if (state.eventos.mostrarPopupTareas.registro?.esPorLapso) {
 				store.dispatch(showPopup("2.3", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
@@ -341,7 +346,8 @@ export class amparosScreen extends connect(store, TAREA_CARGA_A_AMPARO__RETORNO,
 			this.filtrar(state.entreComponentes.amparos_Filter01.campo, state.entreComponentes.amparos_Filter01.valor);
 		}
 		if (name == SACAR_FILTRO_AMPAROS || name == PLAN_ADD || name == PLAN_UPDATE) {
-			store.dispatch(getPlanesAll());
+			this.filtroSacar();
+			//store.dispatch(getPlanesAll());
 		}
 		if (name == TAREA_DAR_CUMPLIMIENTO_OK) {
 			store.dispatch(showWarning("Atencion", "Se dio como cumplido la tarea", "fondoOk", 3000));

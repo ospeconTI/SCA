@@ -7,7 +7,6 @@ export const dmdSelect = css`
 		grid-template-rows: 1fr auto 1fr;
 		grid-gap: 0rem;
 		color: var(--on-formulario);
-}
 	}
 	.dmd-select label {
 		font-size: 0.9rem;
@@ -29,7 +28,10 @@ export const dmdSelect = css`
 		appearance: none;
 		transition: all 0.3s ease-in-out;
 	}
-
+	.dmd-select select[disabled] {
+		background-color: var(--formulario-disabled);
+		color: var(--on-formulario-disable);
+	}
 	select:not([multiple]) {
 		height: 2.1rem;
 		padding: 0rem 2rem 0rem 0.6rem;

@@ -203,11 +203,11 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
 
 						<div class="dmd-select" helper ?hidden=${this.accion == "edit"}>
 							<label>Sector originante</label>
-							<select id="creador" ?disabled=${!this.camposEditables}>
-								<option value="-1" disabled selected hidden>Seleccione opcion</option>
+							<select id="creador" ?disabled=${true || !this.camposEditables}>
 								${store.getState().sectores.all.entities
 									? store.getState().sectores.all.entities.map((item, index) => {
-											return html`<option ?selected=${this.tarea?.creador?.id && item.id == this.tarea.creador.id} value=${item.id}>${item.descripcion}</option> `;
+											return html`<option ?selected=${this.selectedEjecutor(item.id)} value=${item.id}>${item.descripcion}</option> `;
+											//	return html`<option ?selected=${item.id == store.getState().miSetup.set.sectorId || (this.tarea?.creador?.id && item.id == this.tarea.creador.id)} value=${item.id}>${item.descripcion}</option> `;
 									  })
 									: ""}
 							</select>
@@ -307,6 +307,12 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
 			`;
 		}
 	}
+	selectedEjecutor(a) {
+		let reto = false;
+		if (this.accion == "add") a == store.getState().autorizacion.entities.result.sectores[0].id ? (reto = true) : (reto = false);
+		if (this.accion != "add") a == this.tarea?.creador?.id ? (reto = true) : (reto = false);
+		return reto;
+	}
 	stateChanged(state, name) {
 		if (name == SCREEN || name == MEDIA_CHANGE) {
 			this.mediaSize = state.ui.media.size;
@@ -397,7 +403,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
 			});
 			if (this.accion == "add") {
 				this.tarea = null;
-				this._creador.value = -1;
+				this._creador.value = store.getState().autorizacion.entities.result.sectores[0].id ? store.getState().autorizacion.entities.result.sectores[0].id : -1;
 				this._ejecutor.value = -1;
 				this._vigencia.value = "";
 				this._vencimiento.value = "";
@@ -410,8 +416,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
 				this._diaDelMes.value = "1";
 				this._cantidad.value = "";
 
-				this._creador.value = "59D94F07-8C27-482F-9CA8-0D711C8CCFF9";
-				this._ejecutor.value = "3484E196-3CCB-4085-AABF-536CB70CED78";
+				this._ejecutor.value = store.getState().autorizacion.entities.result.sectores[0].id ? store.getState().autorizacion.entities.result.sectores[0].id : -1;
 				this._vigencia.value = dateReturnForComponente("07/01/2023");
 				this._vencimiento.value = dateReturnForComponente("07/10/2023");
 				this._alerta.value = dateReturnForComponente("07/08/2023");

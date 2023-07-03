@@ -35,6 +35,7 @@ html {
 	--on-aplicacion-separador: rgba(0, 0, 0, 0.12);
 	--on-aplicacion-bajada: rgba(0, 0, 0, 0.6);
 	--formulario: rgba(238, 238, 238, 1);
+	--formulario-disabled: rgb(192, 192, 192);
 	--on-formulario: rgba(0, 0, 0, 0.87);
 	--on-formulario-disabled: rgba(0, 0, 0, 0.38);
 	--on-formulario-separador: rgba(0, 0, 0, 0.12);
@@ -46,6 +47,7 @@ html {
 @media (prefers-color-scheme: dark) {
 	html {
 		--formulario: #343434;
+		--formulario-disabled: rgb(72, 72, 72);
 		--on-formulario: rgba(255, 255, 255, 0.87);
 		--on-formulario-disabled: rgba(255, 255, 255, 0.38);
 		--on-formulario-separador: rgba(255, 255, 255, 0.12);
@@ -60,5 +62,6 @@ html {
 		--error: #cf6679;
 
 		--primario: var(--primario10);
+		--negro:rgb(255, 255, 255);
 	}
 }

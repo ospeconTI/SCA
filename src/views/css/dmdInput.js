@@ -26,6 +26,11 @@ export const dmdInput = css`
 	.dmd-input input {
 		height: 2.1rem;
 	}
+	.dmd-input input[disabled],
+	.dmd-input textarea[disabled] {
+		background-color: var(--formulario-disabled);
+		color: var(--on-formulario-disable);
+	}
 	.dmd-input input:focus,
 	.dmd-input textarea:focus {
 		background-color: var(--aplicacion);

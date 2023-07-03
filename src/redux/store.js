@@ -20,7 +20,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 let mdw = [api, rest, ...ui, ...route, ...autorizacion, ...planes, ...tareas, ...popup, ...sectores];
 
 if (process.env.NODE_ENV !== "production") {
-    mdw = [...mdw, logger];
+	mdw = [...mdw, logger];
 }
 
 const initialData = {};
