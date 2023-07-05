@@ -8,8 +8,8 @@ let webApi = SERVICE_URL + "/api/v1";
 let webApiNomenclador = NOMENCLADOR_URL + "/api";
 
 const expedienteOdataFactory = ODataFetchFactory({
-    fetch: fetch,
-    domain: webApiExpedientes,
+	fetch: fetch,
+	domain: webApiExpedientes,
 });
 export const autorizacionFetch = fetchFactory(webApi, "Autorizacion");
 export const acceptFetch = fetchFactory(webApi, "Autorizacion/Accept");
@@ -49,3 +49,4 @@ export const sectoresSumarIntegranteFetch = fetchFactory(webApi, "Sector/SumarIn
 export const sectoresQuitarIntegranteFetch = fetchFactory(webApi, "Sector/QuitarIntegrante");
 export const sectoresModificarIntegranteFetch = fetchFactory(webApi, "Sector/ModificarIntegrante");
 export const sectoresUsuarioHacerResponsableFetch = fetchFactory(webApi, "Sector/HacerResponsable");
+export const sectoresGetAllUsuariosFetch = fetchFactory(webApi, "Sector/allUsuarios");

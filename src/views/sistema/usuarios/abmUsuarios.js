@@ -13,31 +13,24 @@ import { dmdGridThemeNormal } from "../../componentes/grid/css/dmdGridThemeNorma
 import { dmdInput } from "../../css/dmdInput";
 import { dmdButton } from "../../css/dmdButton";
 
-import { getAll as getAllSectores } from "../../../redux/sectores/actions";
-import { cargaUsuarios_Load01 } from "../../../redux/entreComponentes/actions";
-import { usuarioHacerResponsable } from "../../../redux/sectores/actions";
+import { getAllUsuarios as getTable } from "../../../redux/sectores/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 
-const SECTORES_ALL = "sectores.all.timeStamp";
-const USUARIO_HACER_RESPONSABLE = "sectores.usuarioHacerResponsable.timeStamp";
-const USUARIO_HACER_RESPONSABLE_ERROR = "sectores.usuarioHacerResponsable.errorTimeStamp";
+const TABLE = "sectores.usuariosAll.timeStamp";
+const TABLE_ERROR = "sectores.usuariosAll.errorTimeStamp";
 
-const SHOW = "entreComponentes.verUsuarios_Load01.timeStamp";
-
-export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPONSABLE, USUARIO_HACER_RESPONSABLE_ERROR, SECTORES_ALL, SHOW, MEDIA_CHANGE, SCREEN)(LitElement)) {
+export class abmUsuarios extends dmdGridBase(connect(store, TABLE, TABLE_ERROR, MEDIA_CHANGE, SCREEN)(LitElement)) {
 	constructor() {
 		super();
 		this.area = "body";
 		this.current = "";
 		this.hidden = true;
-		this.grid = [];
 		this.dataSource = [];
 		this.item = {};
+		this.grid = [];
 		this.usuarioRol = "CEMAP";
-		this.sector = null;
-		this.accion = null;
 	}
 	firstUpdated() {
 		super.firstUpdated();
@@ -51,32 +44,27 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 			${dmdButton}
 			:host {
 				display: grid;
-				position: fixed;
-				top: 0;
-				left: 0;
+				position: relative;
 				height: 100%;
 				width: 100%;
-				background-color: rgba(0, 0, 0, 0.4);
+				background-color: var(--color-fondo);
 				grid-gap: 1rem;
 				overflow-y: auto;
 				justify-items: center;
-				z-index: 99;
 			}
 
 			:host([hidden]) {
 				display: none;
 			}
 			.dmd-grid {
-				height: 60%;
+				height: 95%;
 				min-height: 20rem;
-				width: 60rem;
-				align-self: center;
-				box-shadow: 2px 2px 7px -1px var(--on-aplicacion);
-				border: 0;
+				width: 95%;
+				padding-top: 1rem;
 			}
 			.dmd-grid-datos-titulos,
 			.dmd-grid-datos-registros {
-				grid-template-columns: 14rem 14rem 13rem 8rem 8rem;
+				grid-template-columns: 14rem 14rem 13rem 14rem 8rem;
 			}
 			.dmd-grid-datos-registros[fondorojo] {
 				color: var(--color-error) !important;
@@ -96,7 +84,7 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 				<div class="dmd-grid-velo" hidden></div>
 				<div class="dmd-grid-cabecera">
 					<div @click=${this._menuOcultarDmdGrid}>${MENU}</div>
-					<label>Usuarios del Sector: ${"   " + this.sector?.descripcion}</label>
+					<label>Administracion de usuarios</label>
 					<div class="dmd-grid-cabecera-find">
 						<input class="dmd-grid-cabecera-find-input" hidden type="text" autocomplete="off" value="" />
 						<buscar class="dmd-grid-cabecera-find-buscar">${SEARCH}</buscar>
@@ -147,24 +135,21 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 			</div>
 		`;
 	}
-	responsable(e) {
+	usuarios(e) {
 		let seleccionado = this.shadowRoot.querySelector("[seleccionado]");
 		if (seleccionado) {
-			let body = {};
-			body.sectorId = this.sector.id;
-			body.identificador = this.item.identificacion;
-			store.dispatch(usuarioHacerResponsable(body));
+			store.dispatch(verUsuarios_Load01(this.item.usuarios, this.item, "abm"));
 		} else {
 			store.dispatch(showWarning("Atencion!", "No selecciono registro.", "fondoError", 3000));
 		}
 	}
 	alta(e) {
-		store.dispatch(cargaUsuarios_Load01(null, this.sector, "add"));
+		store.dispatch(cargaSectores_Load01(null, "add"));
 	}
 	modificar(e) {
 		let seleccionado = this.shadowRoot.querySelector("[seleccionado]");
 		if (seleccionado) {
-			store.dispatch(cargaUsuarios_Load01(this.item, this.sector, "edit"));
+			store.dispatch(cargaSectores_Load01(this.item, "edit"));
 		} else {
 			store.dispatch(showWarning("Atencion!", "No selecciono registro.", "fondoError", 3000));
 		}
@@ -172,7 +157,6 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 	eliminar() {
 		let seleccionado = this.shadowRoot.querySelector("[seleccionado]");
 		if (seleccionado) {
-			store.dispatch(cargaUsuarios_Load01(this.item, this.sector, "delete"));
 		} else {
 			store.dispatch(showWarning("Atencion!", "No selecciono registro.", "fondoError", 3000));
 		}
@@ -182,39 +166,26 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 		this.item = e.currentTarget.item;
 	}
 	atras() {
-		this.hidden = true;
+		store.dispatch(goHistoryPrev());
 	}
 	stateChanged(state, name) {
 		if (name == SCREEN || name == MEDIA_CHANGE) {
 			this.mediaSize = state.ui.media.size;
+			this.hidden = true;
 			this.current = state.screen.name;
-		}
-		if (name == SHOW) {
-			this.dataSource = state.entreComponentes.verUsuarios_Load01.usuariosItems;
-			this.sector = state.entreComponentes.verUsuarios_Load01.sectorItem;
-			this.accion = state.entreComponentes.verUsuarios_Load01.accion;
-			this.grid = this.dataSource;
-			//this._buscarDmdGrid();
-			this.hidden = false;
-			this.update();
-		}
-		if (name == USUARIO_HACER_RESPONSABLE) {
-			store.dispatch(showWarning("Atencion!", "El registro fue actualizado.", "fondoOk", 3000));
-			store.dispatch(getAllSectores());
-		}
-		if (name == USUARIO_HACER_RESPONSABLE_ERROR) {
-			store.dispatch(showWarning("Atencion!", "El registro no fue actualizado, intente nuevamente.", "fondoError", 3000));
-		}
-		if (name == SECTORES_ALL) {
-			if (this.sector) {
-				let r = state.sectores.all.entities.filter((item) => {
-					return item.id == this.sector.id;
-				});
-				if (r.length > 0) {
-					this.dataSource = r[0].usuarios;
-					this._buscarDmdGrid();
-				}
+			const haveBodyArea = isInLayout(state, this.area);
+			const SeMuestraEnUnasDeEstasPantallas = "-abmUsuarios-".indexOf("-" + state.screen.name + "-") != -1;
+			if (haveBodyArea && SeMuestraEnUnasDeEstasPantallas) {
+				this.hidden = false;
+				store.dispatch(getTable());
 			}
+		}
+		if (name == TABLE) {
+			this.dataSource = state.sectores.usuariosAll.entities;
+			this._buscarDmdGrid();
+		}
+		if (name == TABLE_ERROR && state.screen.name == "abmUsuarios") {
+			store.dispatch(showWarning("Error", "No se pudo acceder a los datos, verifique su conexion", "fondoError", 4000));
 		}
 	}
 
@@ -247,4 +218,4 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 		};
 	}
 }
-window.customElements.define("ver-usuarios", verUsuarios);
+window.customElements.define("abm-usuarios", abmUsuarios);

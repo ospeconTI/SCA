@@ -32,11 +32,14 @@ import {
 	USUARIO_HACER_RESPONSABLE,
 	USUARIO_HACER_RESPONSABLE_SUCCESS,
 	USUARIO_HACER_RESPONSABLE_ERROR,
+	GET_ALL_USUARIOS,
+	GET_ALL_USUARIOS_SUCCESS,
+	GET_ALL_USUARIOS_ERROR,
 } from "./actions";
 
 import { RESTRequest, RESTAdd, RESTDelete, RESTUpdate, RESTPatch } from "../rest/actions";
 
-import { sectoresGetByIdFetch, sectoresGetAllFetch, sectoresGetByDescripcioniFetch, sectoresAddFetch, sectoresUpdateFetch, sectoresSumarIntegranteFetch, sectoresQuitarIntegranteFetch, sectoresModificarIntegranteFetch, sectoresUsuarioHacerResponsableFetch } from "../fetchs";
+import { sectoresGetByIdFetch, sectoresGetAllFetch, sectoresGetByDescripcioniFetch, sectoresAddFetch, sectoresUpdateFetch, sectoresSumarIntegranteFetch, sectoresQuitarIntegranteFetch, sectoresModificarIntegranteFetch, sectoresUsuarioHacerResponsableFetch, sectoresGetAllUsuariosFetch } from "../fetchs";
 
 export const getById =
 	({ dispatch }) =>
@@ -65,6 +68,16 @@ export const getAll =
 		next(action);
 		if (action.type === GET_ALL) {
 			dispatch(RESTRequest(sectoresGetAllFetch, null, GET_ALL_SUCCESS, GET_ALL_ERROR, action.token));
+		}
+	};
+
+export const getAllUsuarios =
+	({ dispatch }) =>
+	(next) =>
+	(action) => {
+		next(action);
+		if (action.type === GET_ALL_USUARIOS) {
+			dispatch(RESTRequest(sectoresGetAllUsuariosFetch, null, GET_ALL_USUARIOS_SUCCESS, GET_ALL_USUARIOS_ERROR, action.token));
 		}
 	};
 
@@ -175,4 +188,4 @@ export const processError =
 		}
 	};
 
-export const middleware = [getById, usuarioHacerResponsable, getByDescripcion, getAll, add, update, patch, remove, sumarIntegrante, quitarIntegrante, modificarIntegrante, processGet, processComand, processError];
+export const middleware = [getById, usuarioHacerResponsable, getByDescripcion, getAll, getAllUsuarios, add, update, patch, remove, sumarIntegrante, quitarIntegrante, modificarIntegrante, processGet, processComand, processError];

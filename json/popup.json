@@ -205,6 +205,14 @@
             {
                 "menu": "2.1",
                 "orden": 1
+            },
+            {
+                "menu": "2.4",
+                "orden": 1
+            },
+            {
+                "menu": "2.6",
+                "orden": 1
             }
         ],
         "tipo": null,
@@ -281,6 +289,22 @@
             {
                 "menu": "2.3",
                 "orden": 0
+            },
+            {
+                "menu": "2.4",
+                "orden": 0
+            },
+            {
+                "menu": "2.5",
+                "orden": 0
+            },
+            {
+                "menu": "2.6",
+                "orden": 0
+            },
+            {
+                "menu": "2.7",
+                "orden": 0
             }
         ],
         "tipo": "titulo",
@@ -297,6 +321,14 @@
             },
             {
                 "menu": "2.1",
+                "orden": 2
+            },
+            {
+                "menu": "2.4",
+                "orden": 2
+            },
+            {
+                "menu": "2.6",
                 "orden": 2
             }
         ],
@@ -317,6 +349,14 @@
             {
                 "menu": "2.1",
                 "orden": 3
+            },
+            {
+                "menu": "2.4",
+                "orden": 3
+            },
+            {
+                "menu": "2.6",
+                "orden": 3
             }
         ],
         "tipo": null,
@@ -335,6 +375,14 @@
             },
             {
                 "menu": "2.3",
+                "orden": 1
+            },
+            {
+                "menu": "2.6",
+                "orden": 4
+            },
+            {
+                "menu": "2.7",
                 "orden": 1
             }
         ],
@@ -355,6 +403,14 @@
             {
                 "menu": "2.3",
                 "orden": 2
+            },
+            {
+                "menu": "2.4",
+                "orden": 4
+            },
+            {
+                "menu": "2.5",
+                "orden": 1
             }
         ],
         "tipo": null,
@@ -374,6 +430,14 @@
             {
                 "menu": "2.3",
                 "orden": 3
+            },
+            {
+                "menu": "2.4",
+                "orden": 5
+            },
+            {
+                "menu": "2.5",
+                "orden": 2
             }
         ],
         "tipo": null,
@@ -401,6 +465,22 @@
             {
                 "menu": "2.3",
                 "orden": 4
+            },
+            {
+                "menu": "2.4",
+                "orden": 4
+            },
+            {
+                "menu": "2.5",
+                "orden": 3
+            },
+            {
+                "menu": "2.6",
+                "orden": 5
+            },
+            {
+                "menu": "2.7",
+                "orden": 2
             }
         ],
         "tipo": null,

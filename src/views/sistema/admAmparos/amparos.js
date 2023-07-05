@@ -330,16 +330,41 @@ export class amparosScreen extends connect(store, TAREA_CARGA_A_AMPARO__RETORNO,
 			}
 		}
 		if (name == EVENTO_MOSTRAR_POPUP_TAREAS) {
-			if (state.eventos.mostrarPopupTareas.registro?.ejecutor.id != state.autorizacion.entities.result.sectores[0].id) {
+			//2.0 nueva tarea simple, lapso, fecha, cumplimiento, mod, eliminar, ver
+			//2.4 nueva tarea simple, lapso, fecha, mod, eliminar, ver
+			//2.6 nueva tarea simple, lapso, fecha, cumplimiento, ver
+			//2.1 nueva tarea simple, lapso, fecha, ver
+			//2.7 cumplimiento, ver
+			//2.2 ver
+			//2.3 cumplimiento, mod, eliminar, ver
+			//2.5 mod, eliminar, ver
+			let tareaSectorEjecutor = state.eventos.mostrarPopupTareas.registro?.ejecutor.id;
+			let tareaSectorCreador = state.eventos.mostrarPopupTareas.registro?.creador.id;
+			let tareaPorLapso = state.eventos.mostrarPopupTareas.registro?.esPorLapso;
+			let tareaEstado = state.eventos.mostrarPopupTareas.registro?.estado;
+			let tareaConHijos = state.eventos.mostrarPopupTareas.registro?.conTareas;
+			let usuarioSector = state.autorizacion.entities.result.sectores[0].id;
+
+			if (tareaSectorCreador != usuarioSector && tareaSectorEjecutor != usuarioSector) {
 				store.dispatch(showPopup("2.2", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-			} else if (state.eventos.mostrarPopupTareas.registro?.estado == "cumplida") {
-				store.dispatch(showPopup("2.2", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-			} else if (state.eventos.mostrarPopupTareas.registro?.esPorLapso) {
-				store.dispatch(showPopup("2.3", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-			} else if (state.eventos.mostrarPopupTareas.registro?.conTareas) {
-				store.dispatch(showPopup("2.1", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-			} else if (!state.eventos.mostrarPopupTareas.registro?.conTareas) {
+			} else if (tareaSectorCreador == usuarioSector && tareaSectorEjecutor == usuarioSector && !tareaPorLapso && !tareaConHijos) {
 				store.dispatch(showPopup("2.0", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+			} else if (tareaSectorCreador == usuarioSector && tareaSectorEjecutor == usuarioSector && !tareaPorLapso && tareaConHijos) {
+				store.dispatch(showPopup("2.1", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+			} else if (tareaSectorCreador == usuarioSector && tareaSectorEjecutor == usuarioSector && tareaPorLapso) {
+				store.dispatch(showPopup("2.3", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+			} else if (tareaSectorCreador == usuarioSector && tareaSectorEjecutor != usuarioSector && !tareaPorLapso && !tareaConHijos) {
+				store.dispatch(showPopup("2.5", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+			} else if (tareaSectorCreador == usuarioSector && tareaSectorEjecutor != usuarioSector && !tareaPorLapso && tareaConHijos) {
+				store.dispatch(showPopup("2.2", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+			} else if (tareaSectorCreador == usuarioSector && tareaSectorEjecutor != usuarioSector && tareaPorLapso) {
+				store.dispatch(showPopup("2.5", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+			} else if (tareaSectorCreador != usuarioSector && tareaSectorEjecutor == usuarioSector && !tareaPorLapso && !tareaConHijos) {
+				store.dispatch(showPopup("2.6", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+			} else if (tareaSectorCreador != usuarioSector && tareaSectorEjecutor == usuarioSector && !tareaPorLapso && tareaConHijos) {
+				store.dispatch(showPopup("2.1", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+			} else if (tareaSectorCreador != usuarioSector && tareaSectorEjecutor == usuarioSector && tareaPorLapso) {
+				store.dispatch(showPopup("2.7", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 			}
 		}
 		if (name == FILTRO_AMPAROS) {

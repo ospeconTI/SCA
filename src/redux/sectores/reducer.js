@@ -24,6 +24,8 @@ import {
 	MODIFICAR_INTEGRANTE_ERROR,
 	USUARIO_HACER_RESPONSABLE_SUCCESS,
 	USUARIO_HACER_RESPONSABLE_ERROR,
+	GET_ALL_USUARIOS_SUCCESS,
+	GET_ALL_USUARIOS_ERROR,
 } from "./actions";
 
 const initialState = {
@@ -67,6 +69,12 @@ const initialState = {
 		timeStamp: null,
 		errorTimeStamp: null,
 	},
+	usuariosAll: {
+		entities: null,
+		count: 0,
+		timeStamp: null,
+		errorTimeStamp: null,
+	},
 };
 
 export const reducer = (state = initialState, action) => {
@@ -86,6 +94,10 @@ export const reducer = (state = initialState, action) => {
 		case GET_ALL_SUCCESS:
 			newState.all.entities = action.payload.receive.sort((a, b) => a.descripcion.localeCompare(b.descripcion));
 			newState.all.timeStamp = new Date().getTime();
+			break;
+		case GET_ALL_USUARIOS_SUCCESS:
+			newState.usuariosAll.entities = action.payload.receive.sort((a, b) => a.apellido.localeCompare(b.apellido));
+			newState.usuariosAll.timeStamp = new Date().getTime();
 			break;
 		case EDIT:
 			newState.editTimeStamp = new Date().getTime();
@@ -125,6 +137,10 @@ export const reducer = (state = initialState, action) => {
 		case GET_ALL_ERROR:
 			newState.all.entities = null;
 			newState.all.errorTimeStamp = new Date().getTime();
+			break;
+		case GET_ALL_USUARIOS_ERROR:
+			newState.usuariosAll.entities = null;
+			newState.usuariosAll.errorTimeStamp = new Date().getTime();
 			break;
 		case SUMAR_INTEGRANTE_ERROR:
 			newState.sumarIntegrante.errorTimeStamp = new Date().getTime();

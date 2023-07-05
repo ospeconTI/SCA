@@ -175,13 +175,15 @@ export class popupControl extends connect(store, SHOW, HIDDEN)(LitElement) {
 			if (a.length > 0) {
 				this.items = JSON.parse(JSON.stringify(a));
 				this.items.map((item, index) => {
+					let mOpc = {};
 					item.opcion.map((itOp, inOp) => {
-						if (itOp.menu != state.popup.show.opcion) {
-							let rr = this.items[index];
-							let yy = this.items[index].opcion;
-							this.items[index].opcion.splice(inOp, 1);
+						if (itOp.menu == state.popup.show.opcion) {
+							//this.items[index].opcion.splice(inOp, 1);
+							mOpc = itOp;
 						}
 					});
+					this.items[index].opcion = [];
+					this.items[index].opcion.push(mOpc);
 				});
 				let rr = this.items;
 				this.items.sort((a, b) => a.opcion[0].orden - b.opcion[0].orden);

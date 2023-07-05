@@ -1,6 +1,7 @@
 export const GET_BY_ID = "[sectores] GET_BY_ID";
 export const GET_BY_DESCRIPCION = "[sectores] GET_BY_DESCRIPCION";
 export const GET_ALL = "[sectores] GET_ALL";
+export const GET_ALL_USUARIOS = "[sectores] GET_ALL_USUARIOS";
 export const ADD = "[sectores] ADD";
 export const PATCH = "[sectores] PATCH";
 export const UPDATE = "[sectores] UPDATE";
@@ -14,6 +15,7 @@ export const USUARIO_HACER_RESPONSABLE = "[sectores] USUARIO_HACER_RESPONSABLE";
 export const GET_BY_ID_SUCCESS = "[sectores] GET_BY_ID success";
 export const GET_BY_DESCRIPCION_SUCCESS = "[sectores] GET_BY_DESCRIPCION success";
 export const GET_ALL_SUCCESS = "[sectores] GET_ALL success";
+export const GET_ALL_USUARIOS_SUCCESS = "[sectores] GET_ALL_USUARIOS success";
 export const ADD_SUCCESS = "[sectores] ADD success";
 export const PATCH_SUCCESS = "[sectores] PATCH success";
 export const UPDATE_SUCCESS = "[sectores] UPDATE success";
@@ -26,6 +28,7 @@ export const USUARIO_HACER_RESPONSABLE_SUCCESS = "[sectores] USUARIO_HACER_RESPO
 export const GET_BY_ID_ERROR = "[sectores] GET_BY_ID error";
 export const GET_BY_DESCRIPCION_ERROR = "[sectores] GET_BY_DESCRIPCION error";
 export const GET_ALL_ERROR = "[sectores] GET_ALL error";
+export const GET_ALL_USUARIOS_ERROR = "[sectores] GET_ALL_USUARIOS error";
 export const ADD_ERROR = "[sectores] ADD error";
 export const PATCH_ERROR = "[sectores] PATCH error";
 export const UPDATE_ERROR = "[sectores] UPDATE error";
@@ -54,6 +57,13 @@ export const getAll = (options) => ({
 	options: options,
 	success: GET_ALL_SUCCESS,
 	error: GET_ALL_ERROR,
+});
+
+export const getAllUsuarios = (options) => ({
+	type: GET_ALL_USUARIOS,
+	options: options,
+	success: GET_ALL_USUARIOS_SUCCESS,
+	error: GET_ALL_USUARIOS_ERROR,
 });
 
 export const add = (body, token) => ({

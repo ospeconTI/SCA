@@ -10,6 +10,7 @@ import { dateToFrench } from "../../../libs/funciones";
 import { mostrarHijos, mostrarPopupTareas } from "../../../redux/eventos/actions";
 import { tareaCarga_Load01 as mostrarTareaCarga, verUsuarios_Load01 as verUsuarios } from "../../../redux/entreComponentes/actions";
 import { getById as sectorGetById } from "../../../redux/sectores/actions";
+import { animaciones } from "../../css/animaciones";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -24,11 +25,12 @@ export class tareaComponente extends connect(store, SECTOR_BY_ID, SECTOR_BY_ID_E
 	}
 	static get styles() {
 		return css`
+			${animaciones}
 			:host {
 				display: grid;
 				position: relative;
 				background-color: var(--formulario);
-				animation: fadeInDown 1s;
+				animation: fadeIn 1s;
 			}
 			:host::-webkit-scrollbar {
 				display: none;
@@ -152,16 +154,6 @@ export class tareaComponente extends connect(store, SECTOR_BY_ID, SECTOR_BY_ID_E
 			}
 			svg {
 				fill: var(--on-formulario);
-			}
-			@keyframes fadeInDown {
-				from {
-					opacity: 0;
-					/* transform: translate3d(0, -2000px, 0); */
-				}
-				to {
-					opacity: 1;
-					/* transform: translate3d(0, 0, 0); */
-				}
 			}
 		`;
 	}

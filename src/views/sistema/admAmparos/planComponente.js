@@ -5,6 +5,7 @@ import { store } from "../../../redux/store";
 import { connect } from "@brunomon/helpers";
 import { showWarning } from "../../../redux/ui/actions";
 import { POSTERIOR, ABAJO, TRESPUNTOS } from "../../../../assets/icons/svgs";
+import { animaciones } from "../../css/animaciones";
 
 import { mostrarHijos, mostrarPopupPlanes } from "../../../redux/eventos/actions";
 
@@ -18,27 +19,25 @@ export class planComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitElem
 	}
 	static get styles() {
 		return css`
+			${animaciones}
 			:host {
 				display: grid;
 				position: relative;
-				background-color: var(--aplicacion);
-				animation: fadeInDown 1s;
+				background-color: var(--formulario);
+				animation: fadeIn 1s;
 			}
 			:host::-webkit-scrollbar {
 				display: none;
 			}
 			#div-trajeta {
 				display: grid;
-				background-color: var(--formulario);
+				background-color: transparent;
 				grid-template-columns: 0.4rem 18rem;
 				align-content: center;
 				padding: 0rem;
 				border-radius: 4px;
 				gap: 0m;
 				border: solid 1px var(--formulario);
-			}
-			#div-trajeta[cursorpointer] {
-				/* cursor: pointer; */
 			}
 			#div-trajeta[seleccionado] {
 				background-color: var(--aplicacion);
@@ -128,24 +127,6 @@ export class planComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitElem
 				width: auto;
 				height: 1.4rem;
 			}
-			@keyframes fadeInDown {
-				from {
-					opacity: 0;
-				}
-
-				to {
-					opacity: 1;
-				}
-			}
-			@keyframes altaPlan {
-				from {
-					background-color: var(--formulario);
-				}
-
-				to {
-					background-color: var(--on-formulario);
-				}
-			}
 		`;
 	}
 	firstUpdated() {
@@ -153,6 +134,9 @@ export class planComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitElem
 	}
 	willUpdate(changedProperties) {
 		if (changedProperties.has("registro")) {
+			//let rr = this.registro;
+			//let u = this.registro.fechaDeAlta.toLocaleString();
+			//this.style["-webkit-animation-iteration-count"] = "4";
 			this.expandido = false;
 			if (this.registro?.conTareas && this.registroseleccionado?.id == this.registro?.id) {
 				this.expandido = true;
@@ -165,10 +149,12 @@ export class planComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitElem
 			}
 		}
 	}
+	updated(changedProperties) {}
+
 	render() {
 		if (this.registro) {
 			return html`
-				<div id="div-trajeta" ?cursorpointer=${this.registro.conTareas} ?seleccionado=${this.registroseleccionado?.id == this.registro.id}>
+				<div id="div-trajeta" ?seleccionado=${this.registroseleccionado?.id == this.registro.id}>
 					<div id="div-estado" ?cumplido=${this.registro.estado == "cumplida"} ?alertado=${this.registro.estado == "alerta"} ?vencida=${this.registro.estado == "vencida"} ?pendiente=${this.registro.estado == "pendiente"} ?vigente=${this.registro.estado == "vigente"} ?pausada=${this.registro.estado == "pausada"} ?anulada=${this.registro.estado == "anualada"}></div>
 					<div id="div-cuerpo">
 						<textarea id="textarea-titulo" readonly>${this.registro.descripcion}</textarea>

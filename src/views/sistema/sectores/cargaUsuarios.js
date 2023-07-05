@@ -119,8 +119,8 @@ export class cargaUsuarios extends connect(store, MODIFICAR_USUARIO, MODIFICAR_U
 	get _email() {
 		return this.shadowRoot.querySelector("#email");
 	}
-	get _interno() {
-		return this.shadowRoot.querySelector("#interno");
+	get _contacto() {
+		return this.shadowRoot.querySelector("#contacto");
 	}
 	get _botonAceptar() {
 		return this.shadowRoot.getElementById("btnAceptar");
@@ -169,10 +169,10 @@ export class cargaUsuarios extends connect(store, MODIFICAR_USUARIO, MODIFICAR_U
 					</div>
 
 					<div class="dmd-input" helper>
-						<label>Numero de interno</label>
-						<input type="number" id="interno" ?disabled=${this.accion == "view"} autocomplete="off" autocomplete="off" placeholder="" value="" />
-						<div>Debe ingresar el interno</div>
-						<span>Ingrese numeros</span>
+						<label>Contacto</label>
+						<input type="text" id="contacto" ?disabled=${this.accion == "view"} autocomplete="off" autocomplete="off" placeholder="" value="" />
+						<div>Debe ingresar el contacto</div>
+						<span>Ingrese datos para contactarse</span>
 						${INFO}
 					</div>
 
@@ -195,12 +195,12 @@ export class cargaUsuarios extends connect(store, MODIFICAR_USUARIO, MODIFICAR_U
 				this._apellido.value = "";
 				this._nombre.value = "";
 				this._email.value = "";
-				this._interno.value = "";
+				this._contacto.value = "";
 			} else if (this.accion == "edit" || this.accion == "delete") {
 				this._apellido.value = this.item.apellido;
 				this._nombre.value = this.item.nombre;
 				this._email.value = this.item.email;
-				this._interno.value = this.item.interno;
+				this._contacto.value = this.item.contacto;
 			}
 			this.hidden = false;
 		}
@@ -235,16 +235,16 @@ export class cargaUsuarios extends connect(store, MODIFICAR_USUARIO, MODIFICAR_U
 			ok = false;
 			this._email.setAttribute("error", "");
 		}
-		if (this._interno.value == "") {
+		if (this._contacto.value == "") {
 			ok = false;
-			this._interno.setAttribute("error", "");
+			this._contacto.setAttribute("error", "");
 		}
 		if (ok) {
 			let body = {};
 			body.apellido = this._apellido.value;
 			body.nombre = this._nombre.value;
 			body.email = this._email.value;
-			body.interno = Number(this._interno.value);
+			body.contacto = this._contacto.value;
 			body.identificador = uuidv4();
 			body.sectorId = this.sector.id;
 			if (this.accion == "add") {

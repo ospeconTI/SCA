@@ -227,6 +227,7 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, SELECTIO
 				<button link ?selected="${this.selectedOption[0]}" @click=${this.click} .option=${"inicial"}>Home</button>
 				<button link ?selected="${this.selectedOption[1]}" @click=${this.click} .option=${"amparos"}>Planes</button>
 				<button link ?selected="${this.selectedOption[2]}" @click=${this.click} .option=${"verSectores"}>Sectores</button>
+				<button link ?selected="${this.selectedOption[3]}" @click=${this.click} .option=${"abmUsuarios"}>Usuarios</button>
 
 				<div id="acceso" ?logueado="${this.logueado}">
 					<button link etiqueta ?selected="${this.selectedOption[2]}" @click=${this.abrir} .option=${"log"}>
