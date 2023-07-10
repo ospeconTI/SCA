@@ -391,11 +391,13 @@ export class amparosScreen extends connect(
 				if (tareaEstado != "cumplida") store.dispatch(showPopup("2.3", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 				if (tareaEstado == "cumplida") store.dispatch(showPopup("2.9", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 			} else if (soySoloCreador && !tareaPorLapso && !tareaConHijos) {
-				store.dispatch(showPopup("2.5", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				if (tareaEstado != "cumplida") store.dispatch(showPopup("2.5", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				if (tareaEstado == "cumplida") store.dispatch(showPopup("2.2", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 			} else if (soySoloCreador && !tareaPorLapso && tareaConHijos) {
 				store.dispatch(showPopup("2.2", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 			} else if (soySoloCreador && tareaPorLapso) {
-				store.dispatch(showPopup("2.5", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				if (tareaEstado != "cumplida") store.dispatch(showPopup("2.5", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				if (tareaEstado == "cumplida") store.dispatch(showPopup("2.2", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 			} else if (soySoloEjecutor && !tareaPorLapso && !tareaConHijos) {
 				if (tareaEstado != "cumplida") store.dispatch(showPopup("2.6", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 				if (tareaEstado == "cumplida") store.dispatch(showPopup("2.10", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
