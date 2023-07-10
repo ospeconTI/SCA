@@ -14,11 +14,15 @@ export const dmdGridBase = (baseElement) =>
 			super.firstUpdated();
 			let buscar = this.shadowRoot.querySelector(".dmd-grid-cabecera-find-buscar");
 			let cerrar = this.shadowRoot.querySelector(".dmd-grid-cabecera-find-cerrar");
+			let inputBusqueda = this.shadowRoot.querySelector(".dmd-grid-cabecera-find-input");
 			if (buscar) {
 				buscar.addEventListener("click", this.__findMostarDmdGrid.bind(this));
 			}
 			if (cerrar) {
 				cerrar.addEventListener("click", this.__findCerrarDmdGrid.bind(this));
+			}
+			if (inputBusqueda) {
+				inputBusqueda.addEventListener("input", this._buscarDmdGrid.bind(this));
 			}
 			this.camposOrden = {};
 			[].forEach.call(this.shadowRoot.querySelectorAll("[dmd-grid-orden]"), (element) => {

@@ -27,7 +27,7 @@ export class esperarAutorizacion extends connect(store, MEDIA_CHANGE, SCREEN)(Li
 				display: grid;
 				height: 100%;
 				width: 100%;
-				background-color: var(--formulario);
+				background-color: var(--aplicacion);
 				justify-content: center;
 				align-content: flex-start;
 				padding-top: 10rem;
@@ -38,16 +38,18 @@ export class esperarAutorizacion extends connect(store, MEDIA_CHANGE, SCREEN)(Li
 			#ventana {
 				padding: 5rem;
 				width: 40vw;
-				border: solid 0.1px var(--on-aplicacion-bajada);
+				border: solid 0.1px var(--on-formulario-bajada);
 				font-size: var(--font-header-h1-size);
 				font-weight: 200;
-				background-color: var(--aplicacion);
-				color: var(--on-aplicacion);
+				background-color: var(--formulario);
+				color: var(--on-formulario);
+				box-shadow: 2px 2px 7px -1px var(--on-formulario-bajada);
+				border-radius: 4px;
 			}
 		`;
 	}
 	render() {
-		return html` <div id="ventana">El administrador del sistema todavia no autorizó su ingreso al sistema, aguarde el mail de confirmación.</div> `;
+		return html` <div id="ventana">El administrador del sistema por el momento no autorizó su ingreso al sistema. Aguarde el mail de confirmación.</div> `;
 	}
 	stateChanged(state, name) {
 		if (name == SCREEN || name == MEDIA_CHANGE) {
