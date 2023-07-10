@@ -14,7 +14,7 @@ import { popupControl } from "../../../views/componentes/popup";
 import { armoTareas, recursiveSearch } from "../../../libs/funciones";
 
 import { UPDATE, getAll as getPlanesAll } from "../../../redux/planes/actions";
-import { getByPlanId as getTareasByPlanId, darCumplimiento as tareaDarCumplimiento } from "../../../redux/tareas/actions";
+import { getByPlanId as getTareasByPlanId, darCumplimiento as tareaDarCumplimiento, quitarCumplimiento as tareaQuitarCumplimiento } from "../../../redux/tareas/actions";
 import { show as showPopup, hidden as hiddenPopup } from "../../../redux/popup/actions";
 import { planCarga_Load01 } from "../../../redux/entreComponentes/actions";
 
@@ -41,12 +41,38 @@ const TAREA_DAR_CUMPLIMIENTO_OK = "tareas.darCumplimientoTimeStamp";
 const TAREA_DAR_CUMPLIMIENTO_ERROR = "tareas.errorDarCumplimientoTimeStamp";
 const EVENTO_EJECUTAR_TAREA_DAR_CUMPLIMIENTO = "eventos.ejecutarTareaDarCumplimiento.timeStamp";
 
+const TAREA_QUITAR_CUMPLIMIENTO_OK = "tareas.quitarCumplimientoTimeStamp";
+const TAREA_QUITAR_CUMPLIMIENTO_ERROR = "tareas.errorQuitarCumplimientoTimeStamp";
+const EVENTO_EJECUTAR_TAREA_QUITAR_CUMPLIMIENTO = "eventos.ejecutarTareaQuitarCumplimiento.timeStamp";
+
 const PLAN_ADD = "planes.addTimeStamp";
 const PLAN_UPDATE = "planes.updateTimeStamp";
 
 const TAREA_CARGA_A_AMPARO__RETORNO = "entreComponentes.tareaCargaAAmparo_Retorno01.timeStamp";
 
-export class amparosScreen extends connect(store, TAREA_CARGA_A_AMPARO__RETORNO, EVENTO_EJECUTAR_TAREA_DAR_CUMPLIMIENTO, TAREA_DAR_CUMPLIMIENTO_OK, TAREA_DAR_CUMPLIMIENTO_ERROR, FILTRO_AMPAROS, PLAN_ADD, SACAR_FILTRO_AMPAROS, EVENTO_MOSTRAR_POPUP_PLANES, EVENTO_MOSTRAR_POPUP_TAREAS, EVENTO_MOSTRAR_HIJOS, PLANES_OK, PLANES_ERROR, PLAN_UPDATE, TAREAS_BY_PLAN_ID_OK, TAREAS_BY_PLAN_ID_ERROR, MEDIA_CHANGE, SCREEN)(LitElement) {
+export class amparosScreen extends connect(
+	store,
+	TAREA_QUITAR_CUMPLIMIENTO_OK,
+	TAREA_QUITAR_CUMPLIMIENTO_ERROR,
+	EVENTO_EJECUTAR_TAREA_QUITAR_CUMPLIMIENTO,
+	TAREA_CARGA_A_AMPARO__RETORNO,
+	EVENTO_EJECUTAR_TAREA_DAR_CUMPLIMIENTO,
+	TAREA_DAR_CUMPLIMIENTO_OK,
+	TAREA_DAR_CUMPLIMIENTO_ERROR,
+	FILTRO_AMPAROS,
+	PLAN_ADD,
+	SACAR_FILTRO_AMPAROS,
+	EVENTO_MOSTRAR_POPUP_PLANES,
+	EVENTO_MOSTRAR_POPUP_TAREAS,
+	EVENTO_MOSTRAR_HIJOS,
+	PLANES_OK,
+	PLANES_ERROR,
+	PLAN_UPDATE,
+	TAREAS_BY_PLAN_ID_OK,
+	TAREAS_BY_PLAN_ID_ERROR,
+	MEDIA_CHANGE,
+	SCREEN
+)(LitElement) {
 	constructor() {
 		super();
 		this.hidden = true;
@@ -330,14 +356,6 @@ export class amparosScreen extends connect(store, TAREA_CARGA_A_AMPARO__RETORNO,
 			}
 		}
 		if (name == EVENTO_MOSTRAR_POPUP_TAREAS) {
-			//2.0 nueva tarea simple, lapso, fecha, cumplimiento, mod, eliminar, ver
-			//2.4 nueva tarea simple, lapso, fecha, mod, eliminar, ver
-			//2.6 nueva tarea simple, lapso, fecha, cumplimiento, ver
-			//2.1 nueva tarea simple, lapso, fecha, ver
-			//2.7 cumplimiento, ver
-			//2.2 ver
-			//2.3 cumplimiento, mod, eliminar, ver
-			//2.5 mod, eliminar, ver
 			let tareaSectorEjecutor = state.eventos.mostrarPopupTareas.registro?.ejecutor.id;
 			let tareaSectorCreador = state.eventos.mostrarPopupTareas.registro?.creador.id;
 			let tareaPorLapso = state.eventos.mostrarPopupTareas.registro?.esPorLapso;
@@ -345,26 +363,47 @@ export class amparosScreen extends connect(store, TAREA_CARGA_A_AMPARO__RETORNO,
 			let tareaConHijos = state.eventos.mostrarPopupTareas.registro?.conTareas;
 			let usuarioSector = state.autorizacion.entities.result.sectores[0].id;
 
-			if (tareaSectorCreador != usuarioSector && tareaSectorEjecutor != usuarioSector) {
+			let soySoloCreador = tareaSectorCreador == usuarioSector && tareaSectorEjecutor != usuarioSector;
+			let soySoloEjecutor = tareaSectorCreador != usuarioSector && tareaSectorEjecutor == usuarioSector;
+			let soyAmbos = tareaSectorCreador == usuarioSector && tareaSectorEjecutor == usuarioSector;
+			let noSoyNinguno = tareaSectorCreador != usuarioSector && tareaSectorEjecutor != usuarioSector;
+			//2.0 nueva tarea simple, lapso, fecha, cumplimiento, mod, eliminar, ver
+			//2.1 nueva tarea simple, lapso, fecha, ver
+			//2.2 ver
+			//2.3 cumplimiento, mod, eliminar, ver
+			//2.4 nueva tarea simple, lapso, fecha, mod, eliminar, ver
+			//2.5 mod, eliminar, ver
+			//2.6 nueva tarea simple, lapso, fecha, cumplimiento, ver
+			//2.7 cumplimiento, ver
+			//2.8 nueva tarea simple, lapso, fecha, quitarCumplimiento, mod, eliminar, ver
+			//2.9 quitarCumplimiento, mod, eliminar, ver
+			//2.10 nueva tarea simple, lapso, fecha, quitarCumplimiento, ver
+			//2.11 quitarCumplimiento, ver
+
+			if (noSoyNinguno) {
 				store.dispatch(showPopup("2.2", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-			} else if (tareaSectorCreador == usuarioSector && tareaSectorEjecutor == usuarioSector && !tareaPorLapso && !tareaConHijos) {
-				store.dispatch(showPopup("2.0", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-			} else if (tareaSectorCreador == usuarioSector && tareaSectorEjecutor == usuarioSector && !tareaPorLapso && tareaConHijos) {
+			} else if (soyAmbos && !tareaPorLapso && !tareaConHijos) {
+				if (tareaEstado != "cumplida") store.dispatch(showPopup("2.0", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				if (tareaEstado == "cumplida") store.dispatch(showPopup("2.8", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+			} else if (soyAmbos && !tareaPorLapso && tareaConHijos) {
 				store.dispatch(showPopup("2.1", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-			} else if (tareaSectorCreador == usuarioSector && tareaSectorEjecutor == usuarioSector && tareaPorLapso) {
-				store.dispatch(showPopup("2.3", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-			} else if (tareaSectorCreador == usuarioSector && tareaSectorEjecutor != usuarioSector && !tareaPorLapso && !tareaConHijos) {
+			} else if (soyAmbos && tareaPorLapso) {
+				if (tareaEstado != "cumplida") store.dispatch(showPopup("2.3", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				if (tareaEstado == "cumplida") store.dispatch(showPopup("2.9", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+			} else if (soySoloCreador && !tareaPorLapso && !tareaConHijos) {
 				store.dispatch(showPopup("2.5", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-			} else if (tareaSectorCreador == usuarioSector && tareaSectorEjecutor != usuarioSector && !tareaPorLapso && tareaConHijos) {
+			} else if (soySoloCreador && !tareaPorLapso && tareaConHijos) {
 				store.dispatch(showPopup("2.2", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-			} else if (tareaSectorCreador == usuarioSector && tareaSectorEjecutor != usuarioSector && tareaPorLapso) {
+			} else if (soySoloCreador && tareaPorLapso) {
 				store.dispatch(showPopup("2.5", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-			} else if (tareaSectorCreador != usuarioSector && tareaSectorEjecutor == usuarioSector && !tareaPorLapso && !tareaConHijos) {
-				store.dispatch(showPopup("2.6", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-			} else if (tareaSectorCreador != usuarioSector && tareaSectorEjecutor == usuarioSector && !tareaPorLapso && tareaConHijos) {
+			} else if (soySoloEjecutor && !tareaPorLapso && !tareaConHijos) {
+				if (tareaEstado != "cumplida") store.dispatch(showPopup("2.6", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				if (tareaEstado == "cumplida") store.dispatch(showPopup("2.10", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+			} else if (soySoloEjecutor && !tareaPorLapso && tareaConHijos) {
 				store.dispatch(showPopup("2.1", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-			} else if (tareaSectorCreador != usuarioSector && tareaSectorEjecutor == usuarioSector && tareaPorLapso) {
-				store.dispatch(showPopup("2.7", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+			} else if (soySoloEjecutor && tareaPorLapso) {
+				if (tareaEstado != "cumplida") store.dispatch(showPopup("2.7", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				if (tareaEstado == "cumplida") store.dispatch(showPopup("2.11", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 			}
 		}
 		if (name == FILTRO_AMPAROS) {
@@ -374,18 +413,23 @@ export class amparosScreen extends connect(store, TAREA_CARGA_A_AMPARO__RETORNO,
 			this.filtroSacar();
 			//store.dispatch(getPlanesAll());
 		}
-		if (name == TAREA_DAR_CUMPLIMIENTO_OK) {
-			store.dispatch(showWarning("Atencion", "Se dio como cumplido la tarea", "fondoOk", 3000));
+		if (name == TAREA_DAR_CUMPLIMIENTO_OK || name == TAREA_QUITAR_CUMPLIMIENTO_OK) {
+			store.dispatch(showWarning("Atencion", "Se dio como cumplido o descumplido la tarea", "fondoOk", 3000));
 			this.cargaArbolDe0 = false;
 			store.dispatch(getPlanesAll());
 		}
-		if (name == TAREA_DAR_CUMPLIMIENTO_ERROR) {
-			store.dispatch(showWarning("Error!", "No se pudo marcar como cumplido, intente nuevamente", "fondoError", 3000));
+		if (name == TAREA_DAR_CUMPLIMIENTO_ERROR || name == TAREA_QUITAR_CUMPLIMIENTO_ERROR) {
+			store.dispatch(showWarning("Error!", "No se pudo marcar como cumplido o descumplimiento, intente nuevamente", "fondoError", 3000));
 		}
 		if (name == EVENTO_EJECUTAR_TAREA_DAR_CUMPLIMIENTO) {
 			let body = {};
 			body.tareaId = state.eventos.ejecutarTareaDarCumplimiento.idTarea;
 			store.dispatch(tareaDarCumplimiento(body));
+		}
+		if (name == EVENTO_EJECUTAR_TAREA_QUITAR_CUMPLIMIENTO) {
+			let body = {};
+			body.tareaId = state.eventos.ejecutarTareaQuitarCumplimiento.idTarea;
+			store.dispatch(tareaQuitarCumplimiento(body));
 		}
 		if (name == TAREA_CARGA_A_AMPARO__RETORNO) {
 			this.cargaArbolDe0 = false;

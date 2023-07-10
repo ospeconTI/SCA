@@ -108,6 +108,9 @@ export class cargaUsuarios extends connect(store, MODIFICAR_USUARIO, MODIFICAR_U
 				cursor: pointer;
 				color: var(--on-formulario);
 			}
+			*[hidden] {
+				display: none;
+			}
 		`;
 	}
 	get _apellido() {
@@ -146,7 +149,7 @@ export class cargaUsuarios extends connect(store, MODIFICAR_USUARIO, MODIFICAR_U
 				<div id="datos">
 					<div class="dmd-input" helper>
 						<label>Apellido</label>
-						<input type="text" id="apellido" ?disabled=${this.accion == "view"} autocomplete="off" autocomplete="off" placeholder="" value="" />
+						<input type="text" id="apellido" ?disabled=${true} autocomplete="off" autocomplete="off" placeholder="" value="" />
 						<div>Debe ingresar el apellido</div>
 						<span>Ingrese un texto</span>
 						${INFO}
@@ -154,7 +157,7 @@ export class cargaUsuarios extends connect(store, MODIFICAR_USUARIO, MODIFICAR_U
 
 					<div class="dmd-input" helper>
 						<label>Nombre</label>
-						<input type="text" id="nombre" ?disabled=${this.accion == "view"} autocomplete="off" autocomplete="off" placeholder="" value="" />
+						<input type="text" id="nombre" ?disabled=${true} autocomplete="off" autocomplete="off" placeholder="" value="" />
 						<div>Debe ingresar el nombre</div>
 						<span>Ingrese un texto</span>
 						${INFO}
@@ -162,7 +165,7 @@ export class cargaUsuarios extends connect(store, MODIFICAR_USUARIO, MODIFICAR_U
 
 					<div class="dmd-input" helper>
 						<label>Email</label>
-						<input type="text" id="email" ?disabled=${this.accion == "view"} autocomplete="off" autocomplete="off" placeholder="" value="" />
+						<input type="text" id="email" ?disabled=${true} autocomplete="off" autocomplete="off" placeholder="" value="" />
 						<div>Debe ingresar el email</div>
 						<span>Ingrese un texto</span>
 						${INFO}
@@ -170,13 +173,13 @@ export class cargaUsuarios extends connect(store, MODIFICAR_USUARIO, MODIFICAR_U
 
 					<div class="dmd-input" helper>
 						<label>Contacto</label>
-						<input type="text" id="contacto" ?disabled=${this.accion == "view"} autocomplete="off" autocomplete="off" placeholder="" value="" />
+						<input type="text" id="contacto" ?disabled=${this.accion == "view" || this.accion == "delete"} autocomplete="off" autocomplete="off" placeholder="" value="" />
 						<div>Debe ingresar el contacto</div>
 						<span>Ingrese datos para contactarse</span>
 						${INFO}
 					</div>
 
-					<button id="btnAceptar" class="dmd-button" normal bordeRedondo @click="${this.grabar}">Aceptar</button>
+					<button id="btnAceptar" class="dmd-button" ?hidden=${this.accion == "view"} normal bordeRedondo @click="${this.grabar}">${this.accion == "delete" ? "Seguro de ELIMINARLO?" : "Aceptar"}</button>
 					<div style="height:2rem"></div>
 				</div>
 			</div>
@@ -196,7 +199,7 @@ export class cargaUsuarios extends connect(store, MODIFICAR_USUARIO, MODIFICAR_U
 				this._nombre.value = "";
 				this._email.value = "";
 				this._contacto.value = "";
-			} else if (this.accion == "edit" || this.accion == "delete") {
+			} else if (this.accion == "edit" || this.accion == "delete" || this.accion == "view") {
 				this._apellido.value = this.item.apellido;
 				this._nombre.value = this.item.nombre;
 				this._email.value = this.item.email;

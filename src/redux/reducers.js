@@ -12,6 +12,8 @@ import { reducer as eventosReducer } from "./eventos/reducer";
 import { reducer as popupReducer } from "./popup/reducer";
 import { reducer as entreComponentesReducer } from "./entreComponentes/reducer";
 import { reducer as sectoresReducer } from "./sectores/reducer";
+import { reducer as miPerfilReducer } from "./miPerfil/reducer";
+import { reducer as getCombinadosReducer } from "./getCombinados/reducer";
 
 export const rootReducer = (state = {}, action) => {
 	const presentacionesEstadosRed = state.presentacionesEstados;
@@ -27,5 +29,7 @@ export const rootReducer = (state = {}, action) => {
 		popup: popupReducer(state.popup, action),
 		entreComponentes: entreComponentesReducer(state.entreComponentes, action),
 		sectores: sectoresReducer(state.sectores, action),
+		miPerfil: miPerfilReducer(state.miPerfil, action),
+		getCombinados: getCombinadosReducer(state.getCombinados, action),
 	};
 };

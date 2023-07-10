@@ -1,6 +1,7 @@
 export const GET = "[tareas] GET";
 export const GET_BY_ID = "[tareas] GET_BY_ID";
 export const GET_BY_PLAN_ID = "[tareas] GET_BY_PLAN_ID";
+export const GET_MI_SECTOR = "[sectores] GET_MI_SECTOR";
 export const ADD = "[tareas] ADD";
 export const ADD_SIMPLE = "[tareas] ADD_SIMPLE";
 export const ADD_LAPSO = "[tareas] ADD_LAPSO";
@@ -10,10 +11,12 @@ export const UPDATE = "[tareas] UPDATE";
 export const REMOVE = "[tareas] REMOVE";
 export const EDIT = "[tareas] EDIT";
 export const DAR_CUMPLIMIENTO = "[tareas] DAR_CUMPLIMIENTO";
+export const QUITAR_CUMPLIMIENTO = "[tareas] QUITAR_CUMPLIMIENTO";
 
 export const GET_SUCCESS = "[tareas] GET success";
 export const GET_BY_ID_SUCCESS = "[tareas] GET_BY_ID success";
 export const GET_BY_PLAN_ID_SUCCESS = "[tareas] GET_BY_PLAN_ID success";
+export const GET_MI_SECTOR_SUCCESS = "[sectores] GET_MI_SECTOR success";
 export const ADD_SUCCESS = "[tareas] ADD success";
 export const ADD_SIMPLE_SUCCESS = "[tareas] ADD_SIMPLE success";
 export const ADD_LAPSO_SUCCESS = "[tareas] ADD_LAPSO success";
@@ -22,10 +25,12 @@ export const PATCH_SUCCESS = "[tareas] PATCH success";
 export const UPDATE_SUCCESS = "[tareas] UPDATE success";
 export const REMOVE_SUCCESS = "[tareas] REMOVE success";
 export const DAR_CUMPLIMIENTO_SUCCESS = "[tareas] DAR_CUMPLIMIENTO success";
+export const QUITAR_CUMPLIMIENTO_SUCCESS = "[tareas] QUITAR_CUMPLIMIENTO success";
 
 export const GET_ERROR = "[tareas] GET error";
 export const GET_BY_ID_ERROR = "[tareas] GET_BY_ID error";
 export const GET_BY_PLAN_ID_ERROR = "[tareas] GET_BY_PLAN_ID error";
+export const GET_MI_SECTOR_ERROR = "[sectores] GET_MI_SECTOR error";
 export const ADD_ERROR = "[tareas] ADD error";
 export const ADD_SIMPLE_ERROR = "[tareas] ADD_SIMPLE error";
 export const ADD_LAPSO_ERROR = "[tareas] ADD_LAPSO error";
@@ -34,6 +39,7 @@ export const PATCH_ERROR = "[tareas] PATCH error";
 export const UPDATE_ERROR = "[tareas] UPDATE error";
 export const REMOVE_ERROR = "[tareas] REMOVE error";
 export const DAR_CUMPLIMIENTO_ERROR = "[tareas] DAR_CUMPLIMIENTO error";
+export const QUITAR_CUMPLIMIENTO_ERROR = "[tareas] QUITAR_CUMPLIMIENTO error";
 
 export const get = (options) => ({
 	type: GET,
@@ -54,6 +60,12 @@ export const getByPlanId = (options) => ({
 	options: options,
 	success: GET_BY_PLAN_ID_SUCCESS,
 	error: GET_BY_PLAN_ID_ERROR,
+});
+
+export const getMiSector = () => ({
+	type: GET_MI_SECTOR,
+	success: GET_MI_SECTOR_SUCCESS,
+	error: GET_MI_SECTOR_ERROR,
 });
 
 export const add = (body, token) => ({
@@ -111,5 +123,10 @@ export const edit = (modo, item) => ({
 
 export const darCumplimiento = (idTarea) => ({
 	type: DAR_CUMPLIMIENTO,
+	idTarea: idTarea,
+});
+
+export const quitarCumplimiento = (idTarea) => ({
+	type: QUITAR_CUMPLIMIENTO,
 	idTarea: idTarea,
 });

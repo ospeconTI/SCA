@@ -13,7 +13,7 @@ import { dmdButton } from "../css/dmdButton";
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 
-export class inicialScreen extends connect(store, MEDIA_CHANGE, SCREEN)(LitElement) {
+export class esperarAutorizacion extends connect(store, MEDIA_CHANGE, SCREEN)(LitElement) {
 	constructor() {
 		super();
 		this.hidden = true;
@@ -25,43 +25,29 @@ export class inicialScreen extends connect(store, MEDIA_CHANGE, SCREEN)(LitEleme
 			${dmdButton}
 			:host {
 				display: grid;
-				position: relative;
 				height: 100%;
 				width: 100%;
 				background-color: var(--formulario);
-				color: var(--on-formulario);
-				grid-template-columns: 80%;
-				grid-gap: 4rem;
 				justify-content: center;
-				justify-items: center;
 				align-content: flex-start;
-				overflow-y: auto;
+				padding-top: 10rem;
 			}
 			:host([hidden]) {
 				display: none;
 			}
-			:host::-webkit-scrollbar {
-				display: none;
-			}
-			#titulo {
-				padding-top: 8vh;
-				height: 8rem;
-			}
-			label {
-				padding-top: 5vh;
+			#ventana {
+				padding: 5rem;
+				width: 40vw;
+				border: solid 0.1px var(--on-aplicacion-bajada);
 				font-size: var(--font-header-h1-size);
-				font-weight: var(--font-header-h1-weight);
-				color: var(--on-formulario);
-				text-align: center;
+				font-weight: 200;
+				background-color: var(--aplicacion);
+				color: var(--on-aplicacion);
 			}
 		`;
 	}
 	render() {
-		return html`
-			<label>Sistema de Administración de Amparos</label>
-			<div id="titulo">${IMAGES["LOGO_GRANDE"]}</div>
-			<div style="height:8rem"></div>
-		`;
+		return html` <div id="ventana">El administrador del sistema todavia no autorizó su ingreso al sistema, aguarde el mail de confirmación.</div> `;
 	}
 	stateChanged(state, name) {
 		if (name == SCREEN || name == MEDIA_CHANGE) {
@@ -69,21 +55,12 @@ export class inicialScreen extends connect(store, MEDIA_CHANGE, SCREEN)(LitEleme
 			this.hidden = true;
 			this.current = state.screen.name;
 			const haveBodyArea = isInLayout(state, this.area);
-			const SeMuestraEnUnasDeEstasPantallas = "-inicial-".indexOf("-" + state.screen.name + "-") != -1;
+			const SeMuestraEnUnasDeEstasPantallas = "-esperarAutorizacion-".indexOf("-" + state.screen.name + "-") != -1;
 			if (haveBodyArea && SeMuestraEnUnasDeEstasPantallas) {
 				this.hidden = false;
 				this.update();
 			}
 		}
-	}
-	sesion() {
-		store.dispatch(goTo("login"));
-	}
-	registro() {
-		store.dispatch(goTo("registro"));
-	}
-	registroUpdate() {
-		store.dispatch(goTo("registroUpdate"));
 	}
 
 	static get properties() {
@@ -111,4 +88,4 @@ export class inicialScreen extends connect(store, MEDIA_CHANGE, SCREEN)(LitEleme
 		};
 	}
 }
-window.customElements.define("inicial-screen", inicialScreen);
+window.customElements.define("esperar-autorizacion", esperarAutorizacion);

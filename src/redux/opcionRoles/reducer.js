@@ -1,33 +1,6 @@
-import { QUITAR_INTEGRANTE_ERROR } from "../sectores/actions";
-import {
-	GET_SUCCESS,
-	GET_ERROR,
-	GET_BY_PLAN_ID_SUCCESS,
-	GET_BY_PLAN_ID_ERROR,
-	PATCH_SUCCESS,
-	PATCH_ERROR,
-	UPDATE_SUCCESS,
-	UPDATE_ERROR,
-	ADD_SUCCESS,
-	ADD_ERROR,
-	REMOVE_SUCCESS,
-	REMOVE_ERROR,
-	EDIT,
-	GET_BY_ID_SUCCESS,
-	GET_BY_ID_ERROR,
-	DAR_CUMPLIMIENTO_SUCCESS,
-	DAR_CUMPLIMIENTO_ERROR,
-	ADD_SIMPLE_SUCCESS,
-	ADD_SIMPLE_ERROR,
-	ADD_LAPSO_SUCCESS,
-	ADD_LAPSO_ERROR,
-	ADD_FECHA_SUCCESS,
-	ADD_FECHA_ERROR,
-	GET_MI_SECTOR_SUCCESS,
-	GET_MI_SECTOR_ERROR,
-	QUITAR_CUMPLIMIENTO_SUCCESS,
-	QUITAR_CUMPLIMIENTO_ERROR,
-} from "./actions";
+/** @format */
+
+import { GET_SUCCESS, GET_ERROR, GET_ALL_SUCCESS, GET_ALL_ERROR, PATCH_SUCCESS, PATCH_ERROR, UPDATE_SUCCESS, UPDATE_ERROR, ADD_SUCCESS, ADD_ERROR, REMOVE_SUCCESS, REMOVE_ERROR, EDIT, GET_BY_ID, GET_BY_ID_SUCCESS, GET_BY_ID_ERROR, ADD_SIMPLE_SUCCESS, ADD_SIMPLE_ERROR, ADD_LAPSO_SUCCESS, ADD_LAPSO_ERROR, ADD_FECHA_SUCCESS, ADD_FECHA_ERROR } from "./actions";
 
 const initialState = {
 	entities: null,
@@ -41,30 +14,20 @@ const initialState = {
 	errorTimeStamp: null,
 	commandErrorTimeStamp: null,
 	editTimeStamp: null,
-	darCumplimientoTimeStamp: null,
-	errorDarCumplimientoTimeStamp: null,
-	quitarCumplimientoTimeStamp: null,
-	errorQuitarCumplimientoTimeStamp: null,
-
 	byId: {
 		entities: null,
 		timeStamp: null,
 		errorTimeStamp: null,
 	},
-	byPlanId: {
+	all: {
 		entities: null,
+		count: 0,
 		timeStamp: null,
-		errorTimeStamp: null,
 	},
 	table: {
 		entities: null,
 		count: 0,
 		timeStamp: null,
-	},
-	miSector: {
-		entities: null,
-		timeStamp: null,
-		errorTimeStamp: null,
 	},
 };
 
@@ -82,19 +45,27 @@ export const reducer = (state = initialState, action) => {
 			newState.byId.entities = action.payload.receive;
 			newState.byId.timeStamp = new Date().getTime();
 			break;
-		case GET_BY_PLAN_ID_SUCCESS:
-			newState.byPlanId.entities = action.payload.receive.sort((a, b) => b.creacion.localeCompare(a.creacion));
-			newState.byPlanId.timeStamp = new Date().getTime();
-			break;
-		case GET_MI_SECTOR_SUCCESS:
-			newState.miSector.entities = action.payload.receive;
-			newState.miSector.timeStamp = new Date().getTime();
-			break;
-		case QUITAR_CUMPLIMIENTO_SUCCESS:
-			newState.quitarCumplimientoTimeStamp = new Date().getTime();
-			break;
-		case DAR_CUMPLIMIENTO_SUCCESS:
-			newState.darCumplimientoTimeStamp = new Date().getTime();
+		case GET_ALL_SUCCESS:
+			let ar = [];
+			action.payload.receive.map((item, index) => {
+				let js = {};
+				js.clase = "plan";
+				js.id = item.id;
+				js.planId = item.id;
+				js.descripcion = item.descripcion;
+				js.urlReferencia = item.urlReferencia;
+				js.estado = item.estado;
+				js.conTareas = item.conTareas;
+				js.hijo = item.conTareas;
+				js.padre = "0";
+				js.padreClase = "";
+				js.tipo = "";
+				js.fechaDeAlta = item.fechaDeAlta;
+				ar.push(js);
+			});
+			newState.all.entities = ar.sort((a, b) => b.fechaDeAlta.localeCompare(a.fechaDeAlta));
+			//newState.all.entities = ar;
+			newState.all.timeStamp = new Date().getTime();
 			break;
 		case EDIT:
 			newState.editTimeStamp = new Date().getTime();
@@ -103,6 +74,7 @@ export const reducer = (state = initialState, action) => {
 			break;
 		case UPDATE_SUCCESS:
 			newState.updateTimeStamp = new Date().getTime();
+
 			break;
 		case PATCH_SUCCESS:
 			newState.updateTimeStamp = new Date().getTime();
@@ -122,23 +94,16 @@ export const reducer = (state = initialState, action) => {
 		case ADD_FECHA_SUCCESS:
 			newState.addFechaTimeStamp = new Date().getTime();
 			break;
+
 		case GET_ERROR:
 			newState.errorTimeStamp = new Date().getTime();
 			break;
 		case GET_BY_ID_ERROR:
 			newState.byId.errorTimeStamp = new Date().getTime();
 			break;
-		case GET_BY_PLAN_ID_ERROR:
-			newState.byPlanId.errorTimeStamp = new Date().getTime();
-			break;
-		case GET_MI_SECTOR_ERROR:
-			newState.miSector.errorTimeStamp = new Date().getTime();
-			break;
-		case DAR_CUMPLIMIENTO_ERROR:
-			newState.errorDarCumplimientoTimeStamp = new Date().getTime();
-			break;
-		case QUITAR_CUMPLIMIENTO_ERROR:
-			newState.errorQuitarCumplimientoTimeStamp = new Date().getTime();
+		case GET_ALL_ERROR:
+			newState.all.entities = null;
+			newState.all.errorTimeStamp = new Date().getTime();
 			break;
 		case UPDATE_ERROR:
 		case REMOVE_ERROR:

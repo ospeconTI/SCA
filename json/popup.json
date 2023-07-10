@@ -213,6 +213,14 @@
             {
                 "menu": "2.6",
                 "orden": 1
+            },
+            {
+                "menu": "2.8",
+                "orden": 1
+            },
+            {
+                "menu": "2.10",
+                "orden": 1
             }
         ],
         "tipo": null,
@@ -305,6 +313,22 @@
             {
                 "menu": "2.7",
                 "orden": 0
+            },
+            {
+                "menu": "2.8",
+                "orden": 0
+            },
+            {
+                "menu": "2.9",
+                "orden": 0
+            },
+            {
+                "menu": "2.10",
+                "orden": 0
+            },
+            {
+                "menu": "2.11",
+                "orden": 0
             }
         ],
         "tipo": "titulo",
@@ -329,6 +353,14 @@
             },
             {
                 "menu": "2.6",
+                "orden": 2
+            },
+            {
+                "menu": "2.8",
+                "orden": 2
+            },
+            {
+                "menu": "2.10",
                 "orden": 2
             }
         ],
@@ -356,6 +388,14 @@
             },
             {
                 "menu": "2.6",
+                "orden": 3
+            },
+            {
+                "menu": "2.8",
+                "orden": 3
+            },
+            {
+                "menu": "2.10",
                 "orden": 3
             }
         ],
@@ -397,6 +437,33 @@
     {
         "opcion": [
             {
+                "menu": "2.8",
+                "orden": 4
+            },
+            {
+                "menu": "2.9",
+                "orden": 1
+            },
+            {
+                "menu": "2.10",
+                "orden": 4
+            },
+            {
+                "menu": "2.11",
+                "orden": 1
+            }
+        ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Quitar cumplimiento",
+        "accion": "[eventos] EJECUTAR_TAREA_QUITAR_CUMPLIMIENTO",
+        "param": {
+            "accion": "quitarCumplimiento"
+        }
+    },
+    {
+        "opcion": [
+            {
                 "menu": "2.0",
                 "orden": 5
             },
@@ -411,6 +478,14 @@
             {
                 "menu": "2.5",
                 "orden": 1
+            },
+            {
+                "menu": "2.8",
+                "orden": 5
+            },
+            {
+                "menu": "2.9",
+                "orden": 2
             }
         ],
         "tipo": null,
@@ -438,6 +513,14 @@
             {
                 "menu": "2.5",
                 "orden": 2
+            },
+            {
+                "menu": "2.8",
+                "orden": 6
+            },
+            {
+                "menu": "2.9",
+                "orden": 3
             }
         ],
         "tipo": null,
@@ -480,6 +563,22 @@
             },
             {
                 "menu": "2.7",
+                "orden": 2
+            },
+            {
+                "menu": "2.8",
+                "orden": 7
+            },
+            {
+                "menu": "2.9",
+                "orden": 4
+            },
+            {
+                "menu": "2.10",
+                "orden": 5
+            },
+            {
+                "menu": "2.11",
                 "orden": 2
             }
         ],

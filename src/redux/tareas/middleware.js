@@ -32,12 +32,18 @@ import {
 	ADD_FECHA,
 	ADD_FECHA_SUCCESS,
 	ADD_FECHA_ERROR,
+	GET_MI_SECTOR,
+	GET_MI_SECTOR_SUCCESS,
+	GET_MI_SECTOR_ERROR,
+	QUITAR_CUMPLIMIENTO,
+	QUITAR_CUMPLIMIENTO_SUCCESS,
+	QUITAR_CUMPLIMIENTO_ERROR,
 } from "./actions";
 
 import { RESTRequest, RESTAdd, RESTDelete, RESTUpdate, RESTPatch } from "../rest/actions";
 
 import { apiRequest } from "../api/actions";
-import { tareaByPlanIdFetch, tareaByIdFetch, tareaDarCumplimientoFetch, tareaAddSimpleFetch, tareaAddLapsoFetch, tareaAddFechaFetch, tareaQuitarFetch, tareaModificarDescripcionFetch } from "../fetchs";
+import { tareaByPlanIdFetch, tareaByIdFetch, tareaDarCumplimientoFetch, tareaQuitarCumplimientoFetch, tareaAddSimpleFetch, tareaAddLapsoFetch, tareaAddFechaFetch, tareaQuitarFetch, tareaModificarDescripcionFetch, tareaGetMiSectorFetch } from "../fetchs";
 
 export const get =
 	({ dispatch }) =>
@@ -65,6 +71,18 @@ export const getByPlanId =
 		next(action);
 		if (action.type === GET_BY_PLAN_ID) {
 			dispatch(RESTRequest(tareaByPlanIdFetch, action.options, GET_BY_PLAN_ID_SUCCESS, GET_BY_PLAN_ID_ERROR, action.token));
+		}
+	};
+
+export const getMiSector =
+	({ dispatch, getState }) =>
+	(next) =>
+	(action) => {
+		next(action);
+		if (action.type === GET_MI_SECTOR) {
+			if (getState().miPerfil?.sector?.token) {
+				dispatch(RESTRequest(tareaGetMiSectorFetch, "", GET_MI_SECTOR_SUCCESS, GET_MI_SECTOR_ERROR, getState().miPerfil?.sector?.token));
+			}
 		}
 	};
 
@@ -149,6 +167,16 @@ export const darCumplimiento =
 		}
 	};
 
+export const quitarCumplimiento =
+	({ dispatch }) =>
+	(next) =>
+	(action) => {
+		next(action);
+		if (action.type === QUITAR_CUMPLIMIENTO) {
+			dispatch(RESTAdd(tareaQuitarCumplimientoFetch, action.idTarea, QUITAR_CUMPLIMIENTO_SUCCESS, QUITAR_CUMPLIMIENTO_ERROR, action.token));
+		}
+	};
+
 export const processGet =
 	({ dispatch }) =>
 	(next) =>
@@ -176,4 +204,4 @@ export const processError =
 		}
 	};
 
-export const middleware = [get, getById, getByPlanId, add, addSimple, addLapso, addFecha, darCumplimiento, update, patch, remove, processGet, processComand, processError];
+export const middleware = [get, getById, getByPlanId, getMiSector, add, addSimple, addLapso, addFecha, darCumplimiento, quitarCumplimiento, update, patch, remove, processGet, processComand, processError];

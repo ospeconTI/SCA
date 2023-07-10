@@ -3,7 +3,7 @@ import { html, LitElement, css } from "lit";
 import { store } from "../../../redux/store";
 import { connect } from "@brunomon/helpers";
 import { isInLayout } from "../../../redux/screens/screenLayouts";
-import { MENU, FLECHARIGTH, BACK, MAS, EDIT, TRASH, SEARCH, CLOSE, KEY } from "../../../../assets/icons/svgs";
+import { MENU, FLECHARIGTH, BACK, MAS, EDIT, TRASH, SEARCH, CLOSE, KEY, VER } from "../../../../assets/icons/svgs";
 import { showWarning, showMsgBox } from "../../../redux/ui/actions";
 import { goTo, goHistoryPrev } from "../../../redux/routing/actions";
 
@@ -69,14 +69,14 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 			.dmd-grid {
 				height: 60%;
 				min-height: 20rem;
-				width: 60rem;
+				width: max-content;
 				align-self: center;
 				box-shadow: 2px 2px 7px -1px var(--on-aplicacion);
 				border: 0;
 			}
 			.dmd-grid-datos-titulos,
 			.dmd-grid-datos-registros {
-				grid-template-columns: 14rem 14rem 13rem 8rem 8rem;
+				grid-template-columns: 11rem 11rem 12rem 8rem 20rem;
 			}
 			.dmd-grid-datos-registros[fondorojo] {
 				color: var(--color-error) !important;
@@ -108,10 +108,11 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 					<div class="dmd-grid-menu">
 						<div title="Mostar / ocultar barra de menu" @click=${this._menuAmpliarDmdGrid}>${FLECHARIGTH}<label style="display:none"></label></div>
 						<div title="Atras" atras @click=${this.atras}>${BACK}<label style="display:none">Atras</label></div>
-						<div title="Nuevo" @click=${this.alta} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${MAS} <label style="display:none">Nuevo</label></div>
+						<div title="Nuevo" @click=${this.alta} ?hidden=${true || this.usuarioRol == "" || this.accion == "view"}>${MAS} <label style="display:none">Nuevo</label></div>
 						<div title="Modificar" @click=${this.modificar} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${EDIT}<label style="display:none">Modificar</label></div>
 						<div title="Marcar como responsable" @click=${this.responsable} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${KEY}<label style="display:none">Responsable</label></div>
 						<div title="ELiminar" @click=${this.eliminar} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${TRASH}<label style="display:none">Eliminar</label></div>
+						<div title="Visualizar Usuario" view @click=${this.ver}>${VER}<label style="display:none">Visualizar</label></div>
 					</div>
 					<div class="dmd-grid-datos">
 						<div class="dmd-grid-datos-titulos">
@@ -124,11 +125,11 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 							<div .campo=${"email"} dmd-grid-orden class="dmd-grid-datos-titulo">
 								<label>Email</label>
 							</div>
-							<div .campo=${"contacto"} class="dmd-grid-datos-titulo">
-								<label>Contacto</label>
-							</div>
 							<div .campo=${"esResponsable"} class="dmd-grid-datos-titulo">
 								<label>Responsable</label>
+							</div>
+							<div .campo=${"contacto"} class="dmd-grid-datos-titulo">
+								<label>Contacto</label>
 							</div>
 						</div>
 						${this.grid.map((item, index) => {
@@ -137,8 +138,8 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 									<div class="dmd-grid-datos-registro" style="text-align:left">${item.apellido}</div>
 									<div class="dmd-grid-datos-registro" style="text-align:left">${item.nombre}</div>
 									<div class="dmd-grid-datos-registro" style="text-align:left">${item.email}</div>
-									<div class="dmd-grid-datos-registro" style="text-align:rigth">${item.contacto}</div>
 									<div class="dmd-grid-datos-registro" style="text-align:center">${item.esResponsable ? "Si" : "No"}</div>
+									<div class="dmd-grid-datos-registro" style="text-align:rigth">${item.contacto}</div>
 								</div>
 							`;
 						})}
@@ -173,6 +174,14 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 		let seleccionado = this.shadowRoot.querySelector("[seleccionado]");
 		if (seleccionado) {
 			store.dispatch(cargaUsuarios_Load01(this.item, this.sector, "delete"));
+		} else {
+			store.dispatch(showWarning("Atencion!", "No selecciono registro.", "fondoError", 3000));
+		}
+	}
+	ver() {
+		let seleccionado = this.shadowRoot.querySelector("[seleccionado]");
+		if (seleccionado) {
+			store.dispatch(cargaUsuarios_Load01(this.item, this.sector, "view"));
 		} else {
 			store.dispatch(showWarning("Atencion!", "No selecciono registro.", "fondoError", 3000));
 		}

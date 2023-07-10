@@ -13,6 +13,12 @@ import { MENU, RIGHT, PERSON } from "../../../assets/icons/svgs";
 import { autorizacion } from "../../redux/autorizacion/actions";
 import { gesturesController } from "@brunomon/template-lit/src/views/controllers/gesturesController";
 import { loguearConNuevoUsuario, LOGUEAR_CON_NUEVO_USUARIO, selection, showConfirm } from "../../redux/ui/actions";
+import { set } from "../../redux/miPerfil/actions";
+import { getInicial } from "../../redux/getCombinados/actions";
+import { getAll as sectoresGetAll } from "../../redux/sectores/actions";
+import { hiddenOpcion } from "../../libs/funciones";
+
+import { getMiSector } from "../../redux/tareas/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SELECTION = "ui.menu.timeStamp";
@@ -20,8 +26,12 @@ const SCREEN = "screen.timeStamp";
 const AUTORIZACION = "autorizacion.timeStamp";
 const AUTORIZACION_FALLA = "autorizacion.errorTimeStamp";
 const LOGUEAR = "ui.loguearConNuevoUsuarioTimeStamp";
+const GET_INICIAL = "getCombinados.inicial.timeStamp";
+const GET_INICIAL_ERROR = "getCombinados.inicial.errorTimeStamp";
+const SECTORES_GET_ALL = "sectores.all.timeStamp";
+const SECTORES_GET_ALL_ERROR = "sectores.all.errorTimeStamp";
 
-export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, SELECTION, AUTORIZACION, AUTORIZACION_FALLA, LOGUEAR)(LitElement) {
+export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET_ALL_ERROR, GET_INICIAL, GET_INICIAL_ERROR, MEDIA_CHANGE, SCREEN, SELECTION, AUTORIZACION, AUTORIZACION_FALLA, LOGUEAR)(LitElement) {
 	constructor() {
 		super();
 		this.area = "header";
@@ -208,6 +218,9 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, SELECTIO
 				text-align: start;
 				padding: 0rem 0rem;
 			}
+			*[hidden] {
+				display: none;
+			}
 		`;
 	}
 	render() {
@@ -225,9 +238,9 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, SELECTIO
 			<div id="opciones" class="grid column" @click=${this.toggleMenu}>
 				<button raised circle action class="menu-button">${RIGHT}</button>
 				<button link ?selected="${this.selectedOption[0]}" @click=${this.click} .option=${"inicial"}>Home</button>
-				<button link ?selected="${this.selectedOption[1]}" @click=${this.click} .option=${"amparos"}>Planes</button>
-				<button link ?selected="${this.selectedOption[2]}" @click=${this.click} .option=${"verSectores"}>Sectores</button>
-				<button link ?selected="${this.selectedOption[3]}" @click=${this.click} .option=${"abmUsuarios"}>Usuarios</button>
+				<button link ?selected="${this.selectedOption[1]}" @click=${this.click} .option=${"amparos"} ?hidden=${hiddenOpcion("menu-planes")}>Planes</button>
+				<button link ?selected="${this.selectedOption[2]}" @click=${this.click} .option=${"verSectores"} ?hidden=${hiddenOpcion("menu-sectores")}>Sectores</button>
+				<button link ?selected="${this.selectedOption[3]}" @click=${this.click} .option=${"abmUsuarios"} ?hidden=${hiddenOpcion("menu-usuarios")}>Usuarios</button>
 
 				<div id="acceso" ?logueado="${this.logueado}">
 					<button link etiqueta ?selected="${this.selectedOption[2]}" @click=${this.abrir} .option=${"log"}>
@@ -326,9 +339,20 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, SELECTIO
 		if (name == AUTORIZACION) {
 			const profile = this.parseJwt(state.autorizacion.tokenAutentication);
 			if (state.autorizacion.entities.result.sectores.length == 0) {
+				this.profile = "NO REGISTRADO";
+				store.dispatch(set(state.autorizacion.entities.result));
+				store.dispatch(sectoresGetAll());
 			} else {
 				let sector = state.autorizacion.entities.result.sectores[0].descripcion;
 				this.profile = profile["family_name"] + " " + profile["given_name"] + " (" + sector + ")";
+				if (state.autorizacion.entities.result.sectores[0].token) {
+					store.dispatch(set(state.autorizacion.entities.result));
+					store.dispatch(getInicial());
+
+					store.dispatch(getMiSector());
+				} else {
+					store.dispatch(goTo("esperarAutorizacion"));
+				}
 			}
 		}
 		if (name == AUTORIZACION_FALLA) {
@@ -336,6 +360,20 @@ export class menuPrincipal extends connect(store, MEDIA_CHANGE, SCREEN, SELECTIO
 		}
 		if (name == LOGUEAR) {
 			this.abrirForzado();
+		}
+		if (name == GET_INICIAL) {
+			if (state.autorizacion.entities.result.sectores.length > 0) {
+				store.dispatch(goTo("inicial"));
+			}
+		}
+		if (name == GET_INICIAL_ERROR) {
+		}
+		if (name == SECTORES_GET_ALL) {
+			if (state.autorizacion.entities.result.sectores.length == 0) {
+				store.dispatch(goTo("solicitarAutorizacion"));
+			}
+		}
+		if (name == SECTORES_GET_ALL_ERROR) {
 		}
 	}
 

@@ -1,0 +1,21 @@
+[
+    {
+        "opcion": "menu-planes",
+        "roles": [
+            "usuario",
+            "administrador"
+        ]
+    },
+    {
+        "opcion": "menu-sectores",
+        "roles": [
+            "administrador"
+        ]
+    },
+    {
+        "opcion": "menu-usuarios",
+        "roles": [
+            "administrador"
+        ]
+    }
+]

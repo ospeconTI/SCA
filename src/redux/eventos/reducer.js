@@ -1,4 +1,4 @@
-import { MOSTRAR_HIJOS, MOSTRAR_POPUP_PLANES, MOSTRAR_POPUP_TAREAS, EJECUTAR_TAREA_DAR_CUMPLIMIENTO } from "./actions";
+import { MOSTRAR_HIJOS, MOSTRAR_POPUP_PLANES, MOSTRAR_POPUP_TAREAS, EJECUTAR_TAREA_DAR_CUMPLIMIENTO, EJECUTAR_TAREA_QUITAR_CUMPLIMIENTO } from "./actions";
 
 const initialState = {
 	mostrarHijos: {
@@ -21,6 +21,10 @@ const initialState = {
 		y: 0,
 	},
 	ejecutarTareaDarCumplimiento: {
+		timeStamp: null,
+		idTarea: null,
+	},
+	ejecutarTareaQuitarCumplimiento: {
 		timeStamp: null,
 		idTarea: null,
 	},
@@ -56,6 +60,12 @@ export const reducer = (state = initialState, action) => {
 			newState.ejecutarTareaDarCumplimiento.item = action.item || action.param?.item;
 			newState.ejecutarTareaDarCumplimiento.param = action.param;
 			newState.ejecutarTareaDarCumplimiento.timeStamp = new Date().getTime();
+			break;
+		case EJECUTAR_TAREA_QUITAR_CUMPLIMIENTO:
+			newState.ejecutarTareaQuitarCumplimiento.idTarea = action.idTarea || action.param?.item?.id;
+			newState.ejecutarTareaQuitarCumplimiento.item = action.item || action.param?.item;
+			newState.ejecutarTareaQuitarCumplimiento.param = action.param;
+			newState.ejecutarTareaQuitarCumplimiento.timeStamp = new Date().getTime();
 			break;
 	}
 	return newState;

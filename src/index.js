@@ -12,8 +12,6 @@ import { captureMedia } from "./redux/ui/actions";
 import { goTo } from "./redux/routing/actions";
 import { viewManager } from "./views/manager";
 import { register as registerSW, activate as activateSW } from "./libs/serviceWorker";
-import { getAll as popupAll } from "./redux/popup/actions";
-import { getAll as sectoresAll, getAllUsuarios } from "./redux/sectores/actions";
 
 if (process.env.NODE_ENV === "production") {
 	registerSW();
@@ -21,13 +19,10 @@ if (process.env.NODE_ENV === "production") {
 }
 
 viewMode("main");
-store.dispatch(popupAll());
-store.dispatch(sectoresAll());
-store.dispatch(getAllUsuarios());
-//store.dispatch(popupAll());
+
 store.dispatch(captureMedia());
 
-store.dispatch(goTo("inicial"));
+//store.dispatch(goTo("inicial"));
 
 console.log("Sirviendo datos de :" + SERVICE_URL);
 /* if ("credentials" in navigator) {

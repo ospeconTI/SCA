@@ -12,6 +12,7 @@ const expedienteOdataFactory = ODataFetchFactory({
 	domain: webApiExpedientes,
 });
 export const autorizacionFetch = fetchFactory(webApi, "Autorizacion");
+export const autorizacionAceptarUsuarioFetch = fetchFactory(webApi, "Autorizacion/AceptarUsuario");
 export const acceptFetch = fetchFactory(webApi, "Autorizacion/Accept");
 export const loginFetch = fetchFactory(webApi, "LoginOS");
 export const logonFetch = ODataEntity(expedienteOdataFactory, "Logon");
@@ -34,11 +35,13 @@ export const planesQuitarFetch = fetchFactory(webApi, "Plan/Quitar");
 export const tareaByIdFetch = fetchFactory(webApi, "Tarea");
 export const tareaByPlanIdFetch = fetchFactory(webApi, "Tarea/GetByPlanId");
 export const tareaDarCumplimientoFetch = fetchFactory(webApi, "Tarea/DarCumplimiento");
+export const tareaQuitarCumplimientoFetch = fetchFactory(webApi, "Tarea/QuitarCumplimiento");
 export const tareaAddSimpleFetch = fetchFactory(webApi, "Tarea/SumarCondicion");
 export const tareaAddLapsoFetch = fetchFactory(webApi, "Tarea/AgregarMultiplesCondicionesPorLapso");
 export const tareaAddFechaFetch = fetchFactory(webApi, "Tarea/AgregarMultiplesCondicionesEnFecha");
 export const tareaQuitarFetch = fetchFactory(webApi, "Tarea/QuitarTarea");
 export const tareaModificarDescripcionFetch = fetchFactory(webApi, "Tarea/ModificarDescripcion");
+export const tareaGetMiSectorFetch = fetchFactory(webApi, "Tarea/GetMiSector");
 
 export const sectoresGetByIdFetch = fetchFactory(webApi, "Sector");
 export const sectoresGetAllFetch = fetchFactory(webApi, "Sector/all");

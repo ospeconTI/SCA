@@ -18,6 +18,8 @@ import { menuPrincipal } from "../views/headers/menu";
 
 import { amparosScreen } from "../views/sistema/admAmparos/amparos";
 import { inicialScreen } from "../views/sistema/inicial";
+import { solicitarAutorizacion } from "../views/sistema/solicitarAutorizacion";
+import { esperarAutorizacion } from "../views/sistema/esperarAutorizacion";
 import { busquedaDescripcionScreen } from "../views/sistema/admAmparos/busquedaDescripcion";
 import { tareaCargaScreen } from "../views/sistema/admAmparos/tareaCarga";
 import { planCargaScreen } from "../views/sistema/admAmparos/planCarga";
@@ -84,6 +86,8 @@ export class viewManager extends connect(store, MEDIA_CHANGE, SCREEN, SELECTION)
 			<menu-principal id="menu" class="header"></menu-principal>
 
 			<inicial-screen id="inicial" class="body"></inicial-screen>
+			<solicitar-autorizacion id="solicitarAutorizacion" class="body"></solicitar-autorizacion>
+			<esperar-autorizacion id="esperarAutorizacion" class="body"></esperar-autorizacion>
 			<amparos-screen id="amparos" class="body"></amparos-screen>
 			<busqueda-descripcion-screen id="busquedaDescripcion" class="body"></busqueda-descripcion-screen>
 			<tarea-carga-screen id="tareaCarga" class="body"></tarea-carga-screen>
