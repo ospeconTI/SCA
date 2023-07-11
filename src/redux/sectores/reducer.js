@@ -26,6 +26,10 @@ import {
 	USUARIO_HACER_RESPONSABLE_ERROR,
 	GET_ALL_USUARIOS_SUCCESS,
 	GET_ALL_USUARIOS_ERROR,
+	QUITAR_ROL_INTEGRANTE_SUCCESS,
+	QUITAR_ROL_INTEGRANTE_ERROR,
+	ASIGNAR_ROL_INTEGRANTE_SUCCESS,
+	ASIGNAR_ROL_INTEGRANTE_ERROR,
 } from "./actions";
 
 const initialState = {
@@ -72,6 +76,14 @@ const initialState = {
 	usuariosAll: {
 		entities: null,
 		count: 0,
+		timeStamp: null,
+		errorTimeStamp: null,
+	},
+	quitarRolIntegrante: {
+		timeStamp: null,
+		errorTimeStamp: null,
+	},
+	asignarRolIntegrante: {
 		timeStamp: null,
 		errorTimeStamp: null,
 	},
@@ -128,6 +140,12 @@ export const reducer = (state = initialState, action) => {
 		case USUARIO_HACER_RESPONSABLE_SUCCESS:
 			newState.usuarioHacerResponsable.timeStamp = new Date().getTime();
 			break;
+		case QUITAR_ROL_INTEGRANTE_SUCCESS:
+			newState.quitarRolIntegrante.timeStamp = new Date().getTime();
+			break;
+		case ASIGNAR_ROL_INTEGRANTE_SUCCESS:
+			newState.asignarRolIntegrante.timeStamp = new Date().getTime();
+			break;
 		case GET_BY_ID_ERROR:
 			newState.byId.errorTimeStamp = new Date().getTime();
 			break;
@@ -154,7 +172,12 @@ export const reducer = (state = initialState, action) => {
 		case USUARIO_HACER_RESPONSABLE_ERROR:
 			newState.usuarioHacerResponsable.errorTimeStamp = new Date().getTime();
 			break;
-
+		case QUITAR_ROL_INTEGRANTE_ERROR:
+			newState.quitarRolIntegrante.errorTimeStamp = new Date().getTime();
+			break;
+		case ASIGNAR_ROL_INTEGRANTE_ERROR:
+			newState.asignarRolIntegrante.errorTimeStamp = new Date().getTime();
+			break;
 		case UPDATE_ERROR:
 		case REMOVE_ERROR:
 		case PATCH_ERROR:

@@ -35,11 +35,17 @@ import {
 	GET_ALL_USUARIOS,
 	GET_ALL_USUARIOS_SUCCESS,
 	GET_ALL_USUARIOS_ERROR,
+	QUITAR_ROL_INTEGRANTE,
+	QUITAR_ROL_INTEGRANTE_SUCCESS,
+	QUITAR_ROL_INTEGRANTE_ERROR,
+	ASIGNAR_ROL_INTEGRANTE,
+	ASIGNAR_ROL_INTEGRANTE_SUCCESS,
+	ASIGNAR_ROL_INTEGRANTE_ERROR,
 } from "./actions";
 
 import { RESTRequest, RESTAdd, RESTDelete, RESTUpdate, RESTPatch } from "../rest/actions";
 
-import { sectoresGetByIdFetch, sectoresGetAllFetch, sectoresGetByDescripcioniFetch, sectoresAddFetch, sectoresUpdateFetch, sectoresSumarIntegranteFetch, sectoresQuitarIntegranteFetch, sectoresModificarIntegranteFetch, sectoresUsuarioHacerResponsableFetch, sectoresGetAllUsuariosFetch } from "../fetchs";
+import { sectoresGetByIdFetch, sectoresGetAllFetch, sectoresGetByDescripcioniFetch, sectoresAddFetch, sectoresUpdateFetch, sectoresSumarIntegranteFetch, sectoresQuitarIntegranteFetch, sectoresModificarIntegranteFetch, sectoresUsuarioHacerResponsableFetch, sectoresGetAllUsuariosFetch, sectoresQuitarRolIntegranteFetch, sectoresAsignarRolIntegranteFetch } from "../fetchs";
 
 export const getById =
 	({ dispatch }) =>
@@ -161,6 +167,26 @@ export const usuarioHacerResponsable =
 		}
 	};
 
+export const quitarRolIntegrante =
+	({ dispatch }) =>
+	(next) =>
+	(action) => {
+		next(action);
+		if (action.type === QUITAR_ROL_INTEGRANTE) {
+			dispatch(RESTUpdate(sectoresQuitarRolIntegranteFetch, null, action.body, QUITAR_ROL_INTEGRANTE_SUCCESS, QUITAR_ROL_INTEGRANTE_ERROR, action.token));
+		}
+	};
+
+export const asignarRolIntegrante =
+	({ dispatch }) =>
+	(next) =>
+	(action) => {
+		next(action);
+		if (action.type === ASIGNAR_ROL_INTEGRANTE) {
+			dispatch(RESTUpdate(sectoresAsignarRolIntegranteFetch, null, action.body, ASIGNAR_ROL_INTEGRANTE_SUCCESS, ASIGNAR_ROL_INTEGRANTE_ERROR, action.token));
+		}
+	};
+
 export const processGet =
 	({ dispatch }) =>
 	(next) =>
@@ -188,4 +214,4 @@ export const processError =
 		}
 	};
 
-export const middleware = [getById, usuarioHacerResponsable, getByDescripcion, getAll, getAllUsuarios, add, update, patch, remove, sumarIntegrante, quitarIntegrante, modificarIntegrante, processGet, processComand, processError];
+export const middleware = [getById, usuarioHacerResponsable, getByDescripcion, getAll, getAllUsuarios, add, update, patch, remove, sumarIntegrante, quitarIntegrante, modificarIntegrante, quitarRolIntegrante, asignarRolIntegrante, processGet, processComand, processError];

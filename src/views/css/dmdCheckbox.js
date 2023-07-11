@@ -10,7 +10,7 @@ export const dmdCheckbox = css`
 		grid-gap: 0rem;
 	}
 	.dmd-checkbox .dmd-checkbox-titulo {
-		color: var(--color-control-texto);
+		color: var(--on-aplicacion);
 		font-size: 0.9rem;
 		font-weight: 500;
 		padding-left: 0.6rem;
@@ -18,17 +18,17 @@ export const dmdCheckbox = css`
 		transition: all 0.3s ease-in-out;
 	}
 	.dmd-checkbox:focus-within .dmd-checkbox-titulo {
-		color: var(--color-primario);
+		color: var(--primario);
 		font-weight: 900;
 		transition: all 0.3s ease-in-out;
 	}
 
 	.dmd-checkbox .dmd-checkbox-checkbox {
 		display: grid;
-		background-color: var(--color-control-fondo);
-		border: 1px solid var(--color-primario);
-		color: var(--color-control-texto);
-		font-size: 0.7rem;
+		background-color: var(--formularioo);
+		border: 1px solid var(--primario);
+		color: var(--on-formulario);
+		font-size: 0.9rem;
 		font-weight: var(--font-bajada-weight);
 		outline: none;
 		border-radius: 0.4rem;
@@ -39,18 +39,18 @@ export const dmdCheckbox = css`
 	}
 	.dmd-checkbox .dmd-checkbox-check {
 		padding: 0 !important;
-		margin: 0.1rem 0;
+		margin: 0.1rem;
 	}
 
 	.dmd-checkbox:focus-within .dmd-checkbox-checkbox {
-		background-color: var(--color-control-fondo);
-		border-color: var(--color-destacado);
-		color: var(--color-control-texto);
+		background-color: var(--formulario);
+		border-color: var(--terciario);
+		color: var(--on-formulario);
 		transition: all 0.3s ease-in-out;
 	}
 
 	.dmd-checkbox[error] .dmd-checkbox-checkbox {
-		border: 1px solid var(--color-error);
+		border: 1px solid var(--error);
 	}
 
 	.dmd-checkbox[horizontal] .dmd-checkbox-checkbox {
@@ -58,9 +58,8 @@ export const dmdCheckbox = css`
 		justify-content: left;
 		align-items: center;
 	}
-
 	.dmd-checkbox .dmd-checkbox-error {
-		color: var(--color-error);
+		color: var(--error);
 		font-size: 0.7rem;
 		font-weight: 300;
 		display: none;
@@ -88,7 +87,7 @@ export const dmdCheckbox = css`
 		height: 1.1rem;
 		width: 1.1rem;
 		transform: translateY(-50%) scale(0.9);
-		fill: var(--color-error);
+		fill: var(--error);
 	}
 	.dmd-checkbox[error] svg {
 		display: grid;

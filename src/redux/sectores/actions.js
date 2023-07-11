@@ -11,6 +11,8 @@ export const SUMAR_INTEGRANTE = "[sectores] SUMAR_INTEGRANTE";
 export const QUITAR_INTEGRANTE = "[sectores] QUITAR_INTEGRANTE";
 export const MODIFICAR_INTEGRANTE = "[sectores] MODIFICAR_INTEGRANTE";
 export const USUARIO_HACER_RESPONSABLE = "[sectores] USUARIO_HACER_RESPONSABLE";
+export const QUITAR_ROL_INTEGRANTE = "[sectores] QUITAR_ROL_INTEGRANTE";
+export const ASIGNAR_ROL_INTEGRANTE = "[sectores] ASIGNAR_ROL_INTEGRANTE";
 
 export const GET_BY_ID_SUCCESS = "[sectores] GET_BY_ID success";
 export const GET_BY_DESCRIPCION_SUCCESS = "[sectores] GET_BY_DESCRIPCION success";
@@ -24,6 +26,8 @@ export const SUMAR_INTEGRANTE_SUCCESS = "[sectores] SUMAR_INTEGRANTE success";
 export const QUITAR_INTEGRANTE_SUCCESS = "[sectores] QUITAR_INTEGRANTE success";
 export const MODIFICAR_INTEGRANTE_SUCCESS = "[sectores] MODIFICAR_INTEGRANTE success";
 export const USUARIO_HACER_RESPONSABLE_SUCCESS = "[sectores] USUARIO_HACER_RESPONSABLE success";
+export const QUITAR_ROL_INTEGRANTE_SUCCESS = "[sectores] QUITAR_ROL_INTEGRANTE success";
+export const ASIGNAR_ROL_INTEGRANTE_SUCCESS = "[sectores] ASIGNAR_ROL_INTEGRANTE success";
 
 export const GET_BY_ID_ERROR = "[sectores] GET_BY_ID error";
 export const GET_BY_DESCRIPCION_ERROR = "[sectores] GET_BY_DESCRIPCION error";
@@ -37,6 +41,8 @@ export const SUMAR_INTEGRANTE_ERROR = "[sectores] SUMAR_INTEGRANTE error";
 export const QUITAR_INTEGRANTE_ERROR = "[sectores] QUITAR_INTEGRANTE error";
 export const MODIFICAR_INTEGRANTE_ERROR = "[sectores] MODIFICAR_INTEGRANTE error";
 export const USUARIO_HACER_RESPONSABLE_ERROR = "[sectores] USUARIO_HACER_RESPONSABLE error";
+export const QUITAR_ROL_INTEGRANTE_ERROR = "[sectores] QUITAR_ROL_INTEGRANTE error";
+export const ASIGNAR_ROL_INTEGRANTE_ERROR = "[sectores] ASIGNAR_ROL_INTEGRANTE error";
 
 export const getById = (id) => ({
 	type: GET_BY_ID,
@@ -121,6 +127,18 @@ export const modificarIntegrante = (body, token) => ({
 
 export const usuarioHacerResponsable = (body, token) => ({
 	type: USUARIO_HACER_RESPONSABLE,
+	body: body,
+	token: token,
+});
+
+export const quitarRolIntegrante = (body, token) => ({
+	type: QUITAR_ROL_INTEGRANTE,
+	body: body,
+	token: token,
+});
+
+export const asignarRolIntegrante = (body, token) => ({
+	type: ASIGNAR_ROL_INTEGRANTE,
 	body: body,
 	token: token,
 });

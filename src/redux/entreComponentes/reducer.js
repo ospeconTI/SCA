@@ -1,4 +1,4 @@
-import { BUSQUEDA_DESCRIPCION__LOAD01, TAREA_CARGA__LOAD01, TAREA_CARGA__LOAD02, TAREA_CARGA__LOAD03, PLAN_CARGA__LOAD01, AMPAROS__FILTER01, AMPAROS__SACAR_FILTER01, CARGA_SECTORES__LOAD01, VER_USUARIOS__LOAD01, CARGA_USUARIOS__LOAD01, TAREA_CARGA_A_AMPARO__RETORNO } from "./actions";
+import { BUSQUEDA_DESCRIPCION__LOAD01, TAREA_CARGA__LOAD01, TAREA_CARGA__LOAD02, TAREA_CARGA__LOAD03, PLAN_CARGA__LOAD01, AMPAROS__FILTER01, AMPAROS__SACAR_FILTER01, CARGA_SECTORES__LOAD01, VER_USUARIOS__LOAD01, CARGA_USUARIOS__LOAD01, TAREA_CARGA_A_AMPARO__RETORNO, VER_ROLES__LOAD01 } from "./actions";
 
 const initialState = {
 	busqueDescripcion_Load01: {
@@ -54,6 +54,11 @@ const initialState = {
 		timeStamp: null,
 		item: null,
 		itemPadre: null,
+		accion: null,
+	},
+	verRoles__Load01: {
+		timeStamp: null,
+		item: null,
 		accion: null,
 	},
 };
@@ -119,6 +124,12 @@ export const reducer = (state = initialState, action) => {
 			newState.tareaCargaAAmparo_Retorno01.item = action.item || action.param?.item;
 			newState.tareaCargaAAmparo_Retorno01.itemPadre = action.itemPadre || action.param?.itemPadre;
 			newState.tareaCargaAAmparo_Retorno01.accion = action.accion || action.param.accion;
+			break;
+		case VER_ROLES__LOAD01:
+			newState.verRoles__Load01.timeStamp = new Date().getTime();
+			newState.verRoles__Load01.item = action.item || action.param?.item;
+			newState.verRoles__Load01.itemSector = action.itemSector || action.param?.itemSector;
+			newState.verRoles__Load01.accion = action.accion || action.param.accion;
 			break;
 	}
 	return newState;

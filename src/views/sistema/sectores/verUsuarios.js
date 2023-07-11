@@ -3,7 +3,7 @@ import { html, LitElement, css } from "lit";
 import { store } from "../../../redux/store";
 import { connect } from "@brunomon/helpers";
 import { isInLayout } from "../../../redux/screens/screenLayouts";
-import { MENU, FLECHARIGTH, BACK, MAS, EDIT, TRASH, SEARCH, CLOSE, KEY, VER } from "../../../../assets/icons/svgs";
+import { MENU, FLECHARIGTH, BACK, MAS, EDIT, TRASH, SEARCH, CLOSE, KEY, VER, PULGARARRIBA, ROL } from "../../../../assets/icons/svgs";
 import { showWarning, showMsgBox } from "../../../redux/ui/actions";
 import { goTo, goHistoryPrev } from "../../../redux/routing/actions";
 
@@ -13,8 +13,9 @@ import { dmdGridThemeNormal } from "../../componentes/grid/css/dmdGridThemeNorma
 import { dmdInput } from "../../css/dmdInput";
 import { dmdButton } from "../../css/dmdButton";
 
+import { verRoles__Load01, cargaUsuarios_Load01 } from "../../../redux/entreComponentes/actions";
+
 import { getAll as getAllSectores } from "../../../redux/sectores/actions";
-import { cargaUsuarios_Load01 } from "../../../redux/entreComponentes/actions";
 import { usuarioHacerResponsable } from "../../../redux/sectores/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
@@ -76,7 +77,7 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 			}
 			.dmd-grid-datos-titulos,
 			.dmd-grid-datos-registros {
-				grid-template-columns: 11rem 11rem 12rem 8rem 20rem;
+				grid-template-columns: 11rem 11rem 12rem 8rem 20rem 8rem;
 			}
 			.dmd-grid-datos-registros[fondorojo] {
 				color: var(--color-error) !important;
@@ -89,7 +90,6 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 			}
 		`;
 	}
-
 	render() {
 		return html`
 			<div class="dmd-grid dmd-grid-theme-normal">
@@ -110,7 +110,8 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 						<div title="Atras" atras @click=${this.atras}>${BACK}<label style="display:none">Atras</label></div>
 						<div title="Nuevo" @click=${this.alta} ?hidden=${true || this.usuarioRol == "" || this.accion == "view"}>${MAS} <label style="display:none">Nuevo</label></div>
 						<div title="Modificar" @click=${this.modificar} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${EDIT}<label style="display:none">Modificar</label></div>
-						<div title="Marcar como responsable" @click=${this.responsable} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${KEY}<label style="display:none">Responsable</label></div>
+						<div title="Marcar como responsable" @click=${this.responsable} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${PULGARARRIBA}<label style="display:none">Responsable</label></div>
+						<div title="Roles" @click=${this.roles} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${ROL}<label style="display:none">Roles</label></div>
 						<div title="ELiminar" @click=${this.eliminar} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${TRASH}<label style="display:none">Eliminar</label></div>
 						<div title="Visualizar Usuario" view @click=${this.ver}>${VER}<label style="display:none">Visualizar</label></div>
 					</div>
@@ -131,6 +132,9 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 							<div .campo=${"contacto"} class="dmd-grid-datos-titulo">
 								<label>Contacto</label>
 							</div>
+							<div .campo=${"activo"} class="dmd-grid-datos-titulo">
+								<label>Activo</label>
+							</div>
 						</div>
 						${this.grid.map((item, index) => {
 							return html`
@@ -140,6 +144,7 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 									<div class="dmd-grid-datos-registro" style="text-align:left">${item.email}</div>
 									<div class="dmd-grid-datos-registro" style="text-align:center">${item.esResponsable ? "Si" : "No"}</div>
 									<div class="dmd-grid-datos-registro" style="text-align:rigth">${item.contacto}</div>
+									<div class="dmd-grid-datos-registro" style="text-align:rigth">${item.activo ? "Si" : "No"}</div>
 								</div>
 							`;
 						})}
@@ -147,6 +152,14 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 				</div>
 			</div>
 		`;
+	}
+	roles() {
+		let seleccionado = this.shadowRoot.querySelector("[seleccionado]");
+		if (seleccionado) {
+			store.dispatch(verRoles__Load01(this.item, this.sector, "edit"));
+		} else {
+			store.dispatch(showWarning("Atencion!", "No selecciono registro.", "fondoError", 3000));
+		}
 	}
 	responsable(e) {
 		let seleccionado = this.shadowRoot.querySelector("[seleccionado]");

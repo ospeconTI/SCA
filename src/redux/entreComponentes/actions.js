@@ -9,6 +9,7 @@ export const AMPAROS__SACAR_FILTER01 = "[entreComponentes] AMPAROS__SACAR_FILTER
 export const CARGA_SECTORES__LOAD01 = "[entreComponentes] CARGA_SECTORES__LOAD01";
 export const VER_USUARIOS__LOAD01 = "[entreComponentes] VER_USUARIOS__LOAD01";
 export const CARGA_USUARIOS__LOAD01 = "[entreComponentes] CARGA_USUARIOS__LOAD01";
+export const VER_ROLES__LOAD01 = "[entreComponentes] VER_ROLES__LOAD01";
 
 export const busqueDescripcion_Load01 = (item, accion) => ({
 	type: BUSQUEDA_DESCRIPCION__LOAD01,
@@ -74,5 +75,12 @@ export const tareaCargaAAmparo_Retorno01 = (item, itemPadre, accion) => ({
 	type: TAREA_CARGA_A_AMPARO__RETORNO,
 	item: item,
 	itemPadre: itemPadre,
+	accion: accion,
+});
+
+export const verRoles__Load01 = (item, itemSector, accion) => ({
+	type: VER_ROLES__LOAD01,
+	item: item,
+	itemSector: itemSector,
 	accion: accion,
 });

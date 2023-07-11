@@ -339,7 +339,7 @@ export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET
 		if (name == AUTORIZACION) {
 			const profile = this.parseJwt(state.autorizacion.tokenAutentication);
 			if (state.autorizacion.entities.result.sectores.length == 0) {
-				this.profile = "NO REGISTRADO";
+				this.profile = "NO AUTORIZADO";
 				store.dispatch(set(state.autorizacion.entities.result));
 				store.dispatch(sectoresGetAll());
 			} else {

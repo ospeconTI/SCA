@@ -28,6 +28,7 @@ import { cargaSectores } from "../views/sistema/sectores/cargaSectores";
 import { verUsuarios } from "../views/sistema/sectores/verUsuarios";
 import { cargaUsuarios } from "../views/sistema/sectores/cargaUsuarios";
 import { abmUsuarios } from "../views/sistema/usuarios/abmUsuarios";
+import { verRoles } from "../views/sistema/sectores/verRoles";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -97,6 +98,7 @@ export class viewManager extends connect(store, MEDIA_CHANGE, SCREEN, SELECTION)
 			<ver-usuarios id="verUsuarios" class="body"></ver-usuarios>
 			<carga-usuarios id="cargaUsuarios" class="body"></carga-usuarios>
 			<abm-usuarios id="abmUsuarios" class="body"></abm-usuarios>
+			<ver-roles id="verRoles" class="body"></ver-roles>
 
 			<pantalla-warning id="warning"></pantalla-warning>
 			<alert-control></alert-control>

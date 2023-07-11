@@ -53,3 +53,5 @@ export const sectoresQuitarIntegranteFetch = fetchFactory(webApi, "Sector/Quitar
 export const sectoresModificarIntegranteFetch = fetchFactory(webApi, "Sector/ModificarIntegrante");
 export const sectoresUsuarioHacerResponsableFetch = fetchFactory(webApi, "Sector/HacerResponsable");
 export const sectoresGetAllUsuariosFetch = fetchFactory(webApi, "Sector/allUsuarios");
+export const sectoresQuitarRolIntegranteFetch = fetchFactory(webApi, "Sector/QuitarRolIntegrante");
+export const sectoresAsignarRolIntegranteFetch = fetchFactory(webApi, "Sector/AsignarRolIntegrante");

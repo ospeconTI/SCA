@@ -59,9 +59,9 @@ export class verSectores extends dmdGridBase(connect(store, TABLE, TABLE_ERROR, 
 				display: none;
 			}
 			.dmd-grid {
-				height: 95%;
+				height: 70%;
 				min-height: 20rem;
-				width: 95%;
+				width: max-content;
 				padding-top: 1rem;
 			}
 			.dmd-grid-datos-titulos,
