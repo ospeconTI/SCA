@@ -112,7 +112,7 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 						<div title="Modificar" @click=${this.modificar} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${EDIT}<label style="display:none">Modificar</label></div>
 						<div title="Marcar como responsable" @click=${this.responsable} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${PULGARARRIBA}<label style="display:none">Responsable</label></div>
 						<div title="Roles" @click=${this.roles} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${ROL}<label style="display:none">Roles</label></div>
-						<div title="ELiminar" @click=${this.eliminar} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${TRASH}<label style="display:none">Eliminar</label></div>
+						<div title="ELiminar" @click=${this.eliminar} ?hidden=${true || this.usuarioRol == "" || this.accion == "view"}>${TRASH}<label style="display:none">Eliminar</label></div>
 						<div title="Visualizar Usuario" view @click=${this.ver}>${VER}<label style="display:none">Visualizar</label></div>
 					</div>
 					<div class="dmd-grid-datos">
