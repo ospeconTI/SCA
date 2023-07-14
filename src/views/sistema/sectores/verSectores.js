@@ -131,7 +131,7 @@ export class verSectores extends dmdGridBase(connect(store, TABLE, TABLE_ERROR, 
 									<div class="dmd-grid-datos-registro id" style="text-align:right" .valor=${item.id}>${item.id}</div>
 									<div class="dmd-grid-datos-registro" style="text-align:left">${item.descripcion}</div>
 									<div class="dmd-grid-datos-registro" style="text-align:center">${item.activo ? "Si" : "Si"}</div>
-									<div class="dmd-grid-datos-registro" style="text-align:right">${item.usuarios.length}</div>
+									<div class="dmd-grid-datos-registro" style="text-align:center">${item.usuarios.length}</div>
 								</div>
 							`;
 						})}

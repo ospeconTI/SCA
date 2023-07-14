@@ -16,6 +16,7 @@ import { verRoles__Load01 } from "../../../redux/entreComponentes/actions";
 
 import { quitarRolIntegrante as quitarRol, asignarRolIntegrante as asignarRol } from "../../../redux/sectores/actions";
 import { getAll as getAllSectores } from "../../../redux/sectores/actions";
+import { getAllUsuarios } from "../../../redux/sectores/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -200,8 +201,13 @@ export class verRoles extends connect(store, SECTORES_ALL, SECTORES_ALL_ERROR, R
 			this.update();
 		}
 		if ((name == ADD_ROL || name == REMOVE_ROL) && !this.hidden) {
-			store.dispatch(showWarning("Atencion!", "El ROL se actulizo correctamente", "fondoOk", 3000));
-			store.dispatch(getAllSectores());
+			store.dispatch(showWarning("Atencion!", "El ROL se actulizo correctamente", "fondoOk", 1000));
+			if (state.screen.name == "verSectores") {
+				store.dispatch(getAllSectores());
+			}
+			if (state.screen.name == "abmUsuarios") {
+				store.dispatch(getAllUsuarios());
+			}
 		}
 		if ((name == ADD_ROL_ERROR || name == REMOVE_ROL_ERROR) && !this.hidden) {
 			store.dispatch(showWarning("Atencion!", "El ROL no fue actulizado, intente nuevamente", "fondoError", 3000));

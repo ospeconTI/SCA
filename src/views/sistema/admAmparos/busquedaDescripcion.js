@@ -9,6 +9,7 @@ import { showWarning } from "../../../redux/ui/actions";
 import { INFO } from "../../../../assets/icons/svgs";
 import { dmdButton } from "../../css/dmdButton";
 import { dmdInput } from "../../css/dmdInput";
+import { dmdSelect } from "../../css/dmdSelect";
 
 import { amparos_Filter01 } from "../../../redux/entreComponentes/actions";
 
@@ -29,6 +30,7 @@ export class busquedaDescripcionScreen extends connect(store, I_SHOW, MEDIA_CHAN
 		return css`
 			${dmdButton}
 			${dmdInput}
+			${dmdSelect}
 			:host {
 				display: grid;
 				position: fixed;
@@ -100,6 +102,9 @@ export class busquedaDescripcionScreen extends connect(store, I_SHOW, MEDIA_CHAN
 	get _descripcion() {
 		return this.shadowRoot.querySelector("#descripcion");
 	}
+	get _sector() {
+		return this.shadowRoot.querySelector("#sector");
+	}
 	get _botonAceptar() {
 		return this.shadowRoot.getElementById("btnAceptar");
 	}
@@ -120,14 +125,28 @@ export class busquedaDescripcionScreen extends connect(store, I_SHOW, MEDIA_CHAN
 					<div id="titulo">${this.item.titulo}</div>
 					<hr />
 					<div id="datos">
-						<div class="dmd-input" helper>
-							<label>${this.item.caption}</label>
-							<input type="text" id="descripcion" autocomplete="off" autocomplete="off" placeholder="" value="" />
-							<div>Debe ingresar el dato a buscar</div>
-							<span>Ingrese el dato a buscars</span>
-							${INFO}
-						</div>
-
+						${this.item.campo != "creador" && this.item.campo != "ejecutor"
+							? html` <div class="dmd-input" helper>
+									<label>${this.item.caption}</label>
+									<input type="text" id="descripcion" autocomplete="off" autocomplete="off" placeholder="" value="" />
+									<div>Debe ingresar el dato a buscar</div>
+									<span>Ingrese el dato a buscars</span>
+									${INFO}
+							  </div>`
+							: html` <div class="dmd-select" helper }>
+									<label>${this.item.caption}</label>
+									<select id="sector">
+										<option value="" selected>Todos los sectores</option>
+										${store.getState().sectores.all.entities
+											? store.getState().sectores.all.entities.map((item, index) => {
+													return html`<option value=${item.descripcion}>${item.descripcion}</option> `;
+											  })
+											: ""}
+									</select>
+									<div>Debe cargar una opcion</div>
+									<span>Seleccione un sector</span>
+									${INFO}
+							  </div>`}
 						<button id="btnAceptar" class="dmd-button" normal bordeRedondo @click="${this.grabar}">Aceptar</button>
 						<div style="height:2rem"></div>
 					</div>
@@ -160,16 +179,20 @@ export class busquedaDescripcionScreen extends connect(store, I_SHOW, MEDIA_CHAN
 		[].forEach.call(this.shadowRoot.querySelectorAll("[error]"), (element) => {
 			element.removeAttribute("error");
 		});
-		let descripcion = this._descripcion;
 		var ok = true;
-
-		if (descripcion.value == "") {
-			ok = false;
-			descripcion.setAttribute("error", "");
+		let valor = "";
+		if (this.item.campo != "creador" && this.item.campo != "ejecutor") {
+			if (this._descripcion.value == "") {
+				ok = false;
+				this._descripcion.setAttribute("error", "");
+			}
+			valor = this._descripcion.value;
+		} else {
+			valor = this._sector.value;
 		}
 		boton.disabled = false;
 		if (ok) {
-			store.dispatch(amparos_Filter01(this.item.campo, this._descripcion.value));
+			store.dispatch(amparos_Filter01(this.item.campo, valor));
 			this.hidden = true;
 		} else {
 			if (mensageError == "") {

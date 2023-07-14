@@ -77,7 +77,7 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 			}
 			.dmd-grid-datos-titulos,
 			.dmd-grid-datos-registros {
-				grid-template-columns: 11rem 11rem 12rem 8rem 20rem 8rem;
+				grid-template-columns: 11rem 11rem 12rem 8rem 8rem 20rem;
 			}
 			.dmd-grid-datos-registros[fondorojo] {
 				color: var(--color-error) !important;
@@ -126,14 +126,14 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 							<div .campo=${"email"} dmd-grid-orden class="dmd-grid-datos-titulo">
 								<label>Email</label>
 							</div>
+							<div .campo=${"activo"} class="dmd-grid-datos-titulo">
+								<label>Activo</label>
+							</div>
 							<div .campo=${"esResponsable"} class="dmd-grid-datos-titulo">
 								<label>Responsable</label>
 							</div>
 							<div .campo=${"contacto"} class="dmd-grid-datos-titulo">
 								<label>Contacto</label>
-							</div>
-							<div .campo=${"activo"} class="dmd-grid-datos-titulo">
-								<label>Activo</label>
 							</div>
 						</div>
 						${this.grid.map((item, index) => {
@@ -142,9 +142,9 @@ export class verUsuarios extends dmdGridBase(connect(store, USUARIO_HACER_RESPON
 									<div class="dmd-grid-datos-registro" style="text-align:left">${item.apellido}</div>
 									<div class="dmd-grid-datos-registro" style="text-align:left">${item.nombre}</div>
 									<div class="dmd-grid-datos-registro" style="text-align:left">${item.email}</div>
+									<div class="dmd-grid-datos-registro" style="text-align:center">${item.activo ? "Si" : "No"}</div>
 									<div class="dmd-grid-datos-registro" style="text-align:center">${item.esResponsable ? "Si" : "No"}</div>
 									<div class="dmd-grid-datos-registro" style="text-align:rigth">${item.contacto}</div>
-									<div class="dmd-grid-datos-registro" style="text-align:rigth">${item.activo ? "Si" : "No"}</div>
 								</div>
 							`;
 						})}

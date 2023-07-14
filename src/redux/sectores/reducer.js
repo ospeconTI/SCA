@@ -30,6 +30,8 @@ import {
 	QUITAR_ROL_INTEGRANTE_ERROR,
 	ASIGNAR_ROL_INTEGRANTE_SUCCESS,
 	ASIGNAR_ROL_INTEGRANTE_ERROR,
+	ACTIVAR_INTEGRANTE_SUCCESS,
+	ACTIVAR_INTEGRANTE_ERROR,
 } from "./actions";
 
 const initialState = {
@@ -84,6 +86,10 @@ const initialState = {
 		errorTimeStamp: null,
 	},
 	asignarRolIntegrante: {
+		timeStamp: null,
+		errorTimeStamp: null,
+	},
+	activarIntegrante: {
 		timeStamp: null,
 		errorTimeStamp: null,
 	},
@@ -146,6 +152,9 @@ export const reducer = (state = initialState, action) => {
 		case ASIGNAR_ROL_INTEGRANTE_SUCCESS:
 			newState.asignarRolIntegrante.timeStamp = new Date().getTime();
 			break;
+		case ACTIVAR_INTEGRANTE_SUCCESS:
+			newState.activarIntegrante.timeStamp = new Date().getTime();
+			break;
 		case GET_BY_ID_ERROR:
 			newState.byId.errorTimeStamp = new Date().getTime();
 			break;
@@ -177,6 +186,9 @@ export const reducer = (state = initialState, action) => {
 			break;
 		case ASIGNAR_ROL_INTEGRANTE_ERROR:
 			newState.asignarRolIntegrante.errorTimeStamp = new Date().getTime();
+			break;
+		case ACTIVAR_INTEGRANTE_ERROR:
+			newState.activarIntegrante.errorTimeStamp = new Date().getTime();
 			break;
 		case UPDATE_ERROR:
 		case REMOVE_ERROR:

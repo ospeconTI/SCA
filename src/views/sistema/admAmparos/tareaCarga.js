@@ -240,21 +240,21 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
 						</div>
 
 						<div class="dmd-input" helper ?hidden=${this.accion == "edit"}>
-							<label>Fecha de vencimiento</label>
-							<input type="date" id="vencimiento" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
+							<label>Dias al vencimiento</label>
+							<input type="number" id="vencimiento" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
 							<div>Debe ingresar fecha de vencimiento</div>
 							<span>Fecha que vence la tarea</span>
 							${INFO}
 						</div>
 
 						<div class="dmd-input" helper ?hidden=${this.accion == "edit"}>
-							<label>Fecha de Alerta</label>
-							<input type="date" id="alerta" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
+							<label>Dias previo al vencimiento</label>
+							<input type="number" id="alerta" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
 							<div>Debe ingresar fecha de alerta</div>
 							<span>Fecha que el estado de la tarea pasa a amarillo</span>
 							${INFO}
 						</div>
-
+						<!-- Solo para fecha -->
 						<div class="dmd-select" helper ?hidden=${this.tipoTarea != "fecha" || this.accion == "edit"}>
 							<label>Dia del mes</label>
 							<select id="diaDelMes" ?disabled=${!this.camposEditables}>
@@ -267,7 +267,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
 							<span>Seleccione un dia del mes</span>
 							${INFO}
 						</div>
-
+						<!-- Solo para Lapso -->
 						<div class="dmd-input" helper ?hidden=${this.tipoTarea != "lapso" || this.accion == "edit"}>
 							<label>Lapso en dias</label>
 							<input type="number" id="lapsoEnDias" autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
@@ -320,9 +320,13 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
 		}
 		if (name == TAREA_BY_ID && state.screen.name == "amparos") {
 			this.tarea = state.tareas.byId.entities;
+			let fVigencia = new Date(this.tarea.vigenteDesde.substring(0, 10));
+			let fVencimiento = new Date(this.tarea.vencimiento.substring(0, 10));
+			let fAlerta = new Date(this.tarea.alerta.substring(0, 10));
+
 			this._vigencia.value = dateReturnForComponente(this.tarea.vigenteDesde);
-			this._vencimiento.value = dateReturnForComponente(this.tarea.vencimiento);
-			this._alerta.value = dateReturnForComponente(this.tarea.alerta);
+			this._vencimiento.value = (fVencimiento - fVigencia) / (1000 * 60 * 60 * 24);
+			this._alerta.value = (fVencimiento - fAlerta) / (1000 * 60 * 60 * 24);
 			this._descripcion.value = this.tarea.descripcion;
 			this._instrucciones.value = this.tarea.instrucciones;
 			this._planControl.value = this.tarea.planId;
@@ -417,9 +421,9 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
 				this._cantidad.value = "";
 
 				this._ejecutor.value = store.getState().autorizacion.entities.result.sectores[0].id ? store.getState().autorizacion.entities.result.sectores[0].id : -1;
-				this._vigencia.value = dateReturnForComponente("07/01/2023");
-				this._vencimiento.value = dateReturnForComponente("07/10/2023");
-				this._alerta.value = dateReturnForComponente("07/08/2023");
+				this._vigencia.value = dateReturnForComponente("07/31/2023");
+				this._vencimiento.value = "10";
+				this._alerta.value = "5";
 				this._descripcion.value = "DEssssss";
 				this._instrucciones.value = "Inssssss";
 				this._planControl.value = "";
@@ -482,21 +486,18 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
 			this._vigencia.setAttribute("error", "");
 			mensageError = "La fecha de vigencia debe ser mayor o igual que hoy";
 		}
-		if (this._vencimiento.value == "" || !new Date(this._vencimiento.value)) {
+		if (this._vencimiento.value == "" || this._vencimiento.value == "0") {
 			ok = false;
 			this._vencimiento.setAttribute("error", "");
-		} else if (new Date(this._vencimiento.value + "T00:00:00") < new Date(this._vigencia.value + "T00:00:00")) {
-			ok = false;
-			this._vencimiento.setAttribute("error", "");
-			mensageError = "La fecha de vencimiento debe ser mayor o igual a la fecha de vigencia";
 		}
-		if (this._alerta.value == "" || !new Date(this._alerta.value)) {
+		if (this._alerta.value == "" || this._alerta.value == "0") {
 			ok = false;
 			this._alerta.setAttribute("error", "");
-		} else if (new Date(this._alerta.value + "T00:00:00") < new Date(this._vigencia.value + "T00:00:00") || new Date(this._alerta.value + "T00:00:00") > new Date(this._vencimiento.value + "T00:00:00")) {
+		} else if (this._alerta.value > this._vencimiento.value) {
 			ok = false;
+			this._vencimiento.setAttribute("error", "");
 			this._alerta.setAttribute("error", "");
-			mensageError = "La fecha de alerta debe ser mayor o igual a la fecha de vigencia y meno o igula a la fecha de vencimiento";
+			mensageError = "Los dias de alerta debe ser menor a los dias de vencimiento";
 		}
 		if (this.tipoTarea == "lapso") {
 			if (this._lapsoEnDias.value == "") {
@@ -521,8 +522,8 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
 			this.body.creadorId = this._creador.value;
 			this.body.ejecutorId = this._ejecutor.value;
 			this.body.vigenteDesde = this._vigencia.value;
-			this.body.venceEn = (new Date(this._vencimiento.value).getTime() - new Date(this._vigencia.value).getTime()) / (1000 * 60 * 60 * 24);
-			this.body.alerta = (new Date(this._vencimiento.value).getTime() - new Date(this._alerta.value).getTime()) / (1000 * 60 * 60 * 24);
+			this.body.venceEn = parseInt(this._vencimiento.value, 10);
+			this.body.alerta = parseInt(this._alerta.value, 10);
 			this.body.descripcion = this._descripcion.value;
 			this.body.instrucciones = this._instrucciones.value;
 			if (this.tipoTarea == "lapso") {

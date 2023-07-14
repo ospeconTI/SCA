@@ -83,6 +83,7 @@ export class amparosScreen extends connect(
 		this.itemsSeleccionados = [];
 		this.filtro = false;
 		this.cargaArbolDe0 = true;
+		this.sectorFiltro = "";
 	}
 	static get styles() {
 		return css`
@@ -227,11 +228,15 @@ export class amparosScreen extends connect(
 			this.inicializarArbol();
 			this.filtro = true;
 			this.arbol.splice(1);
-			this.arbol[0] = this.arbol[0].filter((it) => {
-				if (campo == "estado") return it[campo] == valor;
-				if (campo == "descripcion") return it[campo].toLowerCase().includes(valor.toLowerCase());
-				if (campo == "urlReferencia") return it[campo].toLowerCase().includes(valor.toLowerCase());
-			});
+			let f = store.getState().entreComponentes.amparos_Filter01.campo;
+			if (f == "creador" || f == "ejecutor") {
+			} else {
+				this.arbol[0] = this.arbol[0].filter((it) => {
+					if (campo == "estado") return it[campo] == valor;
+					if (campo == "descripcion") return it[campo].toLowerCase().includes(valor.toLowerCase());
+					if (campo == "urlReferencia") return it[campo].toLowerCase().includes(valor.toLowerCase());
+				});
+			}
 			this.update();
 		}
 	}
@@ -250,18 +255,30 @@ export class amparosScreen extends connect(
 		} else {
 			if (this.itemsSeleccionados.length == 0 || this.itemsSeleccionados.length < this.rama + 1) {
 				this.itemsSeleccionados.push(item);
-				store.dispatch(getTareasByPlanId(item.planId));
+				if (this.sectorFiltro == "") {
+					store.dispatch(getTareasByPlanId(item.planId));
+				} else {
+					store.dispatch(getTareasByPlanId(item.planId + "?sectorDescripcion=" + this.sectorFiltro));
+				}
 			} else {
 				this.itemsSeleccionados[this.rama] = item;
 				this.itemsSeleccionados.splice(this.rama + 1);
 				if (this.rama == 0) {
 					this.arbol.splice(1);
-					store.dispatch(getTareasByPlanId(item.planId));
+					if (this.sectorFiltro == "") {
+						store.dispatch(getTareasByPlanId(item.planId));
+					} else {
+						store.dispatch(getTareasByPlanId(item.planId + "?sectorDescripcion=" + this.sectorFiltro));
+					}
 				} else {
 					//this.arbol.splice(this.rama + 2);
 					//this.update();
 					this.arbol.splice(this.rama + 1);
-					store.dispatch(getTareasByPlanId(item.planId));
+					if (this.sectorFiltro == "") {
+						store.dispatch(getTareasByPlanId(item.planId));
+					} else {
+						store.dispatch(getTareasByPlanId(item.planId + "?sectorDescripcion=" + this.sectorFiltro));
+					}
 				}
 			}
 		}
@@ -269,7 +286,6 @@ export class amparosScreen extends connect(
 	refresh() {
 		this.cargaArbolDe0 = true;
 		this.inicializarArbol();
-		//store.dispatch(getPlanesAll());
 		this.filtroSacar();
 	}
 	stateChanged(state, name) {
@@ -283,7 +299,6 @@ export class amparosScreen extends connect(
 			const SeMuestraEnUnasDeEstasPantallas = "-amparos-".indexOf("-" + state.screen.name + "-") != -1;
 			if (haveBodyArea && SeMuestraEnUnasDeEstasPantallas) {
 				if (hiddenAnterior) {
-					//store.dispatch(getPlanesAll());
 					this.filtroSacar();
 				}
 				this.hidden = false;
@@ -295,7 +310,11 @@ export class amparosScreen extends connect(
 			if (this.cargaArbolDe0) {
 				this.update();
 			} else {
-				store.dispatch(getTareasByPlanId(this.itemsSeleccionados[0].planId));
+				if (this.sectorFiltro == "") {
+					store.dispatch(getTareasByPlanId(this.itemsSeleccionados[0].planId));
+				} else {
+					store.dispatch(getTareasByPlanId(this.itemsSeleccionados[0].planId + "?sectorDescripcion=" + this.sectorFiltro));
+				}
 			}
 		}
 		if (name == PLANES_ERROR) {
@@ -409,11 +428,12 @@ export class amparosScreen extends connect(
 			}
 		}
 		if (name == FILTRO_AMPAROS) {
+			let f = state.entreComponentes.amparos_Filter01.campo;
+			if (f == "creador" || f == "ejecutor") this.sectorFiltro = state.entreComponentes.amparos_Filter01.valor;
 			this.filtrar(state.entreComponentes.amparos_Filter01.campo, state.entreComponentes.amparos_Filter01.valor);
 		}
 		if (name == SACAR_FILTRO_AMPAROS || name == PLAN_ADD || name == PLAN_UPDATE) {
 			this.filtroSacar();
-			//store.dispatch(getPlanesAll());
 		}
 		if (name == TAREA_DAR_CUMPLIMIENTO_OK || name == TAREA_QUITAR_CUMPLIMIENTO_OK) {
 			store.dispatch(showWarning("Atencion", "Se dio como cumplido o descumplido la tarea", "fondoOk", 3000));

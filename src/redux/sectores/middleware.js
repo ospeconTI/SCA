@@ -41,11 +41,14 @@ import {
 	ASIGNAR_ROL_INTEGRANTE,
 	ASIGNAR_ROL_INTEGRANTE_SUCCESS,
 	ASIGNAR_ROL_INTEGRANTE_ERROR,
+	ACTIVAR_INTEGRANTE,
+	ACTIVAR_INTEGRANTE_SUCCESS,
+	ACTIVAR_INTEGRANTE_ERROR,
 } from "./actions";
 
 import { RESTRequest, RESTAdd, RESTDelete, RESTUpdate, RESTPatch } from "../rest/actions";
 
-import { sectoresGetByIdFetch, sectoresGetAllFetch, sectoresGetByDescripcioniFetch, sectoresAddFetch, sectoresUpdateFetch, sectoresSumarIntegranteFetch, sectoresQuitarIntegranteFetch, sectoresModificarIntegranteFetch, sectoresUsuarioHacerResponsableFetch, sectoresGetAllUsuariosFetch, sectoresQuitarRolIntegranteFetch, sectoresAsignarRolIntegranteFetch } from "../fetchs";
+import { sectoresGetByIdFetch, sectoresGetAllFetch, sectoresGetByDescripcioniFetch, sectoresAddFetch, sectoresUpdateFetch, sectoresSumarIntegranteFetch, sectoresQuitarIntegranteFetch, sectoresModificarIntegranteFetch, sectoresUsuarioHacerResponsableFetch, sectoresGetAllUsuariosFetch, sectoresQuitarRolIntegranteFetch, sectoresAsignarRolIntegranteFetch, sectoresActivarIntegranteFetch } from "../fetchs";
 
 export const getById =
 	({ dispatch }) =>
@@ -187,6 +190,16 @@ export const asignarRolIntegrante =
 		}
 	};
 
+export const activarIntegrante =
+	({ dispatch }) =>
+	(next) =>
+	(action) => {
+		next(action);
+		if (action.type === ACTIVAR_INTEGRANTE) {
+			dispatch(RESTUpdate(sectoresActivarIntegranteFetch, null, action.body, ACTIVAR_INTEGRANTE_SUCCESS, ACTIVAR_INTEGRANTE_ERROR, action.token));
+		}
+	};
+
 export const processGet =
 	({ dispatch }) =>
 	(next) =>
@@ -214,4 +227,4 @@ export const processError =
 		}
 	};
 
-export const middleware = [getById, usuarioHacerResponsable, getByDescripcion, getAll, getAllUsuarios, add, update, patch, remove, sumarIntegrante, quitarIntegrante, modificarIntegrante, quitarRolIntegrante, asignarRolIntegrante, processGet, processComand, processError];
+export const middleware = [getById, usuarioHacerResponsable, getByDescripcion, getAll, getAllUsuarios, add, update, patch, remove, sumarIntegrante, quitarIntegrante, activarIntegrante, modificarIntegrante, quitarRolIntegrante, asignarRolIntegrante, processGet, processComand, processError];

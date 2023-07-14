@@ -94,15 +94,15 @@ export const dmdGridBase = (baseElement) =>
 				div.removeAttribute("dmd-grid-orden-descendente");
 				div.setAttribute(ordenSiguiente == " desc" ? "dmd-grid-orden-descendente" : "dmd-grid-orden-ascendente", "");
 
-				var salida = [];
+				let salida = [];
 				if (input.value.length > 0) {
 					if (this.dataSource.length > 0) {
 						let aBuscar = this.camposOrden;
 						salida = this.dataSource.filter(function (dato) {
-							var ok = false;
-							for (var key in dato) {
+							let ok = false;
+							for (let key in dato) {
 								if (dato[key]) {
-									var value = dato[key].toString();
+									let value = dato[key].toString();
 									if (typeof dato[key] === "object" && dato[key] !== null) {
 										value = dato[key][Object.keys(dato[key])[0]];
 									}
@@ -110,9 +110,11 @@ export const dmdGridBase = (baseElement) =>
 										if (isValidDateUS(value)) {
 											value = new Date(value).toLocaleDateString("fr-FR").toString();
 										}
-										if (value.toUpperCase().indexOf(input.value.toUpperCase(), 0) > -1) {
-											ok = true;
-											break;
+										if (value !== undefined) {
+											if (value.toUpperCase().indexOf(input.value.toUpperCase(), 0) > -1) {
+												ok = true;
+												break;
+											}
 										}
 									}
 								}
@@ -126,6 +128,7 @@ export const dmdGridBase = (baseElement) =>
 					salida = this.dataSource;
 				}
 				this.grid = salida.sort(function (a, b) {
+					let r = div.campo;
 					if (a[div.campo] == null) {
 						return x;
 					}

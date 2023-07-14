@@ -13,6 +13,7 @@ export const MODIFICAR_INTEGRANTE = "[sectores] MODIFICAR_INTEGRANTE";
 export const USUARIO_HACER_RESPONSABLE = "[sectores] USUARIO_HACER_RESPONSABLE";
 export const QUITAR_ROL_INTEGRANTE = "[sectores] QUITAR_ROL_INTEGRANTE";
 export const ASIGNAR_ROL_INTEGRANTE = "[sectores] ASIGNAR_ROL_INTEGRANTE";
+export const ACTIVAR_INTEGRANTE = "[sectores] ACTIVAR_INTEGRANTE";
 
 export const GET_BY_ID_SUCCESS = "[sectores] GET_BY_ID success";
 export const GET_BY_DESCRIPCION_SUCCESS = "[sectores] GET_BY_DESCRIPCION success";
@@ -28,6 +29,7 @@ export const MODIFICAR_INTEGRANTE_SUCCESS = "[sectores] MODIFICAR_INTEGRANTE suc
 export const USUARIO_HACER_RESPONSABLE_SUCCESS = "[sectores] USUARIO_HACER_RESPONSABLE success";
 export const QUITAR_ROL_INTEGRANTE_SUCCESS = "[sectores] QUITAR_ROL_INTEGRANTE success";
 export const ASIGNAR_ROL_INTEGRANTE_SUCCESS = "[sectores] ASIGNAR_ROL_INTEGRANTE success";
+export const ACTIVAR_INTEGRANTE_SUCCESS = "[sectores] ACTIVAR_INTEGRANTE success";
 
 export const GET_BY_ID_ERROR = "[sectores] GET_BY_ID error";
 export const GET_BY_DESCRIPCION_ERROR = "[sectores] GET_BY_DESCRIPCION error";
@@ -43,6 +45,7 @@ export const MODIFICAR_INTEGRANTE_ERROR = "[sectores] MODIFICAR_INTEGRANTE error
 export const USUARIO_HACER_RESPONSABLE_ERROR = "[sectores] USUARIO_HACER_RESPONSABLE error";
 export const QUITAR_ROL_INTEGRANTE_ERROR = "[sectores] QUITAR_ROL_INTEGRANTE error";
 export const ASIGNAR_ROL_INTEGRANTE_ERROR = "[sectores] ASIGNAR_ROL_INTEGRANTE error";
+export const ACTIVAR_INTEGRANTE_ERROR = "[sectores] ACTIVAR_INTEGRANTE error";
 
 export const getById = (id) => ({
 	type: GET_BY_ID,
@@ -139,6 +142,12 @@ export const quitarRolIntegrante = (body, token) => ({
 
 export const asignarRolIntegrante = (body, token) => ({
 	type: ASIGNAR_ROL_INTEGRANTE,
+	body: body,
+	token: token,
+});
+
+export const activarIntegrante = (body, token) => ({
+	type: ACTIVAR_INTEGRANTE,
 	body: body,
 	token: token,
 });

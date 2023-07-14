@@ -59,6 +59,46 @@
                 "orden": 3
             }
         ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Por sector ceador",
+        "accion": "[entreComponentes] BUSQUEDA_DESCRIPCION__LOAD01",
+        "param": {
+            "accion": "find",
+            "descripciones": {
+                "titulo": "Sector creador",
+                "caption": "Ingrese el sector ceador",
+                "campo": "creador"
+            }
+        }
+    },
+    {
+        "opcion": [
+            {
+                "menu": "0.0",
+                "orden": 4
+            }
+        ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Por sector ejecutor",
+        "accion": "[entreComponentes] BUSQUEDA_DESCRIPCION__LOAD01",
+        "param": {
+            "accion": "find",
+            "descripciones": {
+                "titulo": "Sector ejecutor",
+                "caption": "Ingrese el sector ejecutor",
+                "campo": "ejecutor"
+            }
+        }
+    },
+    {
+        "opcion": [
+            {
+                "menu": "0.0",
+                "orden": 5
+            }
+        ],
         "tipo": "linea",
         "svg": null,
         "titulo": "",
@@ -69,7 +109,7 @@
         "opcion": [
             {
                 "menu": "0.0",
-                "orden": 4
+                "orden": 6
             }
         ],
         "tipo": null,
@@ -85,7 +125,7 @@
         "opcion": [
             {
                 "menu": "0.0",
-                "orden": 5
+                "orden": 7
             }
         ],
         "tipo": null,
@@ -101,7 +141,7 @@
         "opcion": [
             {
                 "menu": "0.0",
-                "orden": 6
+                "orden": 8
             }
         ],
         "tipo": null,
@@ -117,7 +157,7 @@
         "opcion": [
             {
                 "menu": "0.0",
-                "orden": 7
+                "orden": 9
             }
         ],
         "tipo": null,
@@ -133,7 +173,7 @@
         "opcion": [
             {
                 "menu": "0.0",
-                "orden": 8
+                "orden": 10
             }
         ],
         "tipo": null,
@@ -149,7 +189,7 @@
         "opcion": [
             {
                 "menu": "0.0",
-                "orden": 9
+                "orden": 11
             }
         ],
         "tipo": "linea",
@@ -162,7 +202,7 @@
         "opcion": [
             {
                 "menu": "0.0",
-                "orden": 10
+                "orden": 12
             }
         ],
         "tipo": null,

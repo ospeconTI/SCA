@@ -3,7 +3,7 @@ import { html, LitElement, css } from "lit";
 import { store } from "../../../redux/store";
 import { connect } from "@brunomon/helpers";
 import { isInLayout } from "../../../redux/screens/screenLayouts";
-import { MENU, FLECHARIGTH, BACK, MAS, EDIT, TRASH, SEARCH, CLOSE, KEY } from "../../../../assets/icons/svgs";
+import { MENU, FLECHARIGTH, BACK, MAS, EDIT, TRASH, SEARCH, CLOSE, KEY, ROL } from "../../../../assets/icons/svgs";
 import { showWarning, showMsgBox } from "../../../redux/ui/actions";
 import { goTo, goHistoryPrev } from "../../../redux/routing/actions";
 
@@ -13,7 +13,9 @@ import { dmdGridThemeNormal } from "../../componentes/grid/css/dmdGridThemeNorma
 import { dmdInput } from "../../css/dmdInput";
 import { dmdButton } from "../../css/dmdButton";
 
-import { getAllUsuarios as getTable } from "../../../redux/sectores/actions";
+import { verRoles__Load01 } from "../../../redux/entreComponentes/actions";
+
+import { getAllUsuarios as getTable, activarIntegrante } from "../../../redux/sectores/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -21,7 +23,10 @@ const SCREEN = "screen.timeStamp";
 const TABLE = "sectores.usuariosAll.timeStamp";
 const TABLE_ERROR = "sectores.usuariosAll.errorTimeStamp";
 
-export class abmUsuarios extends dmdGridBase(connect(store, TABLE, TABLE_ERROR, MEDIA_CHANGE, SCREEN)(LitElement)) {
+const ACTIVAR_INTEGRANTE = "sectores.activarIntegrante.timeStamp";
+const ACTIVAR_INTEGRANTE_ERROR = "sectores.activarIntegrante.errorTimeStamp";
+
+export class abmUsuarios extends dmdGridBase(connect(store, ACTIVAR_INTEGRANTE, ACTIVAR_INTEGRANTE_ERROR, TABLE, TABLE_ERROR, MEDIA_CHANGE, SCREEN)(LitElement)) {
 	constructor() {
 		super();
 		this.area = "body";
@@ -34,7 +39,7 @@ export class abmUsuarios extends dmdGridBase(connect(store, TABLE, TABLE_ERROR, 
 	}
 	firstUpdated() {
 		super.firstUpdated();
-		this.grid = this.dataSource;
+		//this.grid = this.dataSource;
 	}
 	static get styles() {
 		return css`
@@ -64,7 +69,7 @@ export class abmUsuarios extends dmdGridBase(connect(store, TABLE, TABLE_ERROR, 
 			}
 			.dmd-grid-datos-titulos,
 			.dmd-grid-datos-registros {
-				grid-template-columns: 14rem 14rem 13rem 14rem 8rem;
+				grid-template-columns: 14rem 14rem 13rem 6rem 7rem 14rem 14rem;
 			}
 			.dmd-grid-datos-registros[fondorojo] {
 				color: var(--color-error) !important;
@@ -96,10 +101,8 @@ export class abmUsuarios extends dmdGridBase(connect(store, TABLE, TABLE_ERROR, 
 					<div class="dmd-grid-menu">
 						<div title="Mostar / ocultar barra de menu" @click=${this._menuAmpliarDmdGrid}>${FLECHARIGTH}<label style="display:none"></label></div>
 						<div title="Atras" atras @click=${this.atras}>${BACK}<label style="display:none">Atras</label></div>
-						<div title="Nuevo" @click=${this.alta} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${MAS} <label style="display:none">Nuevo</label></div>
-						<div title="Modificar" @click=${this.modificar} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${EDIT}<label style="display:none">Modificar</label></div>
-						<div title="Marcar como responsable" @click=${this.responsable} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${KEY}<label style="display:none">Responsable</label></div>
-						<div title="ELiminar" @click=${this.eliminar} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${TRASH}<label style="display:none">Eliminar</label></div>
+						<div title="Roles" @click=${this.roles} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${ROL}<label style="display:none">Roles</label></div>
+						<div title="Activar" @click=${this.activar} ?hidden=${this.usuarioRol == "" || this.accion == "view"}>${KEY}<label style="display:none">Activar</label></div>
 					</div>
 					<div class="dmd-grid-datos">
 						<div class="dmd-grid-datos-titulos">
@@ -112,11 +115,17 @@ export class abmUsuarios extends dmdGridBase(connect(store, TABLE, TABLE_ERROR, 
 							<div .campo=${"email"} dmd-grid-orden class="dmd-grid-datos-titulo">
 								<label>Email</label>
 							</div>
+							<div .campo=${"__activo"} dmd-grid-orden class="dmd-grid-datos-titulo">
+								<label>Activo</label>
+							</div>
+							<div .campo=${"__esResponsable"} class="dmd-grid-datos-titulo">
+								<label>Responsable</label>
+							</div>
+							<div .campo=${"__sector"} dmd-grid-orden class="dmd-grid-datos-titulo">
+								<label>Sector</label>
+							</div>
 							<div .campo=${"contacto"} class="dmd-grid-datos-titulo">
 								<label>Contacto</label>
-							</div>
-							<div .campo=${"esResponsable"} class="dmd-grid-datos-titulo">
-								<label>Responsable</label>
 							</div>
 						</div>
 						${this.grid.map((item, index) => {
@@ -125,8 +134,10 @@ export class abmUsuarios extends dmdGridBase(connect(store, TABLE, TABLE_ERROR, 
 									<div class="dmd-grid-datos-registro" style="text-align:left">${item.apellido}</div>
 									<div class="dmd-grid-datos-registro" style="text-align:left">${item.nombre}</div>
 									<div class="dmd-grid-datos-registro" style="text-align:left">${item.email}</div>
+									<div class="dmd-grid-datos-registro" style="text-align:center">${item.__activo}</div>
+									<div class="dmd-grid-datos-registro" style="text-align:center">${item.__esResponsable}</div>
+									<div class="dmd-grid-datos-registro" style="text-align:left	">${item.__sector}</div>
 									<div class="dmd-grid-datos-registro" style="text-align:rigth">${item.contacto}</div>
-									<div class="dmd-grid-datos-registro" style="text-align:center">${item.esResponsable ? "Si" : "No"}</div>
 								</div>
 							`;
 						})}
@@ -135,28 +146,29 @@ export class abmUsuarios extends dmdGridBase(connect(store, TABLE, TABLE_ERROR, 
 			</div>
 		`;
 	}
-	usuarios(e) {
+	roles() {
 		let seleccionado = this.shadowRoot.querySelector("[seleccionado]");
 		if (seleccionado) {
-			store.dispatch(verUsuarios_Load01(this.item.usuarios, this.item, "abm"));
+			if (seleccionado.item.activo) {
+				store.dispatch(verRoles__Load01(this.item, this.item.sector, "edit"));
+			} else {
+				store.dispatch(showWarning("Atencion!", "El usuario no esta activado.", "fondoError", 3000));
+			}
 		} else {
 			store.dispatch(showWarning("Atencion!", "No selecciono registro.", "fondoError", 3000));
 		}
 	}
-	alta(e) {
-		store.dispatch(cargaSectores_Load01(null, "add"));
-	}
-	modificar(e) {
+	activar(e) {
 		let seleccionado = this.shadowRoot.querySelector("[seleccionado]");
 		if (seleccionado) {
-			store.dispatch(cargaSectores_Load01(this.item, "edit"));
-		} else {
-			store.dispatch(showWarning("Atencion!", "No selecciono registro.", "fondoError", 3000));
-		}
-	}
-	eliminar() {
-		let seleccionado = this.shadowRoot.querySelector("[seleccionado]");
-		if (seleccionado) {
+			if (!seleccionado.item.activo) {
+				let body = {};
+				body.identificador = seleccionado.item.identificacion;
+				body.sectorId = seleccionado.item.sector.id;
+				store.dispatch(activarIntegrante(body));
+			} else {
+				store.dispatch(showWarning("Atencion!", "El usuario no esta activado.", "fondoError", 3000));
+			}
 		} else {
 			store.dispatch(showWarning("Atencion!", "No selecciono registro.", "fondoError", 3000));
 		}
@@ -182,10 +194,26 @@ export class abmUsuarios extends dmdGridBase(connect(store, TABLE, TABLE_ERROR, 
 		}
 		if (name == TABLE) {
 			this.dataSource = state.sectores.usuariosAll.entities;
+			this.grid = [];
+			this.dataSource.forEach((item, index) => {
+				item.__activo = item.activo ? "Activo" : "Inactivo";
+				item.__esResponsable = item.esResponsable ? "Si" : "No";
+				item.__sector = item.sector.descripcion;
+				this.grid.push(item);
+			});
+			//this.grid = this._buscarDmdGrid();
 			this._buscarDmdGrid();
+			//this.update();
 		}
 		if (name == TABLE_ERROR && state.screen.name == "abmUsuarios") {
 			store.dispatch(showWarning("Error", "No se pudo acceder a los datos, verifique su conexion", "fondoError", 4000));
+		}
+		if (name == ACTIVAR_INTEGRANTE) {
+			store.dispatch(getTable());
+			store.dispatch(showWarning("Activado", "El usuario fue activado", "fondoOk", 4000));
+		}
+		if (name == ACTIVAR_INTEGRANTE_ERROR && state.screen.name == "abmUsuarios") {
+			store.dispatch(showWarning("Error", "No se pudo activar al usuario, verifique su conexion", "fondoError", 4000));
 		}
 	}
 
