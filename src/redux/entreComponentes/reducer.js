@@ -1,4 +1,4 @@
-import { BUSQUEDA_DESCRIPCION__LOAD01, TAREA_CARGA__LOAD01, TAREA_CARGA__LOAD02, TAREA_CARGA__LOAD03, PLAN_CARGA__LOAD01, AMPAROS__FILTER01, AMPAROS__SACAR_FILTER01, CARGA_SECTORES__LOAD01, VER_USUARIOS__LOAD01, CARGA_USUARIOS__LOAD01, TAREA_CARGA_A_AMPARO__RETORNO, VER_ROLES__LOAD01 } from "./actions";
+import { BUSQUEDA_DESCRIPCION__LOAD01, TAREA_CARGA__LOAD01, TAREA_CARGA__LOAD02, TAREA_CARGA__LOAD03, PLAN_CARGA__LOAD01, AMPAROS__FILTER01, AMPAROS__FILTER02, AMPAROS__SACAR_FILTER01, AMPAROS__SACAR_FILTER02, CARGA_SECTORES__LOAD01, VER_USUARIOS__LOAD01, CARGA_USUARIOS__LOAD01, TAREA_CARGA_A_AMPARO__RETORNO, VER_ROLES__LOAD01 } from "./actions";
 
 const initialState = {
 	busqueDescripcion_Load01: {
@@ -31,7 +31,14 @@ const initialState = {
 		campo: null,
 		valor: null,
 	},
+	amparos_Filter02: {
+		timeStamp: null,
+		campo: null,
+	},
 	amparos_SacarFilter01: {
+		timeStamp: null,
+	},
+	amparos_SacarFilter02: {
 		timeStamp: null,
 	},
 	cargaSectores_Load01: {
@@ -98,9 +105,17 @@ export const reducer = (state = initialState, action) => {
 			newState.amparos_Filter01.timeStamp = new Date().getTime();
 			newState.amparos_Filter01.campo = action.campo || action.param.campo;
 			newState.amparos_Filter01.valor = action.valor || action.param.valor;
+			newState.amparos_Filter01.valor = newState.amparos_Filter01.valor == "TODOS" ? "" : newState.amparos_Filter01.valor;
+			break;
+		case AMPAROS__FILTER02:
+			newState.amparos_Filter02.timeStamp = new Date().getTime();
+			newState.amparos_Filter02.campo = action.campo || action.param.campo;
 			break;
 		case AMPAROS__SACAR_FILTER01:
 			newState.amparos_SacarFilter01.timeStamp = new Date().getTime();
+			break;
+		case AMPAROS__SACAR_FILTER02:
+			newState.amparos_SacarFilter02.timeStamp = new Date().getTime();
 			break;
 		case CARGA_SECTORES__LOAD01:
 			newState.cargaSectores_Load01.timeStamp = new Date().getTime();

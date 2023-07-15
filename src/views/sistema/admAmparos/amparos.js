@@ -7,11 +7,11 @@ import { goTo } from "../../../redux/routing/actions";
 import { isInLayout } from "../../../redux/screens/screenLayouts";
 import { showWarning } from "../../../redux/ui/actions";
 import { dmdButton } from "../../css/dmdButton";
-import { FILTRO, FILTROSACAR, REFRESH, MAS } from "../../../../assets/icons/svgs";
+import { FILTRO, FILTROSACAR, REFRESH, MAS, HOME } from "../../../../assets/icons/svgs";
 
 import { popupControl } from "../../../views/componentes/popup";
 
-import { armoTareas, recursiveSearch } from "../../../libs/funciones";
+import { armoTareas, recursiveSearch, hiddenOpcion } from "../../../libs/funciones";
 
 import { UPDATE, getAll as getPlanesAll } from "../../../redux/planes/actions";
 import { getByPlanId as getTareasByPlanId, darCumplimiento as tareaDarCumplimiento, quitarCumplimiento as tareaQuitarCumplimiento } from "../../../redux/tareas/actions";
@@ -32,7 +32,10 @@ const EVENTO_MOSTRAR_POPUP_PLANES = "eventos.mostrarPopupPlanes.timeStamp";
 const EVENTO_MOSTRAR_POPUP_TAREAS = "eventos.mostrarPopupTareas.timeStamp";
 
 const FILTRO_AMPAROS = "entreComponentes.amparos_Filter01.timeStamp";
-const SACAR_FILTRO_AMPAROS = "entreComponentes.amparos_SacarFilter01.timeStamp";
+const SACAR_FILTRO01_AMPAROS = "entreComponentes.amparos_SacarFilter01.timeStamp";
+const SACAR_FILTRO02_AMPAROS = "entreComponentes.amparos_SacarFilter02.timeStamp";
+
+const FILTRO_AMPAROS_POR_SECTOR_SIN_DESCRIPCION = "entreComponentes.amparos_Filter02.timeStamp";
 
 const TAREAS_BY_PLAN_ID_OK = "tareas.byPlanId.timeStamp";
 const TAREAS_BY_PLAN_ID_ERROR = "tareas.byPlanId.errorTimeStamp";
@@ -52,6 +55,7 @@ const TAREA_CARGA_A_AMPARO__RETORNO = "entreComponentes.tareaCargaAAmparo_Retorn
 
 export class amparosScreen extends connect(
 	store,
+	FILTRO_AMPAROS_POR_SECTOR_SIN_DESCRIPCION,
 	TAREA_QUITAR_CUMPLIMIENTO_OK,
 	TAREA_QUITAR_CUMPLIMIENTO_ERROR,
 	EVENTO_EJECUTAR_TAREA_QUITAR_CUMPLIMIENTO,
@@ -61,7 +65,8 @@ export class amparosScreen extends connect(
 	TAREA_DAR_CUMPLIMIENTO_ERROR,
 	FILTRO_AMPAROS,
 	PLAN_ADD,
-	SACAR_FILTRO_AMPAROS,
+	SACAR_FILTRO01_AMPAROS,
+	SACAR_FILTRO02_AMPAROS,
 	EVENTO_MOSTRAR_POPUP_PLANES,
 	EVENTO_MOSTRAR_POPUP_TAREAS,
 	EVENTO_MOSTRAR_HIJOS,
@@ -83,7 +88,7 @@ export class amparosScreen extends connect(
 		this.itemsSeleccionados = [];
 		this.filtro = false;
 		this.cargaArbolDe0 = true;
-		this.sectorFiltro = "";
+		this.sectorEjecutorFiltro = "";
 	}
 	static get styles() {
 		return css`
@@ -103,35 +108,43 @@ export class amparosScreen extends connect(
 			#div-titulo {
 				display: grid;
 				position: relative;
+				grid-auto-flow: column;
+				justify-content: left;
+				align-items: center;
 				width: 100vw;
 				background-color: var(--secundario);
 				font-family: var(font-header-h1-family);
 				font-size: 1.5rem;
 				color: var(--on-secundario);
-				align-content: center;
-				text-align: center;
+				gap: 1rem;
+				padding-left: 0.6rem;
 			}
-			#div-alta-amparo {
+			#div-sectores {
+				display: grid;
+				grid-auto-flow: column;
+				gap: 0.1rem;
+			}
+			#div-sectores-Descri {
+				font-family: var(font-header-h2-family);
+				font-size: 0.8rem;
+				align-self: center;
+				padding-right: 0.3rem;
+			}
+			#div-titulo-leyenda {
+				display: grid;
 				position: absolute;
-				left: 1rem;
-				top: 0.2rem;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
 			}
-			#div-refresh {
-				position: absolute;
-				left: 4rem;
-				top: 0.2rem;
+			.titulo-boton {
+				border: 1px solid rgba(256, 256, 256, 0.6);
+				height: 2rem;
+				cursor: pointer;
+				border-radius: 0.4rem;
+				background-color: rgba(0, 0, 0, 0.1);
 			}
-			#div-menu {
-				position: absolute;
-				left: 7rem;
-				top: 0.2rem;
-			}
-			#div-sacar-filtro {
-				position: absolute;
-				left: 10rem;
-				top: 0.2rem;
-			}
-			x #div-buscar {
+			#div-buscar {
 				display: grid;
 				position: relative;
 				width: 100vw;
@@ -174,16 +187,27 @@ export class amparosScreen extends connect(
 				height: 2rem;
 				fill: var(--on-secundario);
 			}
+			*[hidden] {
+				display: none !important;
+			}
 		`;
 	}
 	render() {
 		if (this.arbol) {
 			return html` <div id="div-titulo">
-					<div id="div-alta-amparo" @click="${this.altaAmparo}" title="Alta de nuevo plan">${MAS}</div>
-					<div id="div-refresh" @click="${this.refresh}" title="Refrescar la lista de planes">${REFRESH}</div>
-					<div id="div-menu" @click="${this.filtroMenu}" title="filtro de amparos">${FILTRO}</div>
-					<div id="div-sacar-filtro" @click="${this.filtroSacar}" ?hidden=${!this.filtro} title="Sacar filtros">${FILTROSACAR}</div>
-					<div>Administracion de amparos</div>
+					<div id="div-alta-amparo" class="titulo-boton" @click="${this.altaAmparo}" title="Alta de nuevo plan">${MAS}</div>
+					<div id="div-refresh" class="titulo-boton" @click="${this.refresh}" title="Refrescar la lista de planes">${REFRESH}</div>
+					<div id="div-menu" class="titulo-boton" @click="${this.filtroMenu}" title="filtro de amparos">${FILTRO}</div>
+					<div id="div-sacar-filtro" class="titulo-boton" @click="${this.filtroSacar}" ?hidden=${!this.filtro} title="Sacar filtros">${FILTROSACAR}</div>
+					<div id="div-sectores" class="titulo-boton" ?hidden=${hiddenOpcion("planes-filtrar-sectores")} @click="${this.filtroPorSector}" title="Filtro por sector">
+						<div>${HOME}</div>
+						<div id="div-sectores-Descri" ?hidden=${this.sectorEjecutorFiltro == ""}>${"Ejecutor: " + this.sectorEjecutorFiltro}</div>
+					</div>
+					<div id="div-sectores" class="titulo-boton" ?hidden=${!hiddenOpcion("planes-filtrar-sectores")} @click="${this.filtroPorSectorSinDescripicion}" title="Filtro por sector">
+						<div>${HOME}</div>
+						<div id="div-sectores-Descri" ?hidden=${this.sectorEjecutorFiltro == ""}>${"Ejecutor: " + this.sectorEjecutorFiltro}</div>
+					</div>
+					<div id="div-titulo-leyenda">Administracion de amparos</div>
 				</div>
 				<div class="div-arbol">
 					${this.arbol
@@ -220,6 +244,12 @@ export class amparosScreen extends connect(
 	filtroMenu(e) {
 		store.dispatch(showPopup("0.0", null, e.clientX, e.clientY));
 	}
+	filtroPorSector(e) {
+		store.dispatch(showPopup("1.0", null, e.clientX, e.clientY));
+	}
+	filtroPorSectorSinDescripicion(e) {
+		store.dispatch(showPopup("1.1", null, e.clientX, e.clientY));
+	}
 	altaAmparo() {
 		store.dispatch(planCarga_Load01(null, "add"));
 	}
@@ -230,6 +260,7 @@ export class amparosScreen extends connect(
 			this.arbol.splice(1);
 			let f = store.getState().entreComponentes.amparos_Filter01.campo;
 			if (f == "creador" || f == "ejecutor") {
+				this.filtro = false;
 			} else {
 				this.arbol[0] = this.arbol[0].filter((it) => {
 					if (campo == "estado") return it[campo] == valor;
@@ -255,29 +286,29 @@ export class amparosScreen extends connect(
 		} else {
 			if (this.itemsSeleccionados.length == 0 || this.itemsSeleccionados.length < this.rama + 1) {
 				this.itemsSeleccionados.push(item);
-				if (this.sectorFiltro == "") {
+				if (this.sectorEjecutorFiltro == "") {
 					store.dispatch(getTareasByPlanId(item.planId));
 				} else {
-					store.dispatch(getTareasByPlanId(item.planId + "?sectorDescripcion=" + this.sectorFiltro));
+					store.dispatch(getTareasByPlanId(item.planId + "?sectorDescripcion=" + this.sectorEjecutorFiltro));
 				}
 			} else {
 				this.itemsSeleccionados[this.rama] = item;
 				this.itemsSeleccionados.splice(this.rama + 1);
 				if (this.rama == 0) {
 					this.arbol.splice(1);
-					if (this.sectorFiltro == "") {
+					if (this.sectorEjecutorFiltro == "") {
 						store.dispatch(getTareasByPlanId(item.planId));
 					} else {
-						store.dispatch(getTareasByPlanId(item.planId + "?sectorDescripcion=" + this.sectorFiltro));
+						store.dispatch(getTareasByPlanId(item.planId + "?sectorDescripcion=" + this.sectorEjecutorFiltro));
 					}
 				} else {
 					//this.arbol.splice(this.rama + 2);
 					//this.update();
 					this.arbol.splice(this.rama + 1);
-					if (this.sectorFiltro == "") {
+					if (this.sectorEjecutorFiltro == "") {
 						store.dispatch(getTareasByPlanId(item.planId));
 					} else {
-						store.dispatch(getTareasByPlanId(item.planId + "?sectorDescripcion=" + this.sectorFiltro));
+						store.dispatch(getTareasByPlanId(item.planId + "?sectorDescripcion=" + this.sectorEjecutorFiltro));
 					}
 				}
 			}
@@ -299,6 +330,9 @@ export class amparosScreen extends connect(
 			const SeMuestraEnUnasDeEstasPantallas = "-amparos-".indexOf("-" + state.screen.name + "-") != -1;
 			if (haveBodyArea && SeMuestraEnUnasDeEstasPantallas) {
 				if (hiddenAnterior) {
+					if (hiddenOpcion("planes-filtrar-sectores")) {
+						this.sectorEjecutorFiltro = state.miPerfil.sector.descripcion;
+					}
 					this.filtroSacar();
 				}
 				this.hidden = false;
@@ -310,10 +344,10 @@ export class amparosScreen extends connect(
 			if (this.cargaArbolDe0) {
 				this.update();
 			} else {
-				if (this.sectorFiltro == "") {
+				if (this.sectorEjecutorFiltro == "") {
 					store.dispatch(getTareasByPlanId(this.itemsSeleccionados[0].planId));
 				} else {
-					store.dispatch(getTareasByPlanId(this.itemsSeleccionados[0].planId + "?sectorDescripcion=" + this.sectorFiltro));
+					store.dispatch(getTareasByPlanId(this.itemsSeleccionados[0].planId + "?sectorDescripcion=" + this.sectorEjecutorFiltro));
 				}
 			}
 		}
@@ -369,9 +403,9 @@ export class amparosScreen extends connect(
 		}
 		if (name == EVENTO_MOSTRAR_POPUP_PLANES) {
 			if (state.eventos.mostrarPopupPlanes.registro?.conTareas) {
-				store.dispatch(showPopup("1.1", state.eventos.mostrarPopupPlanes.registro, state.eventos.mostrarPopupPlanes.x + "px", state.eventos.mostrarPopupPlanes.y + "px"));
+				store.dispatch(showPopup("2.1", state.eventos.mostrarPopupPlanes.registro, state.eventos.mostrarPopupPlanes.x + "px", state.eventos.mostrarPopupPlanes.y + "px"));
 			} else {
-				store.dispatch(showPopup("1.0", state.eventos.mostrarPopupPlanes.registro, state.eventos.mostrarPopupPlanes.x + "px", state.eventos.mostrarPopupPlanes.y + "px"));
+				store.dispatch(showPopup("2.0", state.eventos.mostrarPopupPlanes.registro, state.eventos.mostrarPopupPlanes.x + "px", state.eventos.mostrarPopupPlanes.y + "px"));
 			}
 		}
 		if (name == EVENTO_MOSTRAR_POPUP_TAREAS) {
@@ -386,54 +420,69 @@ export class amparosScreen extends connect(
 			let soySoloEjecutor = tareaSectorCreador != usuarioSector && tareaSectorEjecutor == usuarioSector;
 			let soyAmbos = tareaSectorCreador == usuarioSector && tareaSectorEjecutor == usuarioSector;
 			let noSoyNinguno = tareaSectorCreador != usuarioSector && tareaSectorEjecutor != usuarioSector;
-			//2.0 nueva tarea simple, lapso, fecha, cumplimiento, mod, eliminar, ver
-			//2.1 nueva tarea simple, lapso, fecha, ver
-			//2.2 ver
-			//2.3 cumplimiento, mod, eliminar, ver
-			//2.4 nueva tarea simple, lapso, fecha, mod, eliminar, ver
-			//2.5 mod, eliminar, ver
-			//2.6 nueva tarea simple, lapso, fecha, cumplimiento, ver
-			//2.7 cumplimiento, ver
-			//2.8 nueva tarea simple, lapso, fecha, quitarCumplimiento, mod, eliminar, ver
-			//2.9 quitarCumplimiento, mod, eliminar, ver
-			//2.10 nueva tarea simple, lapso, fecha, quitarCumplimiento, ver
-			//2.11 quitarCumplimiento, ver
+			//3.0 nueva tarea simple, lapso, fecha, cumplimiento, mod, eliminar, ver
+			//3.1 nueva tarea simple, lapso, fecha, ver
+			//3.2 ver
+			//3.3 cumplimiento, mod, eliminar, ver
+			//3.4 nueva tarea simple, lapso, fecha, mod, eliminar, ver
+			//3.5 mod, eliminar, ver
+			//3.6 nueva tarea simple, lapso, fecha, cumplimiento, ver
+			//3.7 cumplimiento, ver
+			//3.8 nueva tarea simple, lapso, fecha, quitarCumplimiento, mod, eliminar, ver
+			//3.9 quitarCumplimiento, mod, eliminar, ver
+			//3.10 nueva tarea simple, lapso, fecha, quitarCumplimiento, ver
+			//3.11 quitarCumplimiento, ver
 
 			if (noSoyNinguno) {
-				store.dispatch(showPopup("2.2", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				store.dispatch(showPopup("3.2", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 			} else if (soyAmbos && !tareaPorLapso && !tareaConHijos) {
-				if (tareaEstado != "cumplida") store.dispatch(showPopup("2.0", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-				if (tareaEstado == "cumplida") store.dispatch(showPopup("2.8", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				if (tareaEstado != "cumplida") store.dispatch(showPopup("3.0", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				if (tareaEstado == "cumplida") store.dispatch(showPopup("3.8", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 			} else if (soyAmbos && !tareaPorLapso && tareaConHijos) {
-				store.dispatch(showPopup("2.1", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				store.dispatch(showPopup("3.1", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 			} else if (soyAmbos && tareaPorLapso) {
-				if (tareaEstado != "cumplida") store.dispatch(showPopup("2.3", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-				if (tareaEstado == "cumplida") store.dispatch(showPopup("2.9", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				if (tareaEstado != "cumplida") store.dispatch(showPopup("3.3", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				if (tareaEstado == "cumplida") store.dispatch(showPopup("3.9", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 			} else if (soySoloCreador && !tareaPorLapso && !tareaConHijos) {
-				if (tareaEstado != "cumplida") store.dispatch(showPopup("2.5", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-				if (tareaEstado == "cumplida") store.dispatch(showPopup("2.2", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				if (tareaEstado != "cumplida") store.dispatch(showPopup("3.5", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				if (tareaEstado == "cumplida") store.dispatch(showPopup("3.2", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 			} else if (soySoloCreador && !tareaPorLapso && tareaConHijos) {
-				store.dispatch(showPopup("2.2", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				store.dispatch(showPopup("3.2", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 			} else if (soySoloCreador && tareaPorLapso) {
-				if (tareaEstado != "cumplida") store.dispatch(showPopup("2.5", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-				if (tareaEstado == "cumplida") store.dispatch(showPopup("2.2", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				if (tareaEstado != "cumplida") store.dispatch(showPopup("3.5", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				if (tareaEstado == "cumplida") store.dispatch(showPopup("3.2", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 			} else if (soySoloEjecutor && !tareaPorLapso && !tareaConHijos) {
-				if (tareaEstado != "cumplida") store.dispatch(showPopup("2.6", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-				if (tareaEstado == "cumplida") store.dispatch(showPopup("2.10", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				if (tareaEstado != "cumplida") store.dispatch(showPopup("3.6", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				if (tareaEstado == "cumplida") store.dispatch(showPopup("3.10", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 			} else if (soySoloEjecutor && !tareaPorLapso && tareaConHijos) {
-				store.dispatch(showPopup("2.1", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				store.dispatch(showPopup("3.1", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 			} else if (soySoloEjecutor && tareaPorLapso) {
-				if (tareaEstado != "cumplida") store.dispatch(showPopup("2.7", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
-				if (tareaEstado == "cumplida") store.dispatch(showPopup("2.11", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				if (tareaEstado != "cumplida") store.dispatch(showPopup("3.7", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
+				if (tareaEstado == "cumplida") store.dispatch(showPopup("3.11", state.eventos.mostrarPopupTareas.registro, state.eventos.mostrarPopupTareas.x + "px", state.eventos.mostrarPopupTareas.y + "px"));
 			}
 		}
 		if (name == FILTRO_AMPAROS) {
 			let f = state.entreComponentes.amparos_Filter01.campo;
-			if (f == "creador" || f == "ejecutor") this.sectorFiltro = state.entreComponentes.amparos_Filter01.valor;
-			this.filtrar(state.entreComponentes.amparos_Filter01.campo, state.entreComponentes.amparos_Filter01.valor);
+			if (f == "creador") this.sectorEjecutorFiltro = state.entreComponentes.amparos_Filter01.valor;
+			if (f == "ejecutor") this.sectorEjecutorFiltro = state.entreComponentes.amparos_Filter01.valor;
+			this.filtrar(f, state.entreComponentes.amparos_Filter01.valor);
 		}
-		if (name == SACAR_FILTRO_AMPAROS || name == PLAN_ADD || name == PLAN_UPDATE) {
+		if (name == SACAR_FILTRO01_AMPAROS || name == PLAN_ADD || name == PLAN_UPDATE) {
 			this.filtroSacar();
+		}
+		if (name == SACAR_FILTRO02_AMPAROS) {
+			if (this.sectorEjecutorFiltro == "creador") {
+				this.sectorEjecutorFiltro = "";
+			} else {
+				this.sectorEjecutorFiltro = "";
+			}
+			store.dispatch(getPlanesAll());
+		}
+		if (name == FILTRO_AMPAROS_POR_SECTOR_SIN_DESCRIPCION) {
+			let f = state.entreComponentes.amparos_Filter02.campo;
+			if (f == "creador") this.sectorEjecutorFiltro = state.miPerfil.sector.descripcion;
+			if (f == "ejecutor") this.sectorEjecutorFiltro = state.miPerfil.sector.descripcion;
+			store.dispatch(getPlanesAll());
 		}
 		if (name == TAREA_DAR_CUMPLIMIENTO_OK || name == TAREA_QUITAR_CUMPLIMIENTO_OK) {
 			store.dispatch(showWarning("Atencion", "Se dio como cumplido o descumplido la tarea", "fondoOk", 3000));

@@ -5,7 +5,9 @@ export const TAREA_CARGA__LOAD03 = "[entreComponentes] TAREA_CARGA__LOAD03"; //P
 export const TAREA_CARGA_A_AMPARO__RETORNO = "[entreComponentes] TAREA_CARGA_A_AMPARO__RETORNO"; //Simple
 export const PLAN_CARGA__LOAD01 = "[entreComponentes] PLAN_CARGA__LOAD01";
 export const AMPAROS__FILTER01 = "[entreComponentes] AMPAROS__FILTER01";
+export const AMPAROS__FILTER02 = "[entreComponentes] AMPAROS__FILTER02";
 export const AMPAROS__SACAR_FILTER01 = "[entreComponentes] AMPAROS__SACAR_FILTER01";
+export const AMPAROS__SACAR_FILTER02 = "[entreComponentes] AMPAROS__SACAR_FILTER02";
 export const CARGA_SECTORES__LOAD01 = "[entreComponentes] CARGA_SECTORES__LOAD01";
 export const VER_USUARIOS__LOAD01 = "[entreComponentes] VER_USUARIOS__LOAD01";
 export const CARGA_USUARIOS__LOAD01 = "[entreComponentes] CARGA_USUARIOS__LOAD01";
@@ -47,8 +49,17 @@ export const amparos_Filter01 = (campo, valor) => ({
 	valor: valor,
 });
 
+export const amparos_Filter02 = (campo) => ({
+	type: AMPAROS__FILTER02,
+	campo: campo,
+});
+
 export const amparos_SacarFilter01 = () => ({
 	type: AMPAROS__SACAR_FILTER01,
+});
+
+export const amparos_SacarFilter02 = () => ({
+	type: AMPAROS__SACAR_FILTER02,
 });
 
 export const cargaSectores_Load01 = (item, accion) => ({

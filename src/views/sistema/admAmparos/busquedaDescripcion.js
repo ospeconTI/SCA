@@ -113,7 +113,10 @@ export class busquedaDescripcionScreen extends connect(store, I_SHOW, MEDIA_CHAN
 		super.firstUpdated();
 	}
 	willUpdate(changedProperties) {
-		if (changedProperties.has("mostrar")) {
+		if (changedProperties.has("hidden")) {
+			if (!this.hidden) {
+				if (this._sector) this._sector.value = "TODOS";
+			}
 		}
 	}
 
@@ -136,7 +139,7 @@ export class busquedaDescripcionScreen extends connect(store, I_SHOW, MEDIA_CHAN
 							: html` <div class="dmd-select" helper }>
 									<label>${this.item.caption}</label>
 									<select id="sector">
-										<option value="" selected>Todos los sectores</option>
+										<option value="TODOS" selected>Todos los sectores</option>
 										${store.getState().sectores.all.entities
 											? store.getState().sectores.all.entities.map((item, index) => {
 													return html`<option value=${item.descripcion}>${item.descripcion}</option> `;

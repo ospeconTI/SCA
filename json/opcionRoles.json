@@ -17,5 +17,11 @@
         "roles": [
             "administrador"
         ]
+    },
+    {
+        "opcion": "planes-filtrar-sectores",
+        "roles": [
+            "administrador"
+        ]
     }
 ]

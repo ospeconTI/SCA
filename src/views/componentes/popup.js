@@ -65,7 +65,7 @@ export class popupControl extends connect(store, SHOW, HIDDEN)(LitElement) {
 				font-family: var(font-header-h1-family);
 				font-size: var(--font-header-h1-size);
 				font-weight: var(--font-header-h1-weight);
-				margin-bottom: 2px;
+				padding: 0px 4px 2px 4px;
 			}
 			.div-linea {
 				height: 1px;

@@ -56,46 +56,6 @@
         "opcion": [
             {
                 "menu": "0.0",
-                "orden": 3
-            }
-        ],
-        "tipo": null,
-        "svg": null,
-        "titulo": "Por sector ceador",
-        "accion": "[entreComponentes] BUSQUEDA_DESCRIPCION__LOAD01",
-        "param": {
-            "accion": "find",
-            "descripciones": {
-                "titulo": "Sector creador",
-                "caption": "Ingrese el sector ceador",
-                "campo": "creador"
-            }
-        }
-    },
-    {
-        "opcion": [
-            {
-                "menu": "0.0",
-                "orden": 4
-            }
-        ],
-        "tipo": null,
-        "svg": null,
-        "titulo": "Por sector ejecutor",
-        "accion": "[entreComponentes] BUSQUEDA_DESCRIPCION__LOAD01",
-        "param": {
-            "accion": "find",
-            "descripciones": {
-                "titulo": "Sector ejecutor",
-                "caption": "Ingrese el sector ejecutor",
-                "campo": "ejecutor"
-            }
-        }
-    },
-    {
-        "opcion": [
-            {
-                "menu": "0.0",
                 "orden": 5
             }
         ],
@@ -216,9 +176,131 @@
             {
                 "menu": "1.0",
                 "orden": 0
-            },
+            }
+        ],
+        "tipo": "titulo",
+        "svg": null,
+        "titulo": "FILTRO POR SECTOR",
+        "accion": null,
+        "param": null
+    },
+    {
+        "opcion": [
+            {
+                "menu": "1.0",
+                "orden": 1
+            }
+        ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Por sector ceador",
+        "accion": "[entreComponentes] BUSQUEDA_DESCRIPCION__LOAD01",
+        "param": {
+            "accion": "find",
+            "descripciones": {
+                "titulo": "Sector creador",
+                "caption": "Ingrese el sector ceador",
+                "campo": "creador"
+            }
+        }
+    },
+    {
+        "opcion": [
+            {
+                "menu": "1.0",
+                "orden": 2
+            }
+        ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Por sector ejecutor",
+        "accion": "[entreComponentes] BUSQUEDA_DESCRIPCION__LOAD01",
+        "param": {
+            "accion": "find",
+            "descripciones": {
+                "titulo": "Sector ejecutor",
+                "caption": "Ingrese el sector ejecutor",
+                "campo": "ejecutor"
+            }
+        }
+    },
+    {
+        "opcion": [
+            {
+                "menu": "1.0",
+                "orden": 3
+            }
+        ],
+        "tipo": "linea",
+        "svg": null,
+        "titulo": "",
+        "accion": null,
+        "param": null
+    },
+    {
+        "opcion": [
+            {
+                "menu": "1.0",
+                "orden": 4
+            }
+        ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Sacar filtros",
+        "accion": "[entreComponentes] AMPAROS__SACAR_FILTER02",
+        "param": null
+    },
+    {
+        "opcion": [
             {
                 "menu": "1.1",
+                "orden": 0
+            }
+        ],
+        "tipo": "titulo",
+        "svg": null,
+        "titulo": "FILTRO POR SECTOR",
+        "accion": null,
+        "param": null
+    },
+    {
+        "opcion": [
+            {
+                "menu": "1.1",
+                "orden": 1
+            }
+        ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Por sector ceador",
+        "accion": "[entreComponentes] AMPAROS__FILTER02",
+        "param": {
+            "campo": "creador"
+        }
+    },
+    {
+        "opcion": [
+            {
+                "menu": "1.1",
+                "orden": 2
+            }
+        ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Por sector ejecutor",
+        "accion": "[entreComponentes] AMPAROS__FILTER02",
+        "param": {
+            "campo": "ejecutor"
+        }
+    },
+    {
+        "opcion": [
+            {
+                "menu": "2.0",
+                "orden": 0
+            },
+            {
+                "menu": "2.1",
                 "orden": 0
             }
         ],
@@ -231,14 +313,6 @@
     {
         "opcion": [
             {
-                "menu": "1.0",
-                "orden": 1
-            },
-            {
-                "menu": "1.1",
-                "orden": 1
-            },
-            {
                 "menu": "2.0",
                 "orden": 1
             },
@@ -247,19 +321,27 @@
                 "orden": 1
             },
             {
-                "menu": "2.4",
+                "menu": "3.0",
                 "orden": 1
             },
             {
-                "menu": "2.6",
+                "menu": "3.1",
                 "orden": 1
             },
             {
-                "menu": "2.8",
+                "menu": "3.4",
                 "orden": 1
             },
             {
-                "menu": "2.10",
+                "menu": "3.6",
+                "orden": 1
+            },
+            {
+                "menu": "3.8",
+                "orden": 1
+            },
+            {
+                "menu": "3.10",
                 "orden": 1
             }
         ],
@@ -274,7 +356,7 @@
     {
         "opcion": [
             {
-                "menu": "1.0",
+                "menu": "2.0",
                 "orden": 2
             }
         ],
@@ -289,7 +371,7 @@
     {
         "opcion": [
             {
-                "menu": "1.0",
+                "menu": "2.0",
                 "orden": 3
             }
         ],
@@ -304,11 +386,11 @@
     {
         "opcion": [
             {
-                "menu": "1.0",
+                "menu": "2.0",
                 "orden": 4
             },
             {
-                "menu": "1.1",
+                "menu": "2.1",
                 "orden": 2
             }
         ],
@@ -323,51 +405,51 @@
     {
         "opcion": [
             {
-                "menu": "2.0",
+                "menu": "3.0",
                 "orden": 0
             },
             {
-                "menu": "2.1",
+                "menu": "3.1",
                 "orden": 0
             },
             {
-                "menu": "2.2",
+                "menu": "3.2",
                 "orden": 0
             },
             {
-                "menu": "2.3",
+                "menu": "3.3",
                 "orden": 0
             },
             {
-                "menu": "2.4",
+                "menu": "3.4",
                 "orden": 0
             },
             {
-                "menu": "2.5",
+                "menu": "3.5",
                 "orden": 0
             },
             {
-                "menu": "2.6",
+                "menu": "3.6",
                 "orden": 0
             },
             {
-                "menu": "2.7",
+                "menu": "3.7",
                 "orden": 0
             },
             {
-                "menu": "2.8",
+                "menu": "3.8",
                 "orden": 0
             },
             {
-                "menu": "2.9",
+                "menu": "3.9",
                 "orden": 0
             },
             {
-                "menu": "2.10",
+                "menu": "3.10",
                 "orden": 0
             },
             {
-                "menu": "2.11",
+                "menu": "3.11",
                 "orden": 0
             }
         ],
@@ -380,27 +462,27 @@
     {
         "opcion": [
             {
-                "menu": "2.0",
+                "menu": "3.0",
                 "orden": 2
             },
             {
-                "menu": "2.1",
+                "menu": "3.1",
                 "orden": 2
             },
             {
-                "menu": "2.4",
+                "menu": "3.4",
                 "orden": 2
             },
             {
-                "menu": "2.6",
+                "menu": "3.6",
                 "orden": 2
             },
             {
-                "menu": "2.8",
+                "menu": "3.8",
                 "orden": 2
             },
             {
-                "menu": "2.10",
+                "menu": "3.10",
                 "orden": 2
             }
         ],
@@ -415,27 +497,27 @@
     {
         "opcion": [
             {
-                "menu": "2.0",
+                "menu": "3.0",
                 "orden": 3
             },
             {
-                "menu": "2.1",
+                "menu": "3.1",
                 "orden": 3
             },
             {
-                "menu": "2.4",
+                "menu": "3.4",
                 "orden": 3
             },
             {
-                "menu": "2.6",
+                "menu": "3.6",
                 "orden": 3
             },
             {
-                "menu": "2.8",
+                "menu": "3.8",
                 "orden": 3
             },
             {
-                "menu": "2.10",
+                "menu": "3.10",
                 "orden": 3
             }
         ],
@@ -450,19 +532,19 @@
     {
         "opcion": [
             {
-                "menu": "2.0",
+                "menu": "3.0",
                 "orden": 4
             },
             {
-                "menu": "2.3",
+                "menu": "3.3",
                 "orden": 1
             },
             {
-                "menu": "2.6",
+                "menu": "3.6",
                 "orden": 4
             },
             {
-                "menu": "2.7",
+                "menu": "3.7",
                 "orden": 1
             }
         ],
@@ -477,19 +559,19 @@
     {
         "opcion": [
             {
-                "menu": "2.8",
+                "menu": "3.8",
                 "orden": 4
             },
             {
-                "menu": "2.9",
+                "menu": "3.9",
                 "orden": 1
             },
             {
-                "menu": "2.10",
+                "menu": "3.10",
                 "orden": 4
             },
             {
-                "menu": "2.11",
+                "menu": "3.11",
                 "orden": 1
             }
         ],
@@ -504,27 +586,27 @@
     {
         "opcion": [
             {
-                "menu": "2.0",
+                "menu": "3.0",
                 "orden": 5
             },
             {
-                "menu": "2.3",
+                "menu": "3.3",
                 "orden": 2
             },
             {
-                "menu": "2.4",
+                "menu": "3.4",
                 "orden": 4
             },
             {
-                "menu": "2.5",
+                "menu": "3.5",
                 "orden": 1
             },
             {
-                "menu": "2.8",
+                "menu": "3.8",
                 "orden": 5
             },
             {
-                "menu": "2.9",
+                "menu": "3.9",
                 "orden": 2
             }
         ],
@@ -539,27 +621,27 @@
     {
         "opcion": [
             {
-                "menu": "2.0",
+                "menu": "3.0",
                 "orden": 6
             },
             {
-                "menu": "2.3",
+                "menu": "3.3",
                 "orden": 3
             },
             {
-                "menu": "2.4",
+                "menu": "3.4",
                 "orden": 5
             },
             {
-                "menu": "2.5",
+                "menu": "3.5",
                 "orden": 2
             },
             {
-                "menu": "2.8",
+                "menu": "3.8",
                 "orden": 6
             },
             {
-                "menu": "2.9",
+                "menu": "3.9",
                 "orden": 3
             }
         ],
@@ -574,51 +656,51 @@
     {
         "opcion": [
             {
-                "menu": "2.0",
+                "menu": "3.0",
                 "orden": 7
             },
             {
-                "menu": "2.1",
+                "menu": "3.1",
                 "orden": 4
             },
             {
-                "menu": "2.2",
+                "menu": "3.2",
                 "orden": 1
             },
             {
-                "menu": "2.3",
+                "menu": "3.3",
                 "orden": 4
             },
             {
-                "menu": "2.4",
+                "menu": "3.4",
                 "orden": 4
             },
             {
-                "menu": "2.5",
+                "menu": "3.5",
                 "orden": 3
             },
             {
-                "menu": "2.6",
+                "menu": "3.6",
                 "orden": 5
             },
             {
-                "menu": "2.7",
+                "menu": "3.7",
                 "orden": 2
             },
             {
-                "menu": "2.8",
+                "menu": "3.8",
                 "orden": 7
             },
             {
-                "menu": "2.9",
+                "menu": "3.9",
                 "orden": 4
             },
             {
-                "menu": "2.10",
+                "menu": "3.10",
                 "orden": 5
             },
             {
-                "menu": "2.11",
+                "menu": "3.11",
                 "orden": 2
             }
         ],
