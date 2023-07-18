@@ -83,7 +83,7 @@ export const reducer = (state = initialState, action) => {
 			newState.byId.timeStamp = new Date().getTime();
 			break;
 		case GET_BY_PLAN_ID_SUCCESS:
-			newState.byPlanId.entities = action.payload.receive.sort((a, b) => b.creacion.localeCompare(a.creacion));
+			newState.byPlanId.entities = action.payload.receive;
 			newState.byPlanId.timeStamp = new Date().getTime();
 			break;
 		case GET_MI_SECTOR_SUCCESS:

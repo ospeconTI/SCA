@@ -50,6 +50,7 @@ export class busquedaDescripcionScreen extends connect(store, I_SHOW, MEDIA_CHAN
 				height: max-content;
 				width: 100%;
 				background-color: var(--formulario);
+				color: var(--on-formulario);
 				grid-template-columns: 80%;
 				grid-gap: 0rem;
 				justify-content: center;
@@ -115,7 +116,7 @@ export class busquedaDescripcionScreen extends connect(store, I_SHOW, MEDIA_CHAN
 	willUpdate(changedProperties) {
 		if (changedProperties.has("hidden")) {
 			if (!this.hidden) {
-				if (this._sector) this._sector.value = "TODOS";
+				if (this._sector) this._sector.value = "-1";
 			}
 		}
 	}
@@ -139,7 +140,8 @@ export class busquedaDescripcionScreen extends connect(store, I_SHOW, MEDIA_CHAN
 							: html` <div class="dmd-select" helper }>
 									<label>${this.item.caption}</label>
 									<select id="sector">
-										<option value="TODOS" selected>Todos los sectores</option>
+										<!-- <option value="TODOS" selected>Todos los sectores</option> -->
+										<option value="-1" disabled selected hidden>Seleccione opcion</option>
 										${store.getState().sectores.all.entities
 											? store.getState().sectores.all.entities.map((item, index) => {
 													return html`<option value=${item.descripcion}>${item.descripcion}</option> `;
@@ -191,7 +193,12 @@ export class busquedaDescripcionScreen extends connect(store, I_SHOW, MEDIA_CHAN
 			}
 			valor = this._descripcion.value;
 		} else {
-			valor = this._sector.value;
+			if (this._sector.value == "-1") {
+				ok = false;
+				this._sector.setAttribute("error", "");
+			} else {
+				valor = this._sector.value;
+			}
 		}
 		boton.disabled = false;
 		if (ok) {

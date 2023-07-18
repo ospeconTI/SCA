@@ -18,6 +18,9 @@ import { getByPlanId as getTareasByPlanId, darCumplimiento as tareaDarCumplimien
 import { show as showPopup, hidden as hiddenPopup } from "../../../redux/popup/actions";
 import { planCarga_Load01 } from "../../../redux/entreComponentes/actions";
 
+//http://localhost:4000/api/v1/Tarea/GetByPlanId/cb094b3a-da0e-4b54-ba7f-3183cf5bd59f&ejecutorCreador=creador&sectorDescripcion=Afiliaciones
+//http://localhost:4000/api/v1/Tarea/GetByPlanId/cb094b3a-da0e-4b54-ba7f-3183cf5bd59f?ejecutorCreador=creador&sectorDescripcion=Afiliaciones
+
 import { planComponente } from "./planComponente";
 import { tareaComponente } from "./tareaComponente";
 
@@ -88,7 +91,7 @@ export class amparosScreen extends connect(
 		this.itemsSeleccionados = [];
 		this.filtro = false;
 		this.cargaArbolDe0 = true;
-		this.sectorEjecutorFiltro = "";
+		this.sectorEjecutorFiltro = { ejecutorCreador: "", sectorDescripcion: "" };
 	}
 	static get styles() {
 		return css`
@@ -201,11 +204,11 @@ export class amparosScreen extends connect(
 					<div id="div-sacar-filtro" class="titulo-boton" @click="${this.filtroSacar}" ?hidden=${!this.filtro} title="Sacar filtros">${FILTROSACAR}</div>
 					<div id="div-sectores" class="titulo-boton" ?hidden=${hiddenOpcion("planes-filtrar-sectores")} @click="${this.filtroPorSector}" title="Filtro por sector">
 						<div>${HOME}</div>
-						<div id="div-sectores-Descri" ?hidden=${this.sectorEjecutorFiltro == ""}>${"Ejecutor: " + this.sectorEjecutorFiltro}</div>
+						<div id="div-sectores-Descri" ?hidden=${this.sectorEjecutorFiltro.ejecutorCreador == ""}>${this.sectorEjecutorFiltro.ejecutorCreador.toUpperCase() + ": " + this.sectorEjecutorFiltro.sectorDescripcion}</div>
 					</div>
 					<div id="div-sectores" class="titulo-boton" ?hidden=${!hiddenOpcion("planes-filtrar-sectores")} @click="${this.filtroPorSectorSinDescripicion}" title="Filtro por sector">
 						<div>${HOME}</div>
-						<div id="div-sectores-Descri" ?hidden=${this.sectorEjecutorFiltro == ""}>${"Ejecutor: " + this.sectorEjecutorFiltro}</div>
+						<div id="div-sectores-Descri" ?hidden=${this.sectorEjecutorFiltro.ejecutorCreador == ""}>${this.sectorEjecutorFiltro.ejecutorCreador.toUpperCase() + ": " + this.sectorEjecutorFiltro.sectorDescripcion}</div>
 					</div>
 					<div id="div-titulo-leyenda">Administracion de amparos</div>
 				</div>
@@ -286,29 +289,29 @@ export class amparosScreen extends connect(
 		} else {
 			if (this.itemsSeleccionados.length == 0 || this.itemsSeleccionados.length < this.rama + 1) {
 				this.itemsSeleccionados.push(item);
-				if (this.sectorEjecutorFiltro == "") {
+				if (this.sectorEjecutorFiltro.ejecutorCreador == "") {
 					store.dispatch(getTareasByPlanId(item.planId));
 				} else {
-					store.dispatch(getTareasByPlanId(item.planId + "?sectorDescripcion=" + this.sectorEjecutorFiltro));
+					store.dispatch(getTareasByPlanId(item.planId + "?ejecutorCreador=" + this.sectorEjecutorFiltro.ejecutorCreador + "&sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
 				}
 			} else {
 				this.itemsSeleccionados[this.rama] = item;
 				this.itemsSeleccionados.splice(this.rama + 1);
 				if (this.rama == 0) {
 					this.arbol.splice(1);
-					if (this.sectorEjecutorFiltro == "") {
+					if (this.sectorEjecutorFiltro.ejecutorCreador == "") {
 						store.dispatch(getTareasByPlanId(item.planId));
 					} else {
-						store.dispatch(getTareasByPlanId(item.planId + "?sectorDescripcion=" + this.sectorEjecutorFiltro));
+						store.dispatch(getTareasByPlanId(item.planId + "?ejecutorCreador=" + this.sectorEjecutorFiltro.ejecutorCreador + "&sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
 					}
 				} else {
 					//this.arbol.splice(this.rama + 2);
 					//this.update();
 					this.arbol.splice(this.rama + 1);
-					if (this.sectorEjecutorFiltro == "") {
+					if (this.sectorEjecutorFiltro.ejecutorCreador == "") {
 						store.dispatch(getTareasByPlanId(item.planId));
 					} else {
-						store.dispatch(getTareasByPlanId(item.planId + "?sectorDescripcion=" + this.sectorEjecutorFiltro));
+						store.dispatch(getTareasByPlanId(item.planId + "?ejecutorCreador=" + this.sectorEjecutorFiltro.ejecutorCreador + "&sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
 					}
 				}
 			}
@@ -331,7 +334,8 @@ export class amparosScreen extends connect(
 			if (haveBodyArea && SeMuestraEnUnasDeEstasPantallas) {
 				if (hiddenAnterior) {
 					if (hiddenOpcion("planes-filtrar-sectores")) {
-						this.sectorEjecutorFiltro = state.miPerfil.sector.descripcion;
+						this.sectorEjecutorFiltro.ejecutorCreador = "ejecutor";
+						this.sectorEjecutorFiltro.sectorDescripcion = state.miPerfil.sector.descripcion;
 					}
 					this.filtroSacar();
 				}
@@ -344,10 +348,10 @@ export class amparosScreen extends connect(
 			if (this.cargaArbolDe0) {
 				this.update();
 			} else {
-				if (this.sectorEjecutorFiltro == "") {
+				if (this.sectorEjecutorFiltro.ejecutorCreador == "") {
 					store.dispatch(getTareasByPlanId(this.itemsSeleccionados[0].planId));
 				} else {
-					store.dispatch(getTareasByPlanId(this.itemsSeleccionados[0].planId + "?sectorDescripcion=" + this.sectorEjecutorFiltro));
+					store.dispatch(getTareasByPlanId(this.itemsSeleccionados[0].planId + "?ejecutorCreador=" + this.sectorEjecutorFiltro.ejecutorCreador + "&sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
 				}
 			}
 		}
@@ -463,25 +467,35 @@ export class amparosScreen extends connect(
 		}
 		if (name == FILTRO_AMPAROS) {
 			let f = state.entreComponentes.amparos_Filter01.campo;
-			if (f == "creador") this.sectorEjecutorFiltro = state.entreComponentes.amparos_Filter01.valor;
-			if (f == "ejecutor") this.sectorEjecutorFiltro = state.entreComponentes.amparos_Filter01.valor;
+			if (f == "creador") {
+				this.sectorEjecutorFiltro.ejecutorCreador = "creador";
+				this.sectorEjecutorFiltro.sectorDescripcion = state.entreComponentes.amparos_Filter01.valor;
+			} else if (f == "ejecutor") {
+				this.sectorEjecutorFiltro.ejecutorCreador = "ejecutor";
+				this.sectorEjecutorFiltro.sectorDescripcion = state.entreComponentes.amparos_Filter01.valor;
+			}
 			this.filtrar(f, state.entreComponentes.amparos_Filter01.valor);
 		}
 		if (name == SACAR_FILTRO01_AMPAROS || name == PLAN_ADD || name == PLAN_UPDATE) {
 			this.filtroSacar();
 		}
 		if (name == SACAR_FILTRO02_AMPAROS) {
-			if (this.sectorEjecutorFiltro == "creador") {
-				this.sectorEjecutorFiltro = "";
-			} else {
-				this.sectorEjecutorFiltro = "";
-			}
+			this.sectorEjecutorFiltro.ejecutorCreador = "";
+			this.sectorEjecutorFiltro.sectorDescripcion = "";
 			store.dispatch(getPlanesAll());
 		}
 		if (name == FILTRO_AMPAROS_POR_SECTOR_SIN_DESCRIPCION) {
 			let f = state.entreComponentes.amparos_Filter02.campo;
-			if (f == "creador") this.sectorEjecutorFiltro = state.miPerfil.sector.descripcion;
-			if (f == "ejecutor") this.sectorEjecutorFiltro = state.miPerfil.sector.descripcion;
+			if (f == "creador") {
+				this.sectorEjecutorFiltro.ejecutorCreador = "creador";
+				this.sectorEjecutorFiltro.sectorDescripcion = state.entreComponentes.amparos_Filter01.valor;
+			} else if (f == "ejecutor") {
+				this.sectorEjecutorFiltro.ejecutorCreador = "ejecutor";
+				this.sectorEjecutorFiltro.sectorDescripcion = state.entreComponentes.amparos_Filter01.valor;
+			} else {
+				this.sectorEjecutorFiltro.ejecutorCreador = "";
+				this.sectorEjecutorFiltro.sectorDescripcion = "";
+			}
 			store.dispatch(getPlanesAll());
 		}
 		if (name == TAREA_DAR_CUMPLIMIENTO_OK || name == TAREA_QUITAR_CUMPLIMIENTO_OK) {

@@ -134,7 +134,7 @@ export const armoTareas = (padre, array) => {
 	} else {
 		//let a = array.find((item) => item.id == padre);
 		let a = recursiveSearch(array, padre);
-		newAr = a.condiciones;
+		newAr = a.condiciones.sort((a, b) => b.vigenteDesde.localeCompare(a.vigenteDesde)).sort((a, b) => b.vencimiento.localeCompare(a.vencimiento));
 	}
 	let ar = [];
 	newAr.map((item, index) => {
@@ -167,6 +167,22 @@ export const armoTareas = (padre, array) => {
 		ar.push(js);
 	});
 	return ar;
+};
+
+export const hoyEnStringDDMMYYYY = () => {
+	let hoy = new Date();
+	let ddhoy = String(hoy.getDate()).padStart(2, "0");
+	let mmhoy = String(hoy.getMonth() + 1).padStart(2, "0"); //January is 0!
+	let yyyyhoy = hoy.getFullYear();
+	return ddhoy + "-" + mmhoy + "-" + yyyyhoy;
+};
+
+export const hoyEnStringYYYYMMDD = () => {
+	let hoy = new Date();
+	let ddhoy = String(hoy.getDate()).padStart(2, "0");
+	let mmhoy = String(hoy.getMonth() + 1).padStart(2, "0"); //January is 0!
+	let yyyyhoy = hoy.getFullYear();
+	return yyyyhoy + "-" + mmhoy + "-" + ddhoy;
 };
 
 export const dateToFrench = (fecha) => {

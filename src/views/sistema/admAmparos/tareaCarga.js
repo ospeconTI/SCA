@@ -7,7 +7,7 @@ import { goHistoryPrev, goTo } from "../../../redux/routing/actions";
 import { isInLayout } from "../../../redux/screens/screenLayouts";
 import { showWarning } from "../../../redux/ui/actions";
 import { INFO } from "../../../../assets/icons/svgs";
-import { dateReturnForComponente } from "../../../libs/funciones";
+import { dateReturnForComponente, hoyEnStringYYYYMMDD } from "../../../libs/funciones";
 import { dmdButton } from "../../css/dmdButton";
 import { dmdInput } from "../../css/dmdInput";
 import { dmdSelect } from "../../css/dmdSelect";
@@ -409,7 +409,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
 				this.tarea = null;
 				this._creador.value = store.getState().autorizacion.entities.result.sectores[0].id ? store.getState().autorizacion.entities.result.sectores[0].id : -1;
 				this._ejecutor.value = -1;
-				this._vigencia.value = "";
+				this._vigencia.value = hoyEnStringYYYYMMDD();
 				this._vencimiento.value = "";
 				this._alerta.value = "";
 				this._descripcion.value = "";
@@ -421,7 +421,8 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
 				this._cantidad.value = "";
 
 				this._ejecutor.value = store.getState().autorizacion.entities.result.sectores[0].id ? store.getState().autorizacion.entities.result.sectores[0].id : -1;
-				this._vigencia.value = dateReturnForComponente("07/31/2023");
+				let rr = hoyEnStringYYYYMMDD();
+				this._vigencia.value = rr;
 				this._vencimiento.value = "10";
 				this._alerta.value = "5";
 				this._descripcion.value = "DEssssss";
@@ -493,7 +494,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
 		if (this._alerta.value == "" || this._alerta.value == "0") {
 			ok = false;
 			this._alerta.setAttribute("error", "");
-		} else if (this._alerta.value > this._vencimiento.value) {
+		} else if (parseInt(this._alerta.value, 10) > parseInt(this._vencimiento.value, 10)) {
 			ok = false;
 			this._vencimiento.setAttribute("error", "");
 			this._alerta.setAttribute("error", "");
