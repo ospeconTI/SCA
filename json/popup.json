@@ -275,7 +275,8 @@
         "titulo": "Por sector ceador",
         "accion": "[entreComponentes] AMPAROS__FILTER02",
         "param": {
-            "campo": "creador"
+            "campo": "creador",
+            "valor": null
         }
     },
     {
@@ -290,7 +291,8 @@
         "titulo": "Por sector ejecutor",
         "accion": "[entreComponentes] AMPAROS__FILTER02",
         "param": {
-            "campo": "ejecutor"
+            "campo": "ejecutor",
+            "valor": null
         }
     },
     {

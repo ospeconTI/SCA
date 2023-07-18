@@ -348,8 +348,6 @@ export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET
 				if (state.autorizacion.entities.result.sectores[0].token) {
 					store.dispatch(set(state.autorizacion.entities.result));
 					store.dispatch(getInicial());
-
-					store.dispatch(getMiSector());
 				} else {
 					store.dispatch(goTo("esperarAutorizacion"));
 				}

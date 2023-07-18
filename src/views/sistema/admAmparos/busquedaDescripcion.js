@@ -11,7 +11,7 @@ import { dmdButton } from "../../css/dmdButton";
 import { dmdInput } from "../../css/dmdInput";
 import { dmdSelect } from "../../css/dmdSelect";
 
-import { amparos_Filter01 } from "../../../redux/entreComponentes/actions";
+import { amparos_Filter01, amparos_Filter02 } from "../../../redux/entreComponentes/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -202,7 +202,11 @@ export class busquedaDescripcionScreen extends connect(store, I_SHOW, MEDIA_CHAN
 		}
 		boton.disabled = false;
 		if (ok) {
-			store.dispatch(amparos_Filter01(this.item.campo, valor));
+			if (this.item.campo != "creador" && this.item.campo != "ejecutor") {
+				store.dispatch(amparos_Filter01(this.item.campo, valor));
+			} else {
+				store.dispatch(amparos_Filter02(this.item.campo, valor));
+			}
 			this.hidden = true;
 		} else {
 			if (mensageError == "") {

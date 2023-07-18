@@ -34,6 +34,7 @@ const initialState = {
 	amparos_Filter02: {
 		timeStamp: null,
 		campo: null,
+		valor: null,
 	},
 	amparos_SacarFilter01: {
 		timeStamp: null,
@@ -110,6 +111,7 @@ export const reducer = (state = initialState, action) => {
 		case AMPAROS__FILTER02:
 			newState.amparos_Filter02.timeStamp = new Date().getTime();
 			newState.amparos_Filter02.campo = action.campo || action.param.campo;
+			newState.amparos_Filter02.valor = action.valor || action.param.valor;
 			break;
 		case AMPAROS__SACAR_FILTER01:
 			newState.amparos_SacarFilter01.timeStamp = new Date().getTime();

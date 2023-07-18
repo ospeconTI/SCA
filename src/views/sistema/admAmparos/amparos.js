@@ -477,25 +477,8 @@ export class amparosScreen extends connect(
 			} else if (f == "ejecutor") {
 				this.sectorEjecutorFiltro.ejecutorCreador = "ejecutor";
 				this.sectorEjecutorFiltro.sectorDescripcion = state.entreComponentes.amparos_Filter01.valor;
-			} else {
-				this.sectorEjecutorFiltro.ejecutorCreador = "";
-				this.sectorEjecutorFiltro.sectorDescripcion = "";
 			}
-			if (this.sectorEjecutorFiltro.ejecutorCreador == "") {
-				store.dispatch(getPlanesAll());
-			} else {
-				store.dispatch(getPlanesAll("?ejecutorCreador=" + this.sectorEjecutorFiltro.ejecutorCreador + "&sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
-			}
-
-			// 	let f = state.entreComponentes.amparos_Filter01.campo;
-			// 	if (f == "creador") {
-			// 		this.sectorEjecutorFiltro.ejecutorCreador = "creador";
-			// 		this.sectorEjecutorFiltro.sectorDescripcion = state.entreComponentes.amparos_Filter01.valor;
-			// 	} else if (f == "ejecutor") {
-			// 		this.sectorEjecutorFiltro.ejecutorCreador = "ejecutor";
-			// 		this.sectorEjecutorFiltro.sectorDescripcion = state.entreComponentes.amparos_Filter01.valor;
-			// 	}
-			// 	this.filtrar(f, state.entreComponentes.amparos_Filter01.valor);
+			this.filtrar(f, state.entreComponentes.amparos_Filter01.valor);
 		}
 		if (name == SACAR_FILTRO01_AMPAROS || name == PLAN_ADD || name == PLAN_UPDATE) {
 			this.filtroSacar();
@@ -507,12 +490,13 @@ export class amparosScreen extends connect(
 		}
 		if (name == FILTRO_AMPAROS_POR_SECTOR_SIN_DESCRIPCION) {
 			let f = state.entreComponentes.amparos_Filter02.campo;
-			if (f == "creador") {
-				this.sectorEjecutorFiltro.ejecutorCreador = "creador";
-				this.sectorEjecutorFiltro.sectorDescripcion = state.entreComponentes.amparos_Filter01.valor;
-			} else if (f == "ejecutor") {
-				this.sectorEjecutorFiltro.ejecutorCreador = "ejecutor";
-				this.sectorEjecutorFiltro.sectorDescripcion = state.entreComponentes.amparos_Filter01.valor;
+			if (f == "creador" || f == "ejecutor") {
+				this.sectorEjecutorFiltro.ejecutorCreador = f;
+				if (state.entreComponentes.amparos_Filter02.valor) {
+					this.sectorEjecutorFiltro.sectorDescripcion = state.entreComponentes.amparos_Filter02.valor;
+				} else {
+					this.sectorEjecutorFiltro.sectorDescripcion = state.miPerfil.sector.descripcion;
+				}
 			} else {
 				this.sectorEjecutorFiltro.ejecutorCreador = "";
 				this.sectorEjecutorFiltro.sectorDescripcion = "";

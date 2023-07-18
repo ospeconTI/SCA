@@ -49,9 +49,10 @@ export const amparos_Filter01 = (campo, valor) => ({
 	valor: valor,
 });
 
-export const amparos_Filter02 = (campo) => ({
+export const amparos_Filter02 = (campo, valor) => ({
 	type: AMPAROS__FILTER02,
 	campo: campo,
+	valor: valor,
 });
 
 export const amparos_SacarFilter01 = () => ({
