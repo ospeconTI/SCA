@@ -276,7 +276,11 @@ export class amparosScreen extends connect(
 	}
 	filtroSacar() {
 		this.filtro = false;
-		store.dispatch(getPlanesAll());
+		if (this.sectorEjecutorFiltro.ejecutorCreador == "") {
+			store.dispatch(getPlanesAll());
+		} else {
+			store.dispatch(getPlanesAll("?ejecutorCreador=" + this.sectorEjecutorFiltro.ejecutorCreador + "&sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
+		}
 	}
 	clickNodo(e) {
 		let componente = this.shadowRoot.querySelector("#" + e);
@@ -473,8 +477,25 @@ export class amparosScreen extends connect(
 			} else if (f == "ejecutor") {
 				this.sectorEjecutorFiltro.ejecutorCreador = "ejecutor";
 				this.sectorEjecutorFiltro.sectorDescripcion = state.entreComponentes.amparos_Filter01.valor;
+			} else {
+				this.sectorEjecutorFiltro.ejecutorCreador = "";
+				this.sectorEjecutorFiltro.sectorDescripcion = "";
 			}
-			this.filtrar(f, state.entreComponentes.amparos_Filter01.valor);
+			if (this.sectorEjecutorFiltro.ejecutorCreador == "") {
+				store.dispatch(getPlanesAll());
+			} else {
+				store.dispatch(getPlanesAll("?ejecutorCreador=" + this.sectorEjecutorFiltro.ejecutorCreador + "&sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
+			}
+
+			// 	let f = state.entreComponentes.amparos_Filter01.campo;
+			// 	if (f == "creador") {
+			// 		this.sectorEjecutorFiltro.ejecutorCreador = "creador";
+			// 		this.sectorEjecutorFiltro.sectorDescripcion = state.entreComponentes.amparos_Filter01.valor;
+			// 	} else if (f == "ejecutor") {
+			// 		this.sectorEjecutorFiltro.ejecutorCreador = "ejecutor";
+			// 		this.sectorEjecutorFiltro.sectorDescripcion = state.entreComponentes.amparos_Filter01.valor;
+			// 	}
+			// 	this.filtrar(f, state.entreComponentes.amparos_Filter01.valor);
 		}
 		if (name == SACAR_FILTRO01_AMPAROS || name == PLAN_ADD || name == PLAN_UPDATE) {
 			this.filtroSacar();
@@ -496,12 +517,20 @@ export class amparosScreen extends connect(
 				this.sectorEjecutorFiltro.ejecutorCreador = "";
 				this.sectorEjecutorFiltro.sectorDescripcion = "";
 			}
-			store.dispatch(getPlanesAll());
+			if (this.sectorEjecutorFiltro.ejecutorCreador == "") {
+				store.dispatch(getPlanesAll());
+			} else {
+				store.dispatch(getPlanesAll("?ejecutorCreador=" + this.sectorEjecutorFiltro.ejecutorCreador + "&sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
+			}
 		}
 		if (name == TAREA_DAR_CUMPLIMIENTO_OK || name == TAREA_QUITAR_CUMPLIMIENTO_OK) {
 			store.dispatch(showWarning("Atencion", "Se dio como cumplido o descumplido la tarea", "fondoOk", 3000));
 			this.cargaArbolDe0 = false;
-			store.dispatch(getPlanesAll());
+			if (this.sectorEjecutorFiltro.ejecutorCreador == "") {
+				store.dispatch(getPlanesAll());
+			} else {
+				store.dispatch(getPlanesAll("?ejecutorCreador=" + this.sectorEjecutorFiltro.ejecutorCreador + "&sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
+			}
 		}
 		if (name == TAREA_DAR_CUMPLIMIENTO_ERROR || name == TAREA_QUITAR_CUMPLIMIENTO_ERROR) {
 			store.dispatch(showWarning("Error!", "No se pudo marcar como cumplido o descumplimiento, intente nuevamente", "fondoError", 3000));
@@ -549,7 +578,11 @@ export class amparosScreen extends connect(
 					});
 				});
 			}
-			store.dispatch(getPlanesAll());
+			if (this.sectorEjecutorFiltro.ejecutorCreador == "") {
+				store.dispatch(getPlanesAll());
+			} else {
+				store.dispatch(getPlanesAll("?ejecutorCreador=" + this.sectorEjecutorFiltro.ejecutorCreador + "&sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
+			}
 		}
 	}
 	static get properties() {

@@ -35,7 +35,7 @@ export const getAll =
 	(action) => {
 		next(action);
 		if (action.type === GET_ALL) {
-			dispatch(RESTRequest(planesGetAllFetch, null, GET_ALL_SUCCESS, GET_ALL_ERROR, action.token));
+			dispatch(RESTRequest(planesGetAllFetch, action.options, GET_ALL_SUCCESS, GET_ALL_ERROR, action.token));
 		}
 	};
 
