@@ -9,6 +9,7 @@ export const dmdBuscar = css`
 		grid-template-rows: auto auto auto;
 		grid-gap: 0rem;
 		background-color: transparent;
+		font-weight: 300;
 	}
 	.dmd-buscar input {
 		/*padding: 0.15rem 0.6rem;*/
@@ -17,7 +18,6 @@ export const dmdBuscar = css`
 		border: 1px solid var(--on-formulario);
 		color: var(--on-formulario);
 		font-size: var(--font-bajada-size);
-		font-weight: var(--font-bajada-weight);
 		outline: none;
 		border-radius: var(--control-radius);
 		transition: all 0.3s ease-in-out;
@@ -38,15 +38,12 @@ export const dmdBuscar = css`
 	.dmd-buscar label {
 		color: var(--on-formulario);
 		font-size: var(--font-label-size);
-		font-weight: var(--font-label-weight);
 	}
 	.dmd-buscar:focus-within label {
-		color: var(--primario);
 	}
 	.dmd-buscar div {
 		color: var(--error);
 		font-size: 0.7rem;
-		font-weight: 300;
 		display: none;
 	}
 	.dmd-buscar input[error] + div {
@@ -59,7 +56,6 @@ export const dmdBuscar = css`
 	.dmd-buscar span {
 		margin-left: 0.5rem;
 		font-size: 0.7rem;
-		font-weight: 300;
 		display: none;
 	}
 	.dmd-buscar[helper] span {

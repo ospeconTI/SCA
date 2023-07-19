@@ -7,19 +7,17 @@ export const dmdRadio = css`
 		display: grid;
 		position: relative;
 		grid-template-rows: 1fr auto 1fr;
+		font-weight: 300;
 		grid-gap: 0rem;
 	}
 	.dmd-radio .dmd-radio-titulo {
 		color: var(--color-control-texto);
 		font-size: 0.9rem;
-		font-weight: 500;
 		padding-left: 0.6rem;
 		align-self: center;
 		transition: all 0.3s ease-in-out;
 	}
 	.dmd-radio:focus-within .dmd-radio-titulo {
-		color: var(--color-primario);
-		font-weight: 900;
 		transition: all 0.3s ease-in-out;
 	}
 	.dmd-radio .dmd-radio-radios {
@@ -28,7 +26,6 @@ export const dmdRadio = css`
 		border: 1px solid var(--color-primario);
 		color: var(--color-control-texto);
 		font-size: var(--font-bajada-size);
-		font-weight: var(--font-bajada-weight);
 		outline: none;
 		border-radius: 0.4rem;
 		column-gap: 0.5rem;
@@ -78,7 +75,6 @@ export const dmdRadio = css`
 	.dmd-radio .dmd-radio-error {
 		color: var(--color-error);
 		font-size: 0.7rem;
-		font-weight: 300;
 		display: none;
 	}
 	.dmd-radio[error] .dmd-radio-error {
@@ -88,7 +84,6 @@ export const dmdRadio = css`
 	.dmd-radio .dmd-radio-help {
 		margin-left: 0.5rem;
 		font-size: 0.7rem;
-		font-weight: 300;
 		display: none;
 	}
 	.dmd-radio[helper] .dmd-radio-help {

@@ -9,6 +9,7 @@ export const dmdInput = css`
 		grid-template-rows: auto auto auto;
 		grid-gap: 0rem;
 		color: var(--on-aplicacion);
+		font-weight: 300;
 	}
 	.dmd-input input,
 	.dmd-input textarea {
@@ -18,7 +19,6 @@ export const dmdInput = css`
 		background-color: var(--formulario);
 		border: 1px solid var(--primario);
 		font-size: var(--font-bajada-size);
-		font-weight: var(--font-bajada-weight);
 		outline: none;
 		border-radius: 0.4rem;
 		transition: all 0.3s ease-in-out;
@@ -34,7 +34,6 @@ export const dmdInput = css`
 	.dmd-input input:focus,
 	.dmd-input textarea:focus {
 		background-color: var(--aplicacion);
-		border-color: var(--terciario);
 		color: var(--on-aplicacion);
 		transition: all 0.3s ease-in-out;
 	}
@@ -49,19 +48,15 @@ export const dmdInput = css`
 	.dmd-input label {
 		color: var(--on-aplicacion);
 		font-size: 0.9rem;
-		font-weight: 300;
 		padding-left: 0.6rem;
 		transition: all 0.3s ease-in-out;
 	}
 	.dmd-input:focus-within label {
-		color: var(--primario);
-		font-weight: 900;
 		transition: all 0.3s ease-in-out;
 	}
 	.dmd-input div {
 		color: var(--error);
 		font-size: 0.7rem;
-		font-weight: 300;
 		display: none;
 	}
 	.dmd-input input[error] + div,
@@ -75,7 +70,6 @@ export const dmdInput = css`
 	.dmd-input span {
 		margin-left: 0.5rem;
 		font-size: 0.7rem;
-		font-weight: 300;
 		display: none;
 	}
 	.dmd-input[helper] span {

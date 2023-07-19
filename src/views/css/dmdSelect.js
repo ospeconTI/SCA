@@ -7,10 +7,10 @@ export const dmdSelect = css`
 		grid-template-rows: 1fr auto 1fr;
 		grid-gap: 0rem;
 		color: var(--on-formulario);
+		font-weight: 300;
 	}
 	.dmd-select label {
 		font-size: 0.9rem;
-		font-weight: 300;
 		padding-left: 0.6rem;
 	}
 
@@ -19,7 +19,6 @@ export const dmdSelect = css`
 		border: 1px solid var(--primario);
 		color: var(--on-formulario);
 		font-size: var(--font-bajada-size);
-		font-weight: var(--font-bajada-weight);
 		outline: none;
 		border-radius: 0.4rem;
 		background-color: var(--formulario);
@@ -59,14 +58,11 @@ export const dmdSelect = css`
 	}
 
 	.dmd-select:focus-within label {
-		color: var(--primario);
-		font-weight: 900;
 		transition: all 0.3s ease-in-out;
 	}
 	.dmd-select div {
 		color: var(--error);
 		font-size: 0.7rem;
-		font-weight: 300;
 		display: none;
 	}
 	.dmd-select select[error] + div {
@@ -75,7 +71,6 @@ export const dmdSelect = css`
 	.dmd-select span {
 		margin-left: 0.5rem;
 		font-size: 0.7rem;
-		font-weight: 300;
 		display: none;
 	}
 	.dmd-select[helper] span {

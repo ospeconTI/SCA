@@ -42,6 +42,7 @@ html {
 	--on-formulario-bajada: rgba(0, 0, 0, 0.6);
 	--velo: rgba(0, 0, 0, 0.32);
 	--negro: rgb(0, 0, 0);
+	--blanco:rgb(255,255,255)
 }
 
 @media (prefers-color-scheme: dark) {
@@ -63,5 +64,6 @@ html {
 
 		--primario: var(--primario10);
 		--negro:rgb(255, 255, 255);
+		--blanco:rgb(0,0,0)
 	}
 }
