@@ -57,7 +57,7 @@ export const dmdSelect = css`
 	}
 
 	.dmd-select:focus-within label {
-		color: var(--on-aplicacion);
+		color: var(--primario);
 		transition: all 0.3s ease-in-out;
 	}
 	.dmd-select div {
