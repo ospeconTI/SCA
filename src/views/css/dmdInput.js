@@ -52,6 +52,7 @@ export const dmdInput = css`
 		transition: all 0.3s ease-in-out;
 	}
 	.dmd-input:focus-within label {
+		color: var(--primario);
 		transition: all 0.3s ease-in-out;
 	}
 	.dmd-input div {

@@ -40,6 +40,8 @@ export const dmdBuscar = css`
 		font-size: var(--font-label-size);
 	}
 	.dmd-buscar:focus-within label {
+		color: var(--on-aplicacion);
+		transition: all 0.3s ease-in-out;
 	}
 	.dmd-buscar div {
 		color: var(--error);

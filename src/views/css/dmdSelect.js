@@ -49,7 +49,6 @@ export const dmdSelect = css`
 		display: none;
 	}
 	.dmd-select select:focus {
-		border-color: var(--terciario);
 		background-color: var(--aplicacion);
 		color: var(--on-aplicacion);
 	}
@@ -58,6 +57,7 @@ export const dmdSelect = css`
 	}
 
 	.dmd-select:focus-within label {
+		color: var(--on-aplicacion);
 		transition: all 0.3s ease-in-out;
 	}
 	.dmd-select div {
