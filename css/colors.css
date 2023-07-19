@@ -2,7 +2,7 @@
 
 html { 
 	--primario: rgba(0, 81, 139, 1);
-	--primario10: rgba(74, 125, 187, 1);
+	--primario10: rgb(113, 147, 188);
 	--primario-10: rgba(0, 41, 93, 1);
 	--on-primario: rgba(245, 245, 245, 1);
 	--on-primario-bajada: rgba(255, 255, 255, 0.6);
