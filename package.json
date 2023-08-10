@@ -1,7 +1,7 @@
 {
-    "name": "amparosl",
+    "name": "sca",
     "version": "1.0.16",
-    "description": "Amparos",
+    "description": "Control de Amparos",
     "main": "./src/index.js",
     "scripts": {
         "watch": "webpack --watch",

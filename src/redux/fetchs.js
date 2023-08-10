@@ -5,11 +5,10 @@ import { fetchFactory } from "../libs/fetchFactory";
 
 let webApiExpedientes = SERVICE_URL;
 let webApi = SERVICE_URL + "/api/v1";
-let webApiNomenclador = NOMENCLADOR_URL + "/api";
 
 const expedienteOdataFactory = ODataFetchFactory({
-	fetch: fetch,
-	domain: webApiExpedientes,
+    fetch: fetch,
+    domain: webApiExpedientes,
 });
 export const autorizacionFetch = fetchFactory(webApi, "Autorizacion");
 export const autorizacionAceptarUsuarioFetch = fetchFactory(webApi, "Autorizacion/AceptarUsuario");
@@ -18,10 +17,6 @@ export const loginFetch = fetchFactory(webApi, "LoginOS");
 export const logonFetch = ODataEntity(expedienteOdataFactory, "Logon");
 export const recuperoFetch = ODataEntity(expedienteOdataFactory, "PedirRecupero");
 export const cambiarPasswordFetch = ODataEntity(expedienteOdataFactory, "CambiarPassword");
-
-export const nomencladorGetAllFetch = fetchFactory(webApiNomenclador, "Nomenclador");
-export const prestacionGetAllFetch = fetchFactory(webApiNomenclador, "PrestacionLugar");
-export const prestacionPorPrestadorGetAllFetch = fetchFactory(webApiNomenclador, "PrestacionLugar/PrestacionesxPrestador");
 
 export const planesByIdFetch = fetchFactory(webApi, "Plan");
 export const planesGetAllFetch = fetchFactory(webApi, "Plan/GetAll");
