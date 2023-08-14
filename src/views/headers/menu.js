@@ -82,6 +82,8 @@ export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET
             .logo {
                 height: 7vh;
                 width: 7vh;
+                background-color: var(--on-primario);
+                border-radius: 50%;
             }
             :host {
                 display: grid;
@@ -235,7 +237,7 @@ export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET
             <div class="grid column">
                 <div class="inner-grid column start">
                     <div class="logo"></div>
-                    <h1 id="titulo" @click="${this.click}" .option=${"main"}>${__DESCRIPTION__}</h1>
+                    <h1 id="titulo" @click="${this.click}" .option=${"inicial"}>${__DESCRIPTION__}</h1>
                     <div id="version">${__VERSION__}</div>
                 </div>
                 <button raised circle class="menu-button" @click=${this.toggleMenu}>${MENU}</button>
