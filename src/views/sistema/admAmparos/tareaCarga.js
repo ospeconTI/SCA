@@ -6,12 +6,12 @@ import { connect } from "@brunomon/helpers";
 import { goHistoryPrev, goTo } from "../../../redux/routing/actions";
 import { isInLayout } from "../../../redux/screens/screenLayouts";
 import { showWarning } from "../../../redux/ui/actions";
-import { INFO } from "../../../../assets/icons/svgs";
+import { CALENDARDAY, INFO } from "../../../../assets/icons/svgs";
 import { dateReturnForComponente, hoyEnStringYYYYMMDD } from "../../../libs/funciones";
 import { dmdButton } from "../../css/dmdButton";
 import { dmdInput } from "../../css/dmdInput";
 import { dmdSelect } from "../../css/dmdSelect";
-import { START, END, NOTIFCATION_IMPORTANT } from "../../../../assets/icons/svgs";
+import { START, END, NOTIFCATION_IMPORTANT, LAPSE, REPEAT } from "../../../../assets/icons/svgs";
 
 import { getById as tareaGetById, addSimple as addTareaSimpleDeTarea, addLapso as addTareaLapsoDeTarea, addFecha as addTareaFechaDeTarea, remove as eliminarTarea, update as modificarTarea } from "../../../redux/tareas/actions";
 import { addSimple as addTareaSimpleDePlan, addLapso as addTareaLapsoDePlan, addFecha as addTareaFechaDePlan, getAll as getPlanesAll } from "../../../redux/planes/actions";
@@ -201,6 +201,14 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                 width: 8rem;
                 text-align: right;
             }
+            .tareas {
+                display: grid;
+                grid-auto-flow: column;
+                font-size: var(--font-bajada-size);
+                color: var(--on-formulario);
+                align-self: center;
+                gap: 0.6rem;
+            }
         `;
     }
     get _creador() {
@@ -353,36 +361,48 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                             
                             </div>
                             <!-- Solo para fecha -->
-                            <div class="dmd-input" helper ?hidden=${this.tipoTarea != "fecha" || this.accion == "edit"}>
-                                <label>Dia del mes</label>
-                                <input type="number" id="diaDelMes" autocomplete="off" autocomplete="off" placeholder="" min="1" max="30" ?disabled=${!this.camposEditables} />
-                               <!--  <select id="diaDelMes" ?disabled=${!this.camposEditables}>
-                                    <option value="-1" disabled selected hidden>Seleccione opcion</option>
-                                    ${Array.from({ length: 30 }, (_, index) => index + 1).map((x) => {
-                                        return html`<option ?selected=${this.diaDelMes && x == this.diaDelMes} value=${x}>${x}</option> `;
-                                    })}
-                                </select> -->
-                                <div>Debe cargar una opcion</div>
-                                <span>Seleccione un dia del mes</span>
-                                ${INFO}
-                            </div>
+                            <div class="tareas">
+                            <div title="Dia del mes">
+                                
+                                    <div class="caption center" ?hidden=${this.tipoTarea != "fecha" || this.accion == "edit"}>${CALENDARDAY}</div> 
+                                        <div class="dmd-input" helper ?hidden=${this.tipoTarea != "fecha" || this.accion == "edit"}>
+                                             <input type="number" id="diaDelMes" autocomplete="off" autocomplete="off" placeholder="" min="1" max="30" ?disabled=${!this.camposEditables} />
+                                                 <!--  <select id="diaDelMes" ?disabled=${!this.camposEditables}>
+                                                 <option value="-1" disabled selected hidden>Seleccione opcion</option>
+                                                  ${Array.from({ length: 30 }, (_, index) => index + 1).map((x) => {
+                                                      return html`<option ?selected=${this.diaDelMes && x == this.diaDelMes} value=${x}>${x}</option> `;
+                                                  })}
+                                                     </select> -->
+                                                     <div>Debe cargar una opcion</div>
+                                                     <span>Seleccione un dia del mes</span>
+                                                    ${INFO}
+                                    </div>
+
+                                    </div>
+                                        
                             <!-- Solo para Lapso -->
+                            <div title="Lapso en dias">
+                            <div class="caption center" ?hidden=${this.tipoTarea != "lapso" || this.accion == "edit"} >${LAPSE}</div> 
                             <div class="dmd-input" helper ?hidden=${this.tipoTarea != "lapso" || this.accion == "edit"}>
-                                <label>Lapso en dias</label>
-                                <input type="number" id="lapsoEnDias" autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
-                                <div>Debe ingresar un numero</div>
+                               
+                            <input type="number" id="lapsoEnDias" autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
+                                
                                 <span>Ingrese el lapso en dias</span>
                                 ${INFO}
+                                </div>
                             </div>
-
+                            <div title="Cantidad De repeticiones">
+                            <div class="caption center" ?hidden=${this.tipoTarea == "simple" || this.accion == "edit"}>${REPEAT}</div>
                             <div class="dmd-input" helper ?hidden=${this.tipoTarea == "simple" || this.accion == "edit"}>
-                                <label>Cantidad De repeticiones</label>
-                                <input type="number" id="cantidad" autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
-                                <div>Debe ingresar un numero</div>
+                                 
+                            <input type="number" id="cantidad" autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
+                                
                                 <span>Ingrese la cantidad</span>
                                 ${INFO}
                             </div>
-
+                            </div>
+                            </div>
+                            
                             <div class="dmd-input" helper>
                                 <label>INSTRUCCIONES</label>
                                 <textarea id="instrucciones" placeholder="Ingresar las instrucciones de la tarea" rows="5" ?disabled=${!this.camposEditables}></textarea>
