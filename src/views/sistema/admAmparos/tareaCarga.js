@@ -11,7 +11,7 @@ import { dateReturnForComponente, hoyEnStringYYYYMMDD } from "../../../libs/func
 import { dmdButton } from "../../css/dmdButton";
 import { dmdInput } from "../../css/dmdInput";
 import { dmdSelect } from "../../css/dmdSelect";
-import {START, END, NOTIFCATION_IMPORTANT} from "../../../../assets/icons/svgs";
+import { START, END, NOTIFCATION_IMPORTANT } from "../../../../assets/icons/svgs";
 
 import { getById as tareaGetById, addSimple as addTareaSimpleDeTarea, addLapso as addTareaLapsoDeTarea, addFecha as addTareaFechaDeTarea, remove as eliminarTarea, update as modificarTarea } from "../../../redux/tareas/actions";
 import { addSimple as addTareaSimpleDePlan, addLapso as addTareaLapsoDePlan, addFecha as addTareaFechaDePlan, getAll as getPlanesAll } from "../../../redux/planes/actions";
@@ -96,9 +96,9 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                 font-weight: bolder;
             }
 
-            label{
+            label {
                 font-weight: bold;
-                padding-bottom:0.2rem;
+                padding-bottom: 0.2rem;
             }
             hr {
                 border-top: 1px solid var(--on-formulario-separador);
@@ -114,6 +114,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                 grid-gap: 1rem;
                 justify-self: center;
                 overflow-y: scroll;
+                justify-self: stretch;
             }
             #datos::-webkit-scrollbar {
                 display: none;
@@ -131,7 +132,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                 cursor: pointer;
             }
             *[hidden] {
-                display: none;
+                display: none !important;
             }
             #div-sector {
                 display: grid;
@@ -148,7 +149,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                 gap: 0.6rem;
             }
 
-            span{
+            span {
                 margin-top: 0.2rem;
             }
 
@@ -319,9 +320,9 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                             </div>
                         </div>
                         
-                        <div class="lineas">
+                        <div class="lineas" ?hidden=${this.accion == "edit"}>
                             <div title="fecha de inicio">
-                                <div class="caption">${START}</div>
+                                <div class="caption" >${START}</div>
                                 <div class="dmd-input" helper ?hidden=${this.accion == "edit"}>
                                     <input type="date" id="vigencia" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
                                     <div>Debe ingresar fecha de inicio</div>
@@ -354,12 +355,13 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                             <!-- Solo para fecha -->
                             <div class="dmd-select" helper ?hidden=${this.tipoTarea != "fecha" || this.accion == "edit"}>
                                 <label>Dia del mes</label>
-                                <select id="diaDelMes" ?disabled=${!this.camposEditables}>
+                                <input type="number" id="diaDelMes" autocomplete="off" autocomplete="off" placeholder="" min="1" max="30" ?disabled=${!this.camposEditables} />
+                               <!--  <select id="diaDelMes" ?disabled=${!this.camposEditables}>
                                     <option value="-1" disabled selected hidden>Seleccione opcion</option>
                                     ${Array.from({ length: 30 }, (_, index) => index + 1).map((x) => {
                                         return html`<option ?selected=${this.diaDelMes && x == this.diaDelMes} value=${x}>${x}</option> `;
                                     })}
-                                </select>
+                                </select> -->
                                 <div>Debe cargar una opcion</div>
                                 <span>Seleccione un dia del mes</span>
                                 ${INFO}
