@@ -11,7 +11,7 @@ import { dateReturnForComponente, hoyEnStringYYYYMMDD } from "../../../libs/func
 import { dmdButton } from "../../css/dmdButton";
 import { dmdInput } from "../../css/dmdInput";
 import { dmdSelect } from "../../css/dmdSelect";
-import { TRESPUNTOS, PERSON_OUTLINED, PERSON_ADD, PERSON_LIST, FLECHARIGTH, START, END, NOTIFCATION_IMPORTANT, DONE } from "../../../../assets/icons/svgs";
+import {START, END, NOTIFCATION_IMPORTANT} from "../../../../assets/icons/svgs";
 
 import { getById as tareaGetById, addSimple as addTareaSimpleDeTarea, addLapso as addTareaLapsoDeTarea, addFecha as addTareaFechaDeTarea, remove as eliminarTarea, update as modificarTarea } from "../../../redux/tareas/actions";
 import { addSimple as addTareaSimpleDePlan, addLapso as addTareaLapsoDePlan, addFecha as addTareaFechaDePlan, getAll as getPlanesAll } from "../../../redux/planes/actions";
@@ -93,10 +93,17 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                 height: 2rem;
                 justify-self: center;
                 color: var(--on-formulario);
+                font-weight: bolder;
+            }
+
+            label{
+                font-weight: bold;
+                padding-bottom:0.2rem;
             }
             hr {
                 border-top: 1px solid var(--on-formulario-separador);
                 width: 100%;
+                margin: 1rem;
             }
             #datos {
                 display: grid;
@@ -140,6 +147,11 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                 align-items: center;
                 gap: 0.6rem;
             }
+
+            span{
+                margin-top: 0.2rem;
+            }
+
             /*  #creador {
                 width: 100%;
             }
@@ -242,17 +254,16 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
             return html`
                 <div id="cuerpo" tabindex="1">
                     <div class="x" @click="${this.volver}">X</div>
-                    <div id="titulo" ?hidden=${this.accion != "add"}>Nueva tarea</div>
-                    <div id="titulo" ?hidden=${this.accion != "view"}>Visualizacion de tarea</div>
-                    <div id="titulo" ?hidden=${this.accion != "edit"}>Mofidicacion de tareas</div>
-                    <div id="titulo" ?hidden=${this.accion != "delete"}>Eliminar la tarea</div>
+                    <div id="titulo" ?hidden=${this.accion != "add"}>NUEVA TAREA</div>
+                    <div id="titulo" ?hidden=${this.accion != "view"}>VISUALIZACIÓN DE TAREA</div>
+                    <div id="titulo" ?hidden=${this.accion != "edit"}>MODIFICACIÓN DE TAREA</div>
+                    <div id="titulo" ?hidden=${this.accion != "delete"}>ELIMINAR TAREA</div>
                     <hr />
                     <div id="datos">
                         <div class="dmd-input" helper>
-                            <label>Descripcion</label>
-                            <input id="descripcion" placeholder="" ?disabled=${!this.camposEditables} />
+                            <label>DESCRIPCIÓN</label>
+                            <input id="descripcion" placeholder="Ingrese breve descripción de la tarea" ?disabled=${!this.camposEditables} />
                             <div>Debe ingresar la descripcion de la tarea</div>
-                            <span>Ingrese un texto</span>
                             ${INFO}
                         </div>
                         <div id="div-sector">
@@ -274,7 +285,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
  -->
 
                             <div class="dmd-select" helper ?hidden=${this.accion == "edit"}>
-                                <label>Sector originante</label>
+                                <label>SECTOR ORIGINANTE</label>
                                 <select id="creador" ?disabled=${true || !this.camposEditables}>
                                     ${
                                         store.getState().sectores.all.entities
@@ -286,14 +297,14 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                                     }
                                 </select>
                                 <div>Debe cargar una opcion</div>
-                                <span>Seleccione un sector</span>
+                                
                                 ${INFO}
                             </div>
 
                             <div class="dmd-select" helper ?hidden=${this.accion == "edit"}>
-                                <label>Sector ejecutor</label>
+                                <label>SECTOR EJECUTOR</label>
                                 <select id="ejecutor" ?disabled=${!this.camposEditables}>
-                                    <option value="-1" disabled selected hidden>Seleccione opcion</option>
+                                    <option value="-1" disabled selected hidden>Seleccione opción</option>
                                     ${
                                         store.getState().sectores.all.entities
                                             ? store.getState().sectores.all.entities.map((item, index) => {
@@ -302,8 +313,8 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                                             : ""
                                     }
                                 </select>
-                                <div>Debe cargar una opcion</div>
-                                <span>Seleccione un sector</span>
+                                <div>Debe cargar una opción</div>
+                                
                                 ${INFO}
                             </div>
                         </div>
@@ -313,7 +324,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                                 <div class="caption">${START}</div>
                                 <div class="dmd-input" helper ?hidden=${this.accion == "edit"}>
                                     <input type="date" id="vigencia" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
-                                    <div>Ingrese fecha de inicio</div>
+                                    <div>Debe ingresar fecha de inicio</div>
                                     <span>Fecha de inicio</span>
                                  
                                 </div>
@@ -324,7 +335,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                                     
                                         <input type="number" id="alerta" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
                                         <div>Ingrese fecha de alerta</div>
-                                        <span>Fecha de alerta</span>
+                                        <span>Días al vencimiento</span>
                                         
                                     </div>
                                 </div>
@@ -332,7 +343,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                                     <div class="caption end">${END}</div>
                                     <div class="dmd-input" helper ?hidden=${this.accion == "edit"}>
                                         
-                                        <input type="number" id="vencimiento" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
+                                        <input type="date" id="vencimiento" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
                                         <div>Ingrese fecha de vencimiento</div>
                                         <span>Fecha de vencimiento</span>
                                         
@@ -371,10 +382,9 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                             </div>
 
                             <div class="dmd-input" helper>
-                                <label>Instrucciones</label>
-                                <textarea id="instrucciones" placeholder="" rows="5" ?disabled=${!this.camposEditables}></textarea>
-                                <div>Debe las instrucciones de la tarea</div>
-                                <span>Ingrese un texto</span>
+                                <label>INSTRUCCIONES</label>
+                                <textarea id="instrucciones" placeholder="Ingresar las insdtrucciones de la tarea" rows="5" ?disabled=${!this.camposEditables}></textarea>
+                                <div>Debe ingresar las instrucciones de la tarea</div>
                                 ${INFO}
                             </div>
                             <hr />
@@ -503,8 +513,8 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                 this._vigencia.value = rr;
                 this._vencimiento.value = "10";
                 this._alerta.value = "5";
-                this._descripcion.value = "DEssssss";
-                this._instrucciones.value = "Inssssss";
+                this._descripcion.value = "";
+                this._instrucciones.value = "";
                 /* this._planControl.value = "";
                 this._tareaControl.value = ""; */
                 this._lapsoEnDias.value = "1";
