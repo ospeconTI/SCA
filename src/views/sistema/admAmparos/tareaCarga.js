@@ -353,7 +353,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                             
                             </div>
                             <!-- Solo para fecha -->
-                            <div class="dmd-select" helper ?hidden=${this.tipoTarea != "fecha" || this.accion == "edit"}>
+                            <div class="dmd-input" helper ?hidden=${this.tipoTarea != "fecha" || this.accion == "edit"}>
                                 <label>Dia del mes</label>
                                 <input type="number" id="diaDelMes" autocomplete="off" autocomplete="off" placeholder="" min="1" max="30" ?disabled=${!this.camposEditables} />
                                <!--  <select id="diaDelMes" ?disabled=${!this.camposEditables}>
@@ -385,7 +385,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
 
                             <div class="dmd-input" helper>
                                 <label>INSTRUCCIONES</label>
-                                <textarea id="instrucciones" placeholder="Ingresar las insdtrucciones de la tarea" rows="5" ?disabled=${!this.camposEditables}></textarea>
+                                <textarea id="instrucciones" placeholder="Ingresar las instrucciones de la tarea" rows="5" ?disabled=${!this.camposEditables}></textarea>
                                 <div>Debe ingresar las instrucciones de la tarea</div>
                                 ${INFO}
                             </div>
