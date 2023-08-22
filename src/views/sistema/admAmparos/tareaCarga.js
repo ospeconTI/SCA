@@ -209,6 +209,12 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                 align-self: center;
                 gap: 0.6rem;
             }
+            .tareas > div {
+                display: grid;
+                justify-content: start;
+                justify-items: start;
+                gap: 0.5rem;
+            }
         `;
     }
     get _creador() {
@@ -344,7 +350,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                                     
                                         <input type="number" id="alerta" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
                                         <div>Ingrese fecha de alerta</div>
-                                        <span>Días al vencimiento</span>
+                                        <span>Alerta al vencimiento</span>
                                         
                                     </div>
                                 </div>
@@ -362,7 +368,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                             </div>
                             <!-- Solo para fecha -->
                             <div class="tareas">
-                            <div title="Dia del mes">
+                                <div title="Dia del mes">
                                 
                                     <div class="caption center" ?hidden=${this.tipoTarea != "fecha" || this.accion == "edit"}>${CALENDARDAY}</div> 
                                         <div class="dmd-input" helper ?hidden=${this.tipoTarea != "fecha" || this.accion == "edit"}>
@@ -374,33 +380,32 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                                                   })}
                                                      </select> -->
                                                      <div>Debe cargar una opcion</div>
-                                                     <span>Seleccione un dia del mes</span>
+                                                     
                                                     ${INFO}
-                                    </div>
-
-                                    </div>
-                                        
-                            <!-- Solo para Lapso -->
-                            <div title="Lapso en dias">
-                            <div class="caption center" ?hidden=${this.tipoTarea != "lapso" || this.accion == "edit"} >${LAPSE}</div> 
-                            <div class="dmd-input" helper ?hidden=${this.tipoTarea != "lapso" || this.accion == "edit"}>
-                               
-                            <input type="number" id="lapsoEnDias" autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
-                                
-                                <span>Ingrese el lapso en dias</span>
-                                ${INFO}
                                 </div>
-                            </div>
-                            <div title="Cantidad De repeticiones">
-                            <div class="caption center" ?hidden=${this.tipoTarea == "simple" || this.accion == "edit"}>${REPEAT}</div>
-                            <div class="dmd-input" helper ?hidden=${this.tipoTarea == "simple" || this.accion == "edit"}>
-                                 
-                            <input type="number" id="cantidad" autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
+                                        </div>
+                                        
+                                                     <!-- Solo para Lapso -->
+                                                 <div title="Lapso en dias">
+                                                     <div class="caption center" ?hidden=${this.tipoTarea != "lapso" || this.accion == "edit"} >${LAPSE}</div> 
+                                                 <div class="dmd-input" helper ?hidden=${this.tipoTarea != "lapso" || this.accion == "edit"}>
+                               
+                                    <input type="number" id="lapsoEnDias" autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
                                 
-                                <span>Ingrese la cantidad</span>
-                                ${INFO}
-                            </div>
-                            </div>
+                                     <span>Ingrese el lapso en dias</span>
+                                     ${INFO}
+                                     </div>
+                                     </div>
+                                <div title="Cantidad De repeticiones">
+                                <div class="caption center" ?hidden=${this.tipoTarea == "simple" || this.accion == "edit"}>${REPEAT}</div>
+                                <div class="dmd-input" helper ?hidden=${this.tipoTarea == "simple" || this.accion == "edit"}>
+                                 
+                                 <input type="number" id="cantidad" autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
+                                
+                                  <span>Ingrese la cantidad</span>
+                                  ${INFO}
+                                 </div>
+                                 </div>
                             </div>
                             
                             <div class="dmd-input" helper>
