@@ -57,7 +57,7 @@ export class planCargaScreen extends connect(store, PLAN_DELETE, PLAN_ADD, PLAN_
 			#cuerpo {
 				display: grid;
 				position: relative;
-				height: 90vh;
+				height: max-content;
 				width: 100%;
 				background-color: var(--formulario);
 				grid-template-columns: 80%;
@@ -121,9 +121,6 @@ export class planCargaScreen extends connect(store, PLAN_DELETE, PLAN_ADD, PLAN_
 	get _urlReferencia() {
 		return this.shadowRoot.querySelector("#urlReferencia");
 	}
-	get _planControl() {
-		return this.shadowRoot.getElementById("planControl");
-	}
 	get _botonAceptar() {
 		return this.shadowRoot.getElementById("btnAceptar");
 	}
@@ -146,13 +143,6 @@ export class planCargaScreen extends connect(store, PLAN_DELETE, PLAN_ADD, PLAN_
 					<div id="titulo" ?hidden=${this.accion != "delete"}>Eliminar del Plan</div>
 					<hr />
 					<div id="datos">
-						<div class="dmd-input" helper ?hidden=${this.accion != "view"}>
-							<label>Plan</label>
-							<input type="text" id="planControl" autocomplete="off" autocomplete="off" placeholder="" value="" disabled />
-							<div></div>
-							<span></span>
-							${INFO}
-						</div>
 						<div class="dmd-input" helper>
 							<label>Descripcion</label>
 							<textarea id="descripcion" placeholder="" value="" rows="5" ?disabled=${this.accion == "view" || this.accion == "delete"}></textarea>
@@ -185,7 +175,6 @@ export class planCargaScreen extends connect(store, PLAN_DELETE, PLAN_ADD, PLAN_
 			this.plan = state.planes.byId.entities;
 			this._descripcion.value = this.plan.descripcion;
 			this._urlReferencia.value = this.plan.urlReferencia;
-			this._planControl.value = this.plan.id;
 			this.hidden = false;
 			this.update();
 		}
@@ -219,7 +208,6 @@ export class planCargaScreen extends connect(store, PLAN_DELETE, PLAN_ADD, PLAN_
 			if (this.accion == "add") {
 				this._descripcion.value = "";
 				this._urlReferencia.value = "";
-				this._planControl.value = "";
 				this.plan = null;
 				this.hidden = false;
 			} else if (this.accion == "view") {
