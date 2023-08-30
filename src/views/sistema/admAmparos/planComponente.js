@@ -180,7 +180,8 @@ export class planComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitElem
 	mostrarAmparo(e) {
 		e.preventDefault();
 		e.stopPropagation();
-		window.open("https://www.uocra.net/Amparos/Index.html?dni=" + this.registro.urlReferencia, "_blank");
+		let largo = this.registro.urlReferencia.length;
+		window.open("https://fronttest.uocra.net/Amparos/index.html?carpeta=" + this.registro.urlReferencia.substr(0, largo - 1) + "&carpetaSub=" + this.registro.urlReferencia.substr(largo - 1, 1), "_blank");
 	}
 	mostrarTareas(e) {
 		e.preventDefault();
