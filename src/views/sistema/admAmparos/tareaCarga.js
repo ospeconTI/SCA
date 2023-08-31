@@ -51,7 +51,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
         this.tipoTarea = "";
         this.body = {};
         this.camposEditables = true;
-        this.startDate = new Date().toISOString();
+        this.endDate = new Date().toISOString();
     }
     static get styles() {
         return css`
@@ -314,14 +314,14 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                                     <div>Ingrese fecha de alerta</div>
                                     <span>Alerta al vencimiento</span>
 
-                                    <input type="date" id="vigencia" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" placeholder="" .value="${this.endDate}" readonly />
+                                    <input type="date" id="vigencia" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" placeholder="" .value="${this.alertDate}" readonly />
                                     <span>Fecha de la alerta</span>
                                 </div>
                             </div>
                             <div title="fecha de vencimiento" class="end">
                                 <div class="caption end">${END}</div>
                                 <div class="dmd-input" helper ?hidden=${this.accion == "edit"}>
-                                    <input type="date" id="vencimiento" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" placeholder="" .value="${new Date(this.startDate).toLocaleDateString()}" @change="${this.handleStartDateChange}" ?disabled=${!this.camposEditables} />
+                                    <input type="date" id="vencimiento" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" placeholder="" .value="${new Date(this.endDate).toLocaleDateString()}" @change="${this.handleStartDateChange}" ?disabled=${!this.camposEditables} />
                                     <div>Ingrese fecha de vencimiento</div>
                                     <span>Fecha de vencimiento</span>
                                 </div>
@@ -439,7 +439,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                 this.accion = state.entreComponentes.tareaCarga_Load01.accion;
                 this.plan_tarea = state.entreComponentes.tareaCarga_Load01.item;
                 this.origen = this.item.clase;
-                this.startDate = this.item.vigenteDesde;
+                this.endDate = this.item.vigenteDesde;
                 this.alertDays = this.item.diasAlerta;
                 this.calculateEndDate();
             } else if (name == I_SHOW_LAPSO) {
@@ -498,22 +498,22 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
         this.hidden = true;
     }
     handleStartDateChange(event) {
-        //this.startDate = event.target.value;
+        //this.endDate = event.target.value;
         this.calculateEndDate();
     }
 
     handleAlertDaysChange(event) {
-        //this.startDate = this._vigencia.value;
+        //this.endDate = this._vigencia.value;
         this.alertDays = parseInt(event.target.value, 10);
         this.calculateEndDate();
     }
 
     calculateEndDate() {
-        if (this.startDate && this.alertDays !== undefined) {
-            const startDate = new Date(this.startDate);
-            const endDate = new Date(startDate);
-            endDate.setDate(startDate.getDate() - this.alertDays);
-            this.endDate = endDate.toISOString().split("T")[0];
+        if (this.endDate && this.alertDays !== undefined) {
+            const endDate = new Date(this.endDate);
+            const alertDate = new Date(endDate);
+            alertDate.setDate(endDate.getDate() - this.alertDays);
+            this.alertDate = alertDate.toISOString().split("T")[0];
             this.requestUpdate();
         }
     }
@@ -672,7 +672,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                 type: String,
                 reflect: true,
             },
-            startDate: {
+            endDate: {
                 type: String,
             },
         };
