@@ -17,6 +17,7 @@ import { getById as tareaGetById, addSimple as addTareaSimpleDeTarea, addLapso a
 import { addSimple as addTareaSimpleDePlan, addLapso as addTareaLapsoDePlan, addFecha as addTareaFechaDePlan, getAll as getPlanesAll } from "../../../redux/planes/actions";
 import { tareaCargaAAmparo_Retorno01 } from "../../../redux/entreComponentes/actions";
 
+const DIA_EN_MILISEGUNDOS = 24 * 60 * 60 * 1000;
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
 const TAREA_BY_ID = "tareas.byId.timeStamp";
@@ -51,7 +52,8 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
         this.tipoTarea = "";
         this.body = {};
         this.camposEditables = true;
-        this.endDate = new Date().toISOString();
+        this.endDate = new Date();
+        this.alertDate = new Date();
     }
     static get styles() {
         return css`
@@ -310,18 +312,18 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                             <div title="fecha de alerta" class="center">
                                 <div class="caption center">${NOTIFCATION_IMPORTANT}</div>
                                 <div class="dmd-input" helper ?hidden=${this.accion == "edit"}>
-                                    <input type="number" id="alerta" min="${new Date().toISOString().substring(0, 10)}" autocomplete="off" placeholder="" .value="${this.alertDays}" @input="${this.handleAlertDaysChange}" ?disabled=${!this.camposEditables} />
+                                    <input type="number" id="alerta" min="0" autocomplete="off" placeholder="" .value="${this.alertDays}" @change="${this.handleAlertDaysChange}" ?disabled=${!this.camposEditables} />
                                     <div>Ingrese fecha de alerta</div>
                                     <span>Alerta al vencimiento</span>
 
-                                    <input type="date" id="vigencia" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" placeholder="" .value="${this.alertDate}" readonly />
+                                    <input type="date" id="vigencia" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" placeholder="" .value="${this.alertDate.toISOString().substring(0, 10)}" @change="${this.calculateAlertDays}" ?disabled=${!this.camposEditables} />
                                     <span>Fecha de la alerta</span>
                                 </div>
                             </div>
                             <div title="fecha de vencimiento" class="end">
                                 <div class="caption end">${END}</div>
                                 <div class="dmd-input" helper ?hidden=${this.accion == "edit"}>
-                                    <input type="date" id="vencimiento" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" placeholder="" .value="${new Date(this.endDate).toLocaleDateString()}" @change="${this.handleStartDateChange}" ?disabled=${!this.camposEditables} />
+                                    <input type="date" id="vencimiento" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" placeholder="" .value="${this.endDate.toISOString().substring(0, 10)}" @change="${this.endDateChanged}" ?disabled=${!this.camposEditables} />
                                     <div>Ingrese fecha de vencimiento</div>
                                     <span>Fecha de vencimiento</span>
                                 </div>
@@ -392,7 +394,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
 
             this._vigencia.value = dateReturnForComponente(this.tarea.vigenteDesde);
             this._vencimiento.value = dateReturnForComponente(this.tarea.vencimiento);
-            this._alerta.value = (fVencimiento - fAlerta) / (1000 * 60 * 60 * 24);
+            this._alerta.value = (fVencimiento - fAlerta) / DIA_EN_MILISEGUNDOS;
             this._descripcion.value = this.tarea.descripcion;
             this._instrucciones.value = this.tarea.instrucciones;
             /* this._planControl.value = this.tarea.planId;
@@ -439,7 +441,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                 this.accion = state.entreComponentes.tareaCarga_Load01.accion;
                 this.plan_tarea = state.entreComponentes.tareaCarga_Load01.item;
                 this.origen = this.item.clase;
-                this.endDate = this.item.vigenteDesde;
+                this.endDate = new Date();
                 this.alertDays = this.item.diasAlerta;
                 this.calculateEndDate();
             } else if (name == I_SHOW_LAPSO) {
@@ -497,10 +499,6 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
     volver() {
         this.hidden = true;
     }
-    handleStartDateChange(event) {
-        //this.endDate = event.target.value;
-        this.calculateEndDate();
-    }
 
     handleAlertDaysChange(event) {
         //this.endDate = this._vigencia.value;
@@ -508,14 +506,28 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
         this.calculateEndDate();
     }
 
+    endDateChanged(e) {
+        if (e.currentTarget.value == "") return;
+        this.endDate = new Date(e.currentTarget.value);
+        this.calculateEndDate();
+    }
+
     calculateEndDate() {
         if (this.endDate && this.alertDays !== undefined) {
-            const endDate = new Date(this.endDate);
-            const alertDate = new Date(endDate);
-            alertDate.setDate(endDate.getDate() - this.alertDays);
-            this.alertDate = alertDate.toISOString().split("T")[0];
+            const endDateTimestamp = this.endDate.getTime();
+            const alertDaysInMilliseconds = this.alertDays * DIA_EN_MILISEGUNDOS;
+            const alertDateTimestamp = endDateTimestamp - alertDaysInMilliseconds;
+
+            this.alertDate = new Date(alertDateTimestamp);
+
             this.requestUpdate();
         }
+    }
+    calculateAlertDays(e) {
+        if (e.currentTarget.value == "") return;
+        this.alertDate = new Date(e.currentTarget.value);
+        this.alertDays = parseInt((this.endDate.getTime() - this.alertDate.getTime()) / DIA_EN_MILISEGUNDOS, 10);
+        this.update();
     }
 
     grabar(e) {
@@ -671,9 +683,6 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
             current: {
                 type: String,
                 reflect: true,
-            },
-            endDate: {
-                type: String,
             },
         };
     }
