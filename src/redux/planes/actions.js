@@ -3,6 +3,7 @@
 export const GET = "[planes] GET";
 export const GET_BY_ID = "[planes] GET_BY_ID";
 export const GET_ALL = "[planes] GET_ALL";
+export const GET_MY_PLAN = "[planes] GET_MY_PLAN";
 export const ADD = "[planes] ADD";
 export const ADD_SIMPLE = "[planes] ADD_SIMPLE";
 export const ADD_LAPSO = "[planes] ADD_LAPSO";
@@ -50,6 +51,13 @@ export const getById = (id) => ({
 
 export const getAll = (options) => ({
 	type: GET_ALL,
+	options: options,
+	success: GET_ALL_SUCCESS,
+	error: GET_ALL_ERROR,
+});
+
+export const getMyPlan = (options) => ({
+	type: GET_MY_PLAN,
 	options: options,
 	success: GET_ALL_SUCCESS,
 	error: GET_ALL_ERROR,

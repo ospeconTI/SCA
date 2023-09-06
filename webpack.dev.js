@@ -20,7 +20,9 @@ module.exports = merge(common, {
 	},
 	plugins: [
 		new webpack.DefinePlugin({
-			SERVICE_URL: JSON.stringify("http://localhost:4000"),
+			//https://scatest.uocra.net/api/v1/Plan
+			//SERVICE_URL: JSON.stringify("http://localhost:4000"),
+			SERVICE_URL: JSON.stringify("https://scatest.uocra.net"),
 			AUTHENTICATION_URL: JSON.stringify("https://fronttest.uocra.net"),
 		}),
 	],
