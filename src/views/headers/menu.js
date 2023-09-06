@@ -259,6 +259,9 @@ export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET
                         <button flat="" action="" @click=${this.abrirForzado}>
                             <div>Acceder con otro usuario</div>
                         </button>
+                        <button flat="" action="" @click=${this.miPerfil}>
+                            <div>Mi Perfil</div>
+                        </button>
                         <button flat="" action="" @click=${this.salir}>
                             <div>Salir</div>
                         </button>
@@ -266,6 +269,9 @@ export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET
                 </div>
             </div>
         `;
+    }
+    miPerfil(e) {
+        store.dispatch(goTo("miPerfil"));
     }
     isSelected(e) {
         return true;
