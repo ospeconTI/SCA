@@ -12,11 +12,18 @@ import { isInLayout } from "../../redux/screens/screenLayouts";
 import { showWarning } from "../../redux/ui/actions";
 import { ADD, CANCEL, MAS, DONE } from "../../../assets/icons/svgs";
 import { IMAGES } from "../../../assets/images/images";
+import { aceptarUsuario, autorizacion, getPerfil } from "../../redux/autorizacion/actions";
+import { modificarIntegrante, sumarIntegrante } from "../../redux/sectores/actions";
+import { parseJwt, uuidv4, validaMail } from "../../libs/funciones";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
+const ADD_USUARIO = "sectores.sumarIntegrante.timeStamp";
+const ADD_USUARIO_ERROR = "sectores.sumarIntegrante.errorTimeStamp";
+const PERFIL = "autorizacion.perfilTimeStamp";
+const UPDATE_USUARIO = "sectores.modificarIntegrante.timeStamp";
 
-export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN)(LitElement) {
+export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN, ADD_USUARIO, ADD_USUARIO_ERROR, PERFIL, UPDATE_USUARIO)(LitElement) {
     constructor() {
         super();
         this.hidden = true;
@@ -67,7 +74,7 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN)(LitElement) {
             }
             .sectores {
                 justify-content: center;
-                grid-template-columns: 5rem 5rem 20rem 15rem 2.5rem;
+                grid-template-columns: 5rem 5rem 5rem 20rem 15rem 2.5rem;
             }
             .lista {
                 height: 30vh;
@@ -79,11 +86,17 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN)(LitElement) {
                 margin: 1rem 0 1rem 0;
             }
             button[big] svg {
-                height: 2rem;
-                width: 2rem;
+                height: 1.8rem;
+                width: 1.8rem;
             }
             button {
                 padding: 0.2rem !important;
+            }
+            .estado {
+                color: var(--cumplido);
+            }
+            .estado[pendiente] {
+                color: var(--alertado);
             }
         `;
     }
@@ -110,6 +123,7 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN)(LitElement) {
 
                 <div class="inner-grid">
                     <div class="inner-grid column sectores">
+                        <label>Estado</label>
                         <label>Sector</label>
                         <label>Resp.</label>
                         <label>Email</label>
@@ -118,6 +132,7 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN)(LitElement) {
                     </div>
 
                     <div class="inner-grid column sectores nuevo" ?oculto=${!this.agregando}>
+                        <div class="estado" pendiente>pendiente</div>
                         <div class="select">
                             <select id="sector" required>
                                 <option value="" disabled selected>Selecciona una opción</option>
@@ -126,13 +141,7 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN)(LitElement) {
                                 })}
                             </select>
                         </div>
-                        <div class="select">
-                            <select id="responsable" required>
-                                <option value="S">Si</option>
-                                <option value="N">No</option>
-                            </select>
-                        </div>
-
+                        <div>No</div>
                         <div class="input">
                             <input type="email" id="email" />
                         </div>
@@ -145,6 +154,7 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN)(LitElement) {
                     <div class="inner-grid lista">
                         ${this.usuario.sectores.map((sector) => {
                             return html`<div class="inner-grid column sectores" .sector="${sector}">
+                                <div class="estado" ?pendiente="${!sector.token}">${sector.token ? "activo" : "pendiente"}</div>
                                 <div>${sector.descripcion}</div>
                                 <div>${sector.esResponsable ? "Si" : "No"}</div>
                                 <div class="input">
@@ -154,7 +164,7 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN)(LitElement) {
                                     <input type="text" contacto .value="${sector.contacto}" @input=${this.editando} />
                                 </div>
 
-                                <button flat action big .item=${sector} .disabled="${!sector.modificando}" @click="${this.guardarModificado}">${DONE}</button>
+                                <button flat action big .item=${sector} .disabled="${!sector.modificando}" @click="${this.guardarModificado}">${sector.modificando ? DONE : ""}</button>
                             </div>`;
                         })}
                     </div>
@@ -163,20 +173,34 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN)(LitElement) {
         `;
     }
     guardarNuevo(e) {
-        const sector = this.shadowRoot.querySelector("#sector").value;
-        const responsable = this.shadowRoot.querySelector("#responsable").value;
-        const email = this.shadowRoot.querySelector("#email").value;
-        const contacto = this.shadowRoot.querySelector("#contacto").value;
-        console.log(sector + " " + responsable + " " + email + " " + contacto);
-        this.agregando = false;
+        const profile = parseJwt(store.getState().autorizacion.tokenAutentication);
+        let body = {};
+        body.apellido = this.usuario.apellido;
+        body.nombre = this.usuario.nombre;
+        body.sectorId = this.shadowRoot.querySelector("#sector").value;
+        body.email = this.shadowRoot.querySelector("#email").value;
+        body.contacto = this.shadowRoot.querySelector("#contacto").value;
+        body.roles = [
+            {
+                nombre: "usuario",
+                id: 1,
+            },
+        ];
+        body.identificador = profile.nameid;
+        store.dispatch(sumarIntegrante(body));
     }
+
     guardarModificado(e) {
-        const item = e.currentTarget.item;
-        item.email = e.currentTarget.parentElement.querySelector("input[email]").value;
-        item.contacto = e.currentTarget.parentElement.querySelector("input[contacto]").value;
-        console.log(item);
-        item.modificando = false;
-        this.modificando = false;
+        const profile = parseJwt(store.getState().autorizacion.tokenAutentication);
+        const body = {
+            apellido: profile.family_name,
+            nombre: profile.given_name,
+            sectorId: e.currentTarget.item.id,
+            email: e.currentTarget.parentElement.querySelector("input[email]").value,
+            identificador: profile.nameid,
+            contacto: e.currentTarget.parentElement.querySelector("input[contacto]").value,
+        };
+        store.dispatch(modificarIntegrante(body));
     }
     addOrCancel(e) {
         // cancela
@@ -194,6 +218,9 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN)(LitElement) {
             return;
         }
         //add
+        this.shadowRoot.querySelector("#sector").value = "";
+        this.shadowRoot.querySelector("#email").value = "";
+        this.shadowRoot.querySelector("#contacto").value = "";
         this.agregando = true;
         return;
     }
@@ -221,10 +248,27 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN)(LitElement) {
             const SeMuestraEnUnasDeEstasPantallas = "-miPerfil-".indexOf("-" + state.screen.name + "-") != -1;
             if (haveBodyArea && SeMuestraEnUnasDeEstasPantallas) {
                 this.hidden = false;
-                this.usuario = store.getState().autorizacion.entities.result;
-                this.sectores = store.getState().sectores.all.entities;
+                this.usuario = state.autorizacion.entities.result;
+                this.sectores = state.sectores.all.entities;
                 this.update();
             }
+        }
+        if (name == ADD_USUARIO) {
+            store.dispatch(showWarning("Atencion!", "El perfil se actulizo correctamente", "fondoOk", 3000));
+            store.dispatch(getPerfil(state.autorizacion.tokenAutentication));
+            this.agregando = false;
+        }
+        if (name == UPDATE_USUARIO) {
+            store.dispatch(getPerfil(state.autorizacion.tokenAutentication));
+            this.modificando = false;
+            this.update();
+        }
+        if (name == ADD_USUARIO_ERROR) {
+            store.dispatch(showWarning("Atencion!", state.sectores.sumarIntegrante.message, "fondoError", 3000));
+        }
+        if (name == PERFIL) {
+            this.usuario = state.autorizacion.entities.result;
+            this.update();
         }
     }
 

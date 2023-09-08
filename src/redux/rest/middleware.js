@@ -15,13 +15,26 @@ export const middleware =
             RESTfetch.get(id, token)
                 .then((data) => {
                     dispatch(hideSpinner());
-                    dispatch({
-                        type: onSuccess,
-                        payload: {
-                            send: id,
-                            receive: data,
-                        },
-                    });
+                    if (data.StatusCode >= 400 || data.errors) {
+                        dispatch({
+                            type: onError,
+                            payload: {
+                                send: {
+                                    id: id,
+                                    body: body,
+                                },
+                                receive: data,
+                            },
+                        });
+                    } else {
+                        dispatch({
+                            type: onSuccess,
+                            payload: {
+                                send: id,
+                                receive: data,
+                            },
+                        });
+                    }
                 })
                 .catch((error) => {
                     dispatch(hideSpinner());
@@ -42,16 +55,29 @@ export const middleware =
             RESTfetch.patch(id, body, token)
                 .then((data) => {
                     dispatch(hideSpinner());
-                    dispatch({
-                        type: onSuccess,
-                        payload: {
-                            send: {
-                                id: id,
-                                body: body,
+                    if (data.StatusCode >= 400 || data.errors) {
+                        dispatch({
+                            type: onError,
+                            payload: {
+                                send: {
+                                    id: id,
+                                    body: body,
+                                },
+                                receive: data,
                             },
-                            receive: data,
-                        },
-                    });
+                        });
+                    } else {
+                        dispatch({
+                            type: onSuccess,
+                            payload: {
+                                send: {
+                                    id: id,
+                                    body: body,
+                                },
+                                receive: data,
+                            },
+                        });
+                    }
                 })
                 .catch((error) => {
                     dispatch(hideSpinner());
@@ -75,16 +101,29 @@ export const middleware =
             RESTfetch.put(id, body, token)
                 .then((data) => {
                     dispatch(hideSpinner());
-                    dispatch({
-                        type: onSuccess,
-                        payload: {
-                            send: {
-                                id: id,
-                                body: body,
+                    if (data.StatusCode >= 400 || data.errors) {
+                        dispatch({
+                            type: onError,
+                            payload: {
+                                send: {
+                                    id: id,
+                                    body: body,
+                                },
+                                receive: data,
                             },
-                            receive: data,
-                        },
-                    });
+                        });
+                    } else {
+                        dispatch({
+                            type: onSuccess,
+                            payload: {
+                                send: {
+                                    id: id,
+                                    body: body,
+                                },
+                                receive: data,
+                            },
+                        });
+                    }
                 })
                 .catch((error) => {
                     dispatch(hideSpinner());
@@ -108,13 +147,26 @@ export const middleware =
             RESTfetch.delete(id, token)
                 .then((data) => {
                     dispatch(hideSpinner());
-                    dispatch({
-                        type: onSuccess,
-                        payload: {
-                            send: id,
-                            receive: data,
-                        },
-                    });
+                    if (data.StatusCode >= 400 || data.errors) {
+                        dispatch({
+                            type: onError,
+                            payload: {
+                                send: {
+                                    id: id,
+                                    body: body,
+                                },
+                                receive: data,
+                            },
+                        });
+                    } else {
+                        dispatch({
+                            type: onSuccess,
+                            payload: {
+                                send: id,
+                                receive: data,
+                            },
+                        });
+                    }
                 })
                 .catch((error) => {
                     dispatch(hideSpinner());
@@ -135,13 +187,26 @@ export const middleware =
             RESTfetch.post(body, token, id)
                 .then((data) => {
                     dispatch(hideSpinner());
-                    dispatch({
-                        type: onSuccess,
-                        payload: {
-                            send: body,
-                            receive: data,
-                        },
-                    });
+                    if (data.StatusCode >= 400 || data.errors) {
+                        dispatch({
+                            type: onError,
+                            payload: {
+                                send: {
+                                    id: id,
+                                    body: body,
+                                },
+                                receive: data,
+                            },
+                        });
+                    } else {
+                        dispatch({
+                            type: onSuccess,
+                            payload: {
+                                send: body,
+                                receive: data,
+                            },
+                        });
+                    }
                 })
                 .catch((error) => {
                     dispatch(hideSpinner());

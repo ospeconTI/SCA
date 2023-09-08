@@ -1,6 +1,9 @@
+/** @format */
+
 export const SET = "[miPerfil] SET";
 
-export const set = (item) => ({
-	type: SET,
-	item: item,
+export const set = (perfil, item) => ({
+    type: SET,
+    perfil: perfil,
+    item: item,
 });

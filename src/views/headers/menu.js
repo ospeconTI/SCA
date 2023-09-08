@@ -16,9 +16,10 @@ import { loguearConNuevoUsuario, LOGUEAR_CON_NUEVO_USUARIO, selection, showConfi
 import { set } from "../../redux/miPerfil/actions";
 import { getInicial } from "../../redux/getCombinados/actions";
 import { getAll as sectoresGetAll } from "../../redux/sectores/actions";
-import { hiddenOpcion } from "../../libs/funciones";
+import { hiddenOpcion, parseJwt } from "../../libs/funciones";
 
 import { getMiSector } from "../../redux/tareas/actions";
+import { amparos_SacarFilter02 } from "../../redux/entreComponentes/actions";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SELECTION = "ui.menu.timeStamp";
@@ -30,8 +31,9 @@ const GET_INICIAL = "getCombinados.inicial.timeStamp";
 const GET_INICIAL_ERROR = "getCombinados.inicial.errorTimeStamp";
 const SECTORES_GET_ALL = "sectores.all.timeStamp";
 const SECTORES_GET_ALL_ERROR = "sectores.all.errorTimeStamp";
+const PERFIL_ACTUAL = "miPerfil.timeStamp";
 
-export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET_ALL_ERROR, GET_INICIAL, GET_INICIAL_ERROR, MEDIA_CHANGE, SCREEN, SELECTION, AUTORIZACION, AUTORIZACION_FALLA, LOGUEAR)(LitElement) {
+export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET_ALL_ERROR, GET_INICIAL, GET_INICIAL_ERROR, MEDIA_CHANGE, SCREEN, SELECTION, AUTORIZACION, AUTORIZACION_FALLA, LOGUEAR, PERFIL_ACTUAL)(LitElement) {
     constructor() {
         super();
         this.area = "header";
@@ -42,6 +44,7 @@ export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET
         this.defaultOption = 0;
         this.selectedOption = new Array(this.optionsCount).fill(false);
         this.selectedOption[this.defaultOption] = true;
+        this.sectores = [];
 
         const gestures = new gesturesController(this, this.gestos);
 
@@ -259,9 +262,14 @@ export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET
                         <button flat="" action="" @click=${this.abrirForzado}>
                             <div>Acceder con otro usuario</div>
                         </button>
-                        <button flat="" action="" @click=${this.miPerfil}>
+                        <button flat="" action="" @click=${this.miPerfil} ?hidden="${!this.usuarioActivo}">
                             <div>Mi Perfil</div>
                         </button>
+                        ${this.sectores.map((s) => {
+                            return html`<button flat="" action="" @click=${this.cambioSector} .sector=${s} ?hidden="${!this.usuarioActivo}">
+                                <div>${s.id == this.perfilActual.sector.id ? "*" + s.descripcion : s.descripcion}</div>
+                            </button>`;
+                        })}
                         <button flat="" action="" @click=${this.salir}>
                             <div>Salir</div>
                         </button>
@@ -269,6 +277,10 @@ export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET
                 </div>
             </div>
         `;
+    }
+
+    cambioSector(e) {
+        store.dispatch(set(store.getState().autorizacion.entities.result, e.currentTarget.sector));
     }
     miPerfil(e) {
         store.dispatch(goTo("miPerfil"));
@@ -351,18 +363,20 @@ export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET
             }
         }
         if (name == AUTORIZACION) {
-            const profile = this.parseJwt(state.autorizacion.tokenAutentication);
-            if (state.autorizacion.entities.result.sectores.length == 0) {
+            const profile = parseJwt(state.autorizacion.tokenAutentication);
+            this.usuarioActivo = true;
+            this.sectores = state.autorizacion.entities.result.sectores;
+            if (this.sectores.length == 0) {
+                this.usuarioActivo = false;
                 this.profile = "NO AUTORIZADO";
-                store.dispatch(set(state.autorizacion.entities.result));
+                store.dispatch(set(state.autorizacion.entities.result, {}));
                 store.dispatch(sectoresGetAll());
             } else {
-                let sector = state.autorizacion.entities.result.sectores[0].descripcion;
-                this.profile = profile["family_name"] + " " + profile["given_name"] + " (" + sector + ")";
-                if (state.autorizacion.entities.result.sectores[0].token) {
-                    store.dispatch(set(state.autorizacion.entities.result));
+                if (this.sectores[0].token) {
+                    store.dispatch(set(state.autorizacion.entities.result, this.sectores[0]));
                     store.dispatch(getInicial());
                 } else {
+                    this.usuarioActivo = false;
                     store.dispatch(goTo("esperarAutorizacion"));
                 }
             }
@@ -374,18 +388,23 @@ export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET
             this.abrirForzado();
         }
         if (name == GET_INICIAL) {
-            if (state.autorizacion.entities.result.sectores.length > 0) {
+            if (this.sectores.length > 0) {
                 store.dispatch(goTo("inicial"));
             }
         }
         if (name == GET_INICIAL_ERROR) {
         }
         if (name == SECTORES_GET_ALL) {
-            if (state.autorizacion.entities.result.sectores.length == 0) {
+            if (this.sectores.length == 0) {
                 store.dispatch(goTo("solicitarAutorizacion"));
             }
         }
         if (name == SECTORES_GET_ALL_ERROR) {
+        }
+        if (name == PERFIL_ACTUAL) {
+            this.perfilActual = state.miPerfil;
+            this.profile = this.perfilActual.apellido + " " + this.perfilActual.nombre + " (" + this.perfilActual.sector.descripcion + ")";
+            store.dispatch(goTo("inicial"));
         }
     }
 
@@ -425,6 +444,15 @@ export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET
             logueado: {
                 type: Boolean,
                 reflect: true,
+            },
+            usuarioActivo: {
+                type: Boolean,
+            },
+            sectores: {
+                type: Array,
+            },
+            perfilActual: {
+                type: Object,
             },
         };
     }

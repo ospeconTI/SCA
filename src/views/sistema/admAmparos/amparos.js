@@ -55,6 +55,7 @@ const PLAN_ADD = "planes.addTimeStamp";
 const PLAN_UPDATE = "planes.updateTimeStamp";
 
 const TAREA_CARGA_A_AMPARO__RETORNO = "entreComponentes.tareaCargaAAmparo_Retorno01.timeStamp";
+const PERFIL_ACTUAL = "miPerfil.timeStamp";
 
 export class amparosScreen extends connect(
     store,
@@ -79,7 +80,8 @@ export class amparosScreen extends connect(
     TAREAS_BY_PLAN_ID_OK,
     TAREAS_BY_PLAN_ID_ERROR,
     MEDIA_CHANGE,
-    SCREEN
+    SCREEN,
+    PERFIL_ACTUAL
 )(LitElement) {
     constructor() {
         super();
@@ -344,6 +346,16 @@ export class amparosScreen extends connect(
                 }
                 this.hidden = false;
             }
+        }
+        if (name == PERFIL_ACTUAL) {
+            if (state.miPerfil.sector.roles.find((r) => r.nombre != "usuario")) {
+                this.sectorEjecutorFiltro.ejecutorCreador = "";
+                this.sectorEjecutorFiltro.sectorDescripcion = "";
+            } else {
+                this.sectorEjecutorFiltro.ejecutorCreador = "ejecutor";
+                this.sectorEjecutorFiltro.sectorDescripcion = state.miPerfil.sector.descripcion;
+            }
+            this.refresh();
         }
         if (name == PLANES_OK) {
             this.inicializarArbol();
