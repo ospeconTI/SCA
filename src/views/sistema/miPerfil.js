@@ -32,6 +32,7 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN, ADD_USUARIO, 
         this.sectores = [];
         this.agregando = false;
         this.modificando = false;
+        this.validaciones = { mail: true, sector: true };
     }
     static get styles() {
         return css`
@@ -75,11 +76,14 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN, ADD_USUARIO, 
             .sectores {
                 justify-content: center;
                 grid-template-columns: 5rem 5rem 5rem 20rem 15rem 2.5rem;
+                align-content: start;
+                grid-template-rows: 3rem;
             }
             .lista {
                 height: 30vh;
                 overflow-y: auto;
                 align-content: start;
+                grid-template-rows: 3rem;
             }
             .separador {
                 border-top: 1px solid var(--on-formulario-disabled);
@@ -134,7 +138,7 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN, ADD_USUARIO, 
                     <div class="inner-grid column sectores nuevo" ?oculto=${!this.agregando}>
                         <div class="estado" pendiente>pendiente</div>
                         <div class="select">
-                            <select id="sector" required>
+                            <select id="sector" required ?error=${!this.validaciones.sector}>
                                 <option value="" disabled selected>Selecciona una opción</option>
                                 ${this.sectores.map((sec) => {
                                     return html`<option value="${sec.id}">${sec.descripcion}</option>`;
@@ -142,8 +146,9 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN, ADD_USUARIO, 
                             </select>
                         </div>
                         <div>No</div>
-                        <div class="input">
-                            <input type="email" id="email" />
+                        <div class="input" ?error="${!this.validaciones.mail}">
+                            <input type="email" id="email" @change="${this.validaMailAlta}" />
+                            <label error>Debe ingresar un mail válido</label>
                         </div>
                         <div class="input">
                             <input type="text" id="contacto" />
@@ -157,8 +162,9 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN, ADD_USUARIO, 
                                 <div class="estado" ?pendiente="${!sector.token}">${sector.token ? "activo" : "pendiente"}</div>
                                 <div>${sector.descripcion}</div>
                                 <div>${sector.esResponsable ? "Si" : "No"}</div>
-                                <div class="input">
-                                    <input type="email" email .value="${sector.email}" @input=${this.editando} />
+                                <div class="input" ?error="${sector.mailInvalido}">
+                                    <input type="email" email .value="${sector.email}" .item="${sector}" @input=${this.editando} @change="${this.validaMailModificacion}" />
+                                    <label error>Debe ingresar un mail válido</label>
                                 </div>
                                 <div class="input">
                                     <input type="text" contacto .value="${sector.contacto}" @input=${this.editando} />
@@ -171,6 +177,45 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN, ADD_USUARIO, 
                 </div>
             </div>
         `;
+    }
+    validaMailAlta(e) {
+        this.validaciones.mail = this.validarMail(e.currentTarget.value);
+        this.update();
+    }
+    validaMailModificacion(e) {
+        e.currentTarget.item.mailInvalido = !this.validarMail(e.currentTarget.value);
+        this.update();
+    }
+
+    validarMail(mail) {
+        return mail && validaMail(mail);
+    }
+
+    esFormularioValido(accion, item, form) {
+        let valido = true;
+
+        if (accion == "alta") {
+            if (!item.sectorId) {
+                valido = false;
+                this.validaciones.sector = valido;
+            }
+
+            if (!this.validarMail(item.email)) {
+                valido = false;
+                this.validaciones.mail = valido;
+            }
+        }
+
+        if (accion == "modificacion") {
+            if (!this.validarMail(item.email)) {
+                valido = false;
+                form.item.mailInvalido = !valido;
+            }
+        }
+
+        this.update();
+
+        return valido;
     }
     guardarNuevo(e) {
         const profile = parseJwt(store.getState().autorizacion.tokenAutentication);
@@ -187,6 +232,9 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN, ADD_USUARIO, 
             },
         ];
         body.identificador = profile.nameid;
+
+        if (!this.esFormularioValido("alta", body)) return;
+
         store.dispatch(sumarIntegrante(body));
     }
 
@@ -200,6 +248,9 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN, ADD_USUARIO, 
             identificador: profile.nameid,
             contacto: e.currentTarget.parentElement.querySelector("input[contacto]").value,
         };
+
+        if (!this.esFormularioValido("modificacion", body, e.currentTarget)) return;
+
         store.dispatch(modificarIntegrante(body));
     }
     addOrCancel(e) {
@@ -207,7 +258,11 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN, ADD_USUARIO, 
         if (this.agregando || this.modificando) {
             this.modificando = false;
             this.agregando = false;
-            this.usuario.sectores.forEach((sec) => (sec.modificando = false));
+            this.validaciones.mail = true;
+            this.usuario.sectores.forEach((sec) => {
+                sec.modificando = false;
+                sec.mailInvalido = false;
+            });
 
             //hacer undo a valores originales
             const sectoresDelUsuario = this.usuario.sectores;
@@ -234,8 +289,6 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN, ADD_USUARIO, 
                 padre = padre.parentElement;
             }
         }
-
-        e.currentTarget.parentElement.parentElement.sector.modificando = true;
         this.modificando = true;
         this.update();
     }
@@ -301,6 +354,9 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN, ADD_USUARIO, 
             },
             modificando: {
                 type: Boolean,
+            },
+            validaciones: {
+                type: Object,
             },
         };
     }
