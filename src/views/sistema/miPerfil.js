@@ -137,13 +137,21 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN, ADD_USUARIO, 
 
                     <div class="inner-grid column sectores nuevo" ?oculto=${!this.agregando}>
                         <div class="estado" pendiente>pendiente</div>
-                        <div class="select">
-                            <select id="sector" required ?error=${!this.validaciones.sector}>
+                        <div class="select" ?error=${!this.validaciones.sector}>
+                            <select
+                                id="sector"
+                                required
+                                @change="${(e) => {
+                                    this.validaciones.sector = e.currentTarget.value != "";
+                                    this.update();
+                                }}"
+                            >
                                 <option value="" disabled selected>Selecciona una opción</option>
                                 ${this.sectores.map((sec) => {
                                     return html`<option value="${sec.id}">${sec.descripcion}</option>`;
                                 })}
                             </select>
+                            <label error>es requerido</label>
                         </div>
                         <div>No</div>
                         <div class="input" ?error="${!this.validaciones.mail}">
