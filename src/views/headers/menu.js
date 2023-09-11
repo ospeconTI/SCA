@@ -280,6 +280,7 @@ export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET
     }
 
     cambioSector(e) {
+        localStorage.setItem("ultimoSector", e.currentTarget.sector.id);
         store.dispatch(set(store.getState().autorizacion.entities.result, e.currentTarget.sector));
     }
     miPerfil(e) {
@@ -372,8 +373,12 @@ export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET
                 store.dispatch(set(state.autorizacion.entities.result, {}));
                 store.dispatch(sectoresGetAll());
             } else {
-                if (this.sectores[0].token) {
-                    store.dispatch(set(state.autorizacion.entities.result, this.sectores[0]));
+                let ultimoSector = localStorage.getItem("ultimoSector");
+                if (!ultimoSector) ultimoSector = this.sectores[0].id;
+                let sector = this.sectores.find((s) => s.id == ultimoSector);
+                if (sector == undefined) sector = this.sectores[0];
+                if (sector.token) {
+                    store.dispatch(set(state.autorizacion.entities.result, sector));
                     store.dispatch(getInicial());
                 } else {
                     this.usuarioActivo = false;

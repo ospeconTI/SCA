@@ -102,6 +102,9 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN, ADD_USUARIO, 
             .estado[pendiente] {
                 color: var(--alertado);
             }
+            div[tachado] {
+                text-decoration: line-through var(--alertado);
+            }
         `;
     }
     render() {
@@ -167,7 +170,7 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN, ADD_USUARIO, 
                     <div class="inner-grid lista">
                         ${this.usuario.sectores.map((sector) => {
                             return html`<div class="inner-grid column sectores" .sector="${sector}">
-                                <div class="estado" ?pendiente="${!sector.token}">${sector.token ? "activo" : "pendiente"}</div>
+                                <div class="estado" ?pendiente="${!sector.token}" ?tachado="${sector.roles.length == 0}">${sector.token ? "activo" : "pendiente"}</div>
                                 <div>${sector.descripcion}</div>
                                 <div>${sector.esResponsable ? "Si" : "No"}</div>
                                 <div class="input" ?error="${sector.mailInvalido}">
@@ -308,8 +311,7 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN, ADD_USUARIO, 
             const haveBodyArea = isInLayout(state, this.area);
             const SeMuestraEnUnasDeEstasPantallas = "-miPerfil-".indexOf("-" + state.screen.name + "-") != -1;
             if (haveBodyArea && SeMuestraEnUnasDeEstasPantallas) {
-                this.hidden = false;
-                this.usuario = state.autorizacion.entities.result;
+                store.dispatch(getPerfil(state.autorizacion.tokenAutentication));
                 this.sectores = state.sectores.all.entities;
                 this.update();
             }
@@ -329,6 +331,7 @@ export class miPerfil extends connect(store, MEDIA_CHANGE, SCREEN, ADD_USUARIO, 
         }
         if (name == PERFIL) {
             this.usuario = state.autorizacion.entities.result;
+            this.hidden = false;
             this.update();
         }
     }
