@@ -7,8 +7,8 @@ let webApiExpedientes = SERVICE_URL;
 let webApi = SERVICE_URL + "/api/v1";
 
 const expedienteOdataFactory = ODataFetchFactory({
-    fetch: fetch,
-    domain: webApiExpedientes,
+	fetch: fetch,
+	domain: webApiExpedientes,
 });
 export const autorizacionFetch = fetchFactory(webApi, "Autorizacion");
 export const autorizacionAceptarUsuarioFetch = fetchFactory(webApi, "Autorizacion/AceptarUsuario");
@@ -20,6 +20,7 @@ export const cambiarPasswordFetch = ODataEntity(expedienteOdataFactory, "Cambiar
 
 export const planesByIdFetch = fetchFactory(webApi, "Plan");
 export const planesGetAllFetch = fetchFactory(webApi, "Plan/GetAll");
+export const planesGetMyPlanFetch = fetchFactory(webApi, "Plan/GetMyPlans");
 export const planesAddFetch = fetchFactory(webApi, "Plan/NuevoPlan");
 export const planesModificarFetch = fetchFactory(webApi, "Plan/Modificar");
 export const planesAddSimpleFetch = fetchFactory(webApi, "Plan/AgregarTareas");

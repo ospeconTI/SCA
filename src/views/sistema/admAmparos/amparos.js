@@ -13,7 +13,7 @@ import { popupControl } from "../../../views/componentes/popup";
 
 import { armoTareas, recursiveSearch, hiddenOpcion } from "../../../libs/funciones";
 
-import { UPDATE, getAll as getPlanesAll } from "../../../redux/planes/actions";
+import { UPDATE, getAll as getPlanesAll, getMyPlan as getMisPlanes } from "../../../redux/planes/actions";
 import { getByPlanId as getTareasByPlanId, darCumplimiento as tareaDarCumplimiento, quitarCumplimiento as tareaQuitarCumplimiento } from "../../../redux/tareas/actions";
 import { show as showPopup, hidden as hiddenPopup } from "../../../redux/popup/actions";
 import { planCarga_Load01 } from "../../../redux/entreComponentes/actions";
@@ -39,6 +39,7 @@ const SACAR_FILTRO01_AMPAROS = "entreComponentes.amparos_SacarFilter01.timeStamp
 const SACAR_FILTRO02_AMPAROS = "entreComponentes.amparos_SacarFilter02.timeStamp";
 
 const FILTRO_AMPAROS_POR_SECTOR_SIN_DESCRIPCION = "entreComponentes.amparos_Filter02.timeStamp";
+const FILTRO_AMPAROS_MY_PLANES = "entreComponentes.amparos_my_planes_Filter01.timeStamp";
 
 const TAREAS_BY_PLAN_ID_OK = "tareas.byPlanId.timeStamp";
 const TAREAS_BY_PLAN_ID_ERROR = "tareas.byPlanId.errorTimeStamp";
@@ -60,6 +61,7 @@ const PERFIL_ACTUAL = "miPerfil.timeStamp";
 export class amparosScreen extends connect(
     store,
     FILTRO_AMPAROS_POR_SECTOR_SIN_DESCRIPCION,
+    FILTRO_AMPAROS_MY_PLANES,
     TAREA_QUITAR_CUMPLIMIENTO_OK,
     TAREA_QUITAR_CUMPLIMIENTO_ERROR,
     EVENTO_EJECUTAR_TAREA_QUITAR_CUMPLIMIENTO,
@@ -279,6 +281,8 @@ export class amparosScreen extends connect(
         this.filtro = false;
         if (this.sectorEjecutorFiltro.ejecutorCreador == "") {
             store.dispatch(getPlanesAll());
+        } else if (this.sectorEjecutorFiltro.ejecutorCreador == "con mi sector") {
+            store.dispatch(getMisPlanes("?sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
         } else {
             store.dispatch(getPlanesAll("?ejecutorCreador=" + this.sectorEjecutorFiltro.ejecutorCreador + "&sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
         }
@@ -294,7 +298,7 @@ export class amparosScreen extends connect(
         } else {
             if (this.itemsSeleccionados.length == 0 || this.itemsSeleccionados.length < this.rama + 1) {
                 this.itemsSeleccionados.push(item);
-                if (this.sectorEjecutorFiltro.ejecutorCreador == "") {
+                if (this.sectorEjecutorFiltro.ejecutorCreador == "" || this.sectorEjecutorFiltro.ejecutorCreador == "con mi sector") {
                     store.dispatch(getTareasByPlanId(item.planId));
                 } else {
                     store.dispatch(getTareasByPlanId(item.planId + "?ejecutorCreador=" + this.sectorEjecutorFiltro.ejecutorCreador + "&sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
@@ -304,7 +308,7 @@ export class amparosScreen extends connect(
                 this.itemsSeleccionados.splice(this.rama + 1);
                 if (this.rama == 0) {
                     this.arbol.splice(1);
-                    if (this.sectorEjecutorFiltro.ejecutorCreador == "") {
+                    if (this.sectorEjecutorFiltro.ejecutorCreador == "" || this.sectorEjecutorFiltro.ejecutorCreador == "con mi sector") {
                         store.dispatch(getTareasByPlanId(item.planId));
                     } else {
                         store.dispatch(getTareasByPlanId(item.planId + "?ejecutorCreador=" + this.sectorEjecutorFiltro.ejecutorCreador + "&sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
@@ -313,7 +317,7 @@ export class amparosScreen extends connect(
                     //this.arbol.splice(this.rama + 2);
                     //this.update();
                     this.arbol.splice(this.rama + 1);
-                    if (this.sectorEjecutorFiltro.ejecutorCreador == "") {
+                    if (this.sectorEjecutorFiltro.ejecutorCreador == "" || this.sectorEjecutorFiltro.ejecutorCreador == "con mi sector") {
                         store.dispatch(getTareasByPlanId(item.planId));
                     } else {
                         store.dispatch(getTareasByPlanId(item.planId + "?ejecutorCreador=" + this.sectorEjecutorFiltro.ejecutorCreador + "&sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
@@ -517,6 +521,13 @@ export class amparosScreen extends connect(
             } else {
                 store.dispatch(getPlanesAll("?ejecutorCreador=" + this.sectorEjecutorFiltro.ejecutorCreador + "&sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
             }
+        }
+        if (name == FILTRO_AMPAROS_MY_PLANES) {
+            //this.sectorEjecutorFiltro.ejecutorCreador = "ejecutor";
+            //this.sectorEjecutorFiltro.sectorDescripcion = state.miPerfil.sector.descripcion;
+            this.sectorEjecutorFiltro.ejecutorCreador = "con mi sector";
+            this.sectorEjecutorFiltro.sectorDescripcion = state.miPerfil.sector.descripcion;
+            store.dispatch(getMisPlanes("?sectorDescripcion=" + state.miPerfil.sector.descripcion));
         }
         if (name == TAREA_DAR_CUMPLIMIENTO_OK || name == TAREA_QUITAR_CUMPLIMIENTO_OK) {
             store.dispatch(showWarning("Atencion", "Se dio como cumplido o descumplido la tarea", "fondoOk", 3000));

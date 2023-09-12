@@ -6,6 +6,7 @@ export const TAREA_CARGA_A_AMPARO__RETORNO = "[entreComponentes] TAREA_CARGA_A_A
 export const PLAN_CARGA__LOAD01 = "[entreComponentes] PLAN_CARGA__LOAD01";
 export const AMPAROS__FILTER01 = "[entreComponentes] AMPAROS__FILTER01";
 export const AMPAROS__FILTER02 = "[entreComponentes] AMPAROS__FILTER02";
+export const AMPAROS_MY_PLANES__FILTER01 = "[entreComponentes] AMPAROS_MY_PLANES__FILTER01";
 export const AMPAROS__SACAR_FILTER01 = "[entreComponentes] AMPAROS__SACAR_FILTER01";
 export const AMPAROS__SACAR_FILTER02 = "[entreComponentes] AMPAROS__SACAR_FILTER02";
 export const CARGA_SECTORES__LOAD01 = "[entreComponentes] CARGA_SECTORES__LOAD01";
@@ -51,6 +52,12 @@ export const amparos_Filter01 = (campo, valor) => ({
 
 export const amparos_Filter02 = (campo, valor) => ({
 	type: AMPAROS__FILTER02,
+	campo: campo,
+	valor: valor,
+});
+
+export const amparos_My_Planes_Filter01 = (campo, valor) => ({
+	type: AMPAROS_MY_PLANES__FILTER01,
 	campo: campo,
 	valor: valor,
 });

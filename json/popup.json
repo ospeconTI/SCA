@@ -193,13 +193,13 @@
         ],
         "tipo": null,
         "svg": null,
-        "titulo": "Por sector ceador",
+        "titulo": "Por sector creador",
         "accion": "[entreComponentes] BUSQUEDA_DESCRIPCION__LOAD01",
         "param": {
             "accion": "find",
             "descripciones": {
                 "titulo": "Sector creador",
-                "caption": "Ingrese el sector ceador",
+                "caption": "Ingrese el sector creador",
                 "campo": "creador"
             }
         }
@@ -272,7 +272,7 @@
         ],
         "tipo": null,
         "svg": null,
-        "titulo": "Por sector ceador",
+        "titulo": "Por sector creador",
         "accion": "[entreComponentes] AMPAROS__FILTER02",
         "param": {
             "campo": "creador",
@@ -292,6 +292,22 @@
         "accion": "[entreComponentes] AMPAROS__FILTER02",
         "param": {
             "campo": "ejecutor",
+            "valor": null
+        }
+    },
+    {
+        "opcion": [
+            {
+                "menu": "1.1",
+                "orden": 3
+            }
+        ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Planes con mi sector",
+        "accion": "[entreComponentes] AMPAROS_MY_PLANES__FILTER01",
+        "param": {
+            "campo": "mis_planes",
             "valor": null
         }
     },

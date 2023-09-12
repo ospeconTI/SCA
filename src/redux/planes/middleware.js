@@ -1,11 +1,11 @@
 /** @format */
 
-import { GET, GET_SUCCESS, GET_ERROR, GET_ALL, GET_ALL_SUCCESS, GET_ALL_ERROR, ADD, ADD_SUCCESS, ADD_ERROR, UPDATE, UPDATE_SUCCESS, UPDATE_ERROR, PATCH, PATCH_SUCCESS, PATCH_ERROR, REMOVE, REMOVE_SUCCESS, REMOVE_ERROR, GET_BY_ID, GET_BY_ID_SUCCESS, GET_BY_ID_ERROR, ADD_SIMPLE, ADD_SIMPLE_SUCCESS, ADD_SIMPLE_ERROR, ADD_LAPSO, ADD_LAPSO_SUCCESS, ADD_LAPSO_ERROR, ADD_FECHA, ADD_FECHA_SUCCESS, ADD_FECHA_ERROR } from "./actions";
+import { GET, GET_SUCCESS, GET_ERROR, GET_ALL, GET_ALL_SUCCESS, GET_ALL_ERROR, GET_MY_PLAN, ADD, ADD_SUCCESS, ADD_ERROR, UPDATE, UPDATE_SUCCESS, UPDATE_ERROR, PATCH, PATCH_SUCCESS, PATCH_ERROR, REMOVE, REMOVE_SUCCESS, REMOVE_ERROR, GET_BY_ID, GET_BY_ID_SUCCESS, GET_BY_ID_ERROR, ADD_SIMPLE, ADD_SIMPLE_SUCCESS, ADD_SIMPLE_ERROR, ADD_LAPSO, ADD_LAPSO_SUCCESS, ADD_LAPSO_ERROR, ADD_FECHA, ADD_FECHA_SUCCESS, ADD_FECHA_ERROR } from "./actions";
 
 import { RESTRequest, RESTAdd, RESTDelete, RESTUpdate, RESTPatch } from "../rest/actions";
 
 import { apiRequest } from "../api/actions";
-import { planesGetAllFetch, planesByIdFetch, planesAddFetch, planesAddSimpleFetch, planesAddLapsoFetch, planesAddFechaFetch, planesModificarFetch, planesQuitarFetch } from "../fetchs";
+import { planesGetAllFetch, planesGetMyPlanFetch, planesByIdFetch, planesAddFetch, planesAddSimpleFetch, planesAddLapsoFetch, planesAddFechaFetch, planesModificarFetch, planesQuitarFetch } from "../fetchs";
 //import { fetchJSON } from "../../libs/fetchJSON";
 //import { fetchOData } from "../../libs/fetchOData";
 
@@ -36,6 +36,16 @@ export const getAll =
 		next(action);
 		if (action.type === GET_ALL) {
 			dispatch(RESTRequest(planesGetAllFetch, action.options, GET_ALL_SUCCESS, GET_ALL_ERROR, action.token));
+		}
+	};
+
+export const getMyPlan =
+	({ dispatch }) =>
+	(next) =>
+	(action) => {
+		next(action);
+		if (action.type === GET_MY_PLAN) {
+			dispatch(RESTRequest(planesGetMyPlanFetch, action.options, GET_ALL_SUCCESS, GET_ALL_ERROR, action.token));
 		}
 	};
 
@@ -147,4 +157,4 @@ export const processError =
 		}
 	};
 
-export const middleware = [get, getById, getAll, add, addSimple, addLapso, addFecha, update, patch, remove, processGet, processComand, processError, ModificarPlan];
+export const middleware = [get, getById, getAll, getMyPlan, add, addSimple, addLapso, addFecha, update, patch, remove, processGet, processComand, processError, ModificarPlan];
