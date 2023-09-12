@@ -352,7 +352,7 @@ export class amparosScreen extends connect(
             }
         }
         if (name == PERFIL_ACTUAL) {
-            if (state.miPerfil.sector.roles.find((r) => r.nombre != "usuario")) {
+            if (state.miPerfil.sector.roles && state.miPerfil.sector.roles.find((r) => r.nombre != "usuario")) {
                 this.sectorEjecutorFiltro.ejecutorCreador = "";
                 this.sectorEjecutorFiltro.sectorDescripcion = "";
             } else {
