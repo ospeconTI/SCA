@@ -343,7 +343,7 @@ export class amparosScreen extends connect(
             if (haveBodyArea && SeMuestraEnUnasDeEstasPantallas) {
                 if (hiddenAnterior) {
                     if (hiddenOpcion("planes-filtrar-sectores")) {
-                        this.sectorEjecutorFiltro.ejecutorCreador = "ejecutor";
+                        this.sectorEjecutorFiltro.ejecutorCreador = "con mi sector";
                         this.sectorEjecutorFiltro.sectorDescripcion = state.miPerfil.sector.descripcion;
                     }
                     this.filtroSacar();
