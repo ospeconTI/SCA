@@ -59,6 +59,7 @@ export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET
                 if (origin == AUTHENTICATION_URL) {
                     try {
                         this.popUp.close();
+                        document.getElementsByName("iframeLogin")[0].style.display = "none";
                         const profile = this.parseJwt(e.data);
                         if (profile.exp < new Date().getTime() / 1000) {
                             store.dispatch(showConfirm("Control de Accesos", "Su permiso ha expirado, ¿ quiere actualizalo ?", loguearConNuevoUsuario(), null));
@@ -336,11 +337,13 @@ export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET
 
     abrir(e) {
         if (this.profile == "ACCEDER") {
-            this.popUp = window.open(AUTHENTICATION_URL + "/auth/index.html");
+            document.getElementsByName("iframeLogin")[0].style.display = "";
+            this.popUp = window.open(AUTHENTICATION_URL + "/auth/index.html", "iframeLogin");
         }
     }
     abrirForzado(e) {
-        this.popUp = window.open(AUTHENTICATION_URL + "/auth/index.html?nuevo=true");
+        document.getElementsByName("iframeLogin")[0].style.display = "";
+        this.popUp = window.open(AUTHENTICATION_URL + "/auth/index.html?nuevo=true", "iframeLogin");
         store.dispatch(goTo("inicial"));
     }
 
