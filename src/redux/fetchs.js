@@ -7,8 +7,8 @@ let webApiExpedientes = SERVICE_URL;
 let webApi = SERVICE_URL + "/api/v1";
 
 const expedienteOdataFactory = ODataFetchFactory({
-	fetch: fetch,
-	domain: webApiExpedientes,
+    fetch: fetch,
+    domain: webApiExpedientes,
 });
 export const autorizacionFetch = fetchFactory(webApi, "Autorizacion");
 export const autorizacionAceptarUsuarioFetch = fetchFactory(webApi, "Autorizacion/AceptarUsuario");
@@ -52,3 +52,7 @@ export const sectoresGetAllUsuariosFetch = fetchFactory(webApi, "Sector/allUsuar
 export const sectoresQuitarRolIntegranteFetch = fetchFactory(webApi, "Sector/QuitarRolIntegrante");
 export const sectoresAsignarRolIntegranteFetch = fetchFactory(webApi, "Sector/AsignarRolIntegrante");
 export const sectoresActivarIntegranteFetch = fetchFactory(webApi, "Sector/ActivarIntegrante");
+
+export const protocoloNuevoFetch = fetchFactory(webApi, "Protocolo/Nuevo");
+export const protocoloGetAllFetch = fetchFactory(webApi, "Protocolo/all");
+export const protocoloAgregarFetch = fetchFactory(webApi, "Plan/AgregarProtocolo");

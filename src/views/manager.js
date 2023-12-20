@@ -30,6 +30,8 @@ import { verUsuarios } from "../views/sistema/sectores/verUsuarios";
 import { cargaUsuarios } from "../views/sistema/sectores/cargaUsuarios";
 import { abmUsuarios } from "../views/sistema/usuarios/abmUsuarios";
 import { verRoles } from "../views/sistema/sectores/verRoles";
+import { protocoloNuevoScreen } from "../views/sistema/admAmparos/protocoloNuevo";
+import { protocoloAgregarScreen } from "../views/sistema/admAmparos/protocoloAgregar";
 
 const MEDIA_CHANGE = "ui.media.timeStamp";
 const SCREEN = "screen.timeStamp";
@@ -113,7 +115,8 @@ export class viewManager extends connect(store, MEDIA_CHANGE, SCREEN, SELECTION)
             <carga-usuarios id="cargaUsuarios" class="body"></carga-usuarios>
             <abm-usuarios id="abmUsuarios" class="body"></abm-usuarios>
             <ver-roles id="verRoles" class="body"></ver-roles>
-
+            <protocolo-nuevo-screen id="protocoloNuevo" class="body"></protocolo-nuevo-screen>
+            <protocolo-agregar-screen id="protocoloAgregar" class="body"></protocolo-agregar-screen>
             <pantalla-warning id="warning"></pantalla-warning>
             <alert-control></alert-control>
             <confirm-control></confirm-control>

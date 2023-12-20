@@ -15,13 +15,14 @@ import { middleware as popup } from "./popup/middleware";
 import { middleware as sectores } from "./sectores/middleware";
 import { middleware as autorizacion } from "./autorizacion/middleware";
 import { middleware as getCombinados } from "./getCombinados/middleware";
+import { middleware as protocolos } from "./protocolos/middleware";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-let mdw = [api, rest, ...ui, ...route, ...autorizacion, ...planes, ...tareas, ...popup, ...sectores, ...getCombinados];
+let mdw = [api, rest, ...ui, ...route, ...autorizacion, ...planes, ...tareas, ...popup, ...sectores, ...getCombinados, ...protocolos];
 
 if (process.env.NODE_ENV !== "production") {
-	mdw = [...mdw, logger];
+    mdw = [...mdw, logger];
 }
 
 const initialData = {};

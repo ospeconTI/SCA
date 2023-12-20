@@ -423,6 +423,44 @@
     {
         "opcion": [
             {
+                "menu": "2.0",
+                "orden": 5
+            },
+            {
+                "menu": "2.1",
+                "orden": 3
+            }
+        ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Crear Protoclo",
+        "accion": "[entreComponentes] PROTOCOLO_NUEVO",
+        "param": {
+            "accion": "view"
+        }
+    },
+    {
+        "opcion": [
+            {
+                "menu": "2.0",
+                "orden": 6
+            },
+            {
+                "menu": "2.1",
+                "orden": 4
+            }
+        ],
+        "tipo": null,
+        "svg": null,
+        "titulo": "Agregar Protoclo",
+        "accion": "[entreComponentes] PROTOCOLO_AGREGAR",
+        "param": {
+            "accion": "view"
+        }
+    },
+    {
+        "opcion": [
+            {
                 "menu": "3.0",
                 "orden": 0
             },
