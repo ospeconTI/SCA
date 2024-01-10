@@ -1,6 +1,6 @@
 /** @format */
 
-import { SHOW_SPINNER, HIDE_SPINNER, SHOW_ERROR, HIDE_ERROR, SET_MEDIA, SET_MEDIA_ORIENTATION, SELECTION, STEP, SHOW_ALERT, SHOW_CONFIRM, SHOW_WARNING, HIDE_WARNING, LOGUEAR_CON_NUEVO_USUARIO } from "./actions";
+import { SHOW_SPINNER, HIDE_SPINNER, SHOW_ERROR, HIDE_ERROR, SET_MEDIA, SET_MEDIA_ORIENTATION, SELECTION, STEP, SHOW_ALERT, SHOW_CONFIRM, SHOW_WARNING, HIDE_WARNING, LOGUEAR_CON_NUEVO_USUARIO, RECORDAR_TAREA } from "./actions";
 
 const initialState = {
     spinner: {
@@ -45,6 +45,7 @@ const initialState = {
         tineOut: 1500,
     },
     loguearConNuevoUsuarioTimeStamp: null,
+    tareaRecordada: {},
 };
 
 export const reducer = (state = initialState, action) => {
@@ -111,6 +112,9 @@ export const reducer = (state = initialState, action) => {
             break;
         case LOGUEAR_CON_NUEVO_USUARIO:
             newState.loguearConNuevoUsuarioTimeStamp = new Date().getTime();
+            break;
+        case RECORDAR_TAREA:
+            newState.tareaRecordada = action.tarea;
             break;
     }
     return newState;

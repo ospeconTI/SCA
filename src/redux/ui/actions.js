@@ -25,6 +25,8 @@ export const SHOW_CONFIRM = "[ui] show confirm";
 
 export const LOGUEAR_CON_NUEVO_USUARIO = "[ui] loguear con nuevo usuario";
 
+export const RECORDAR_TAREA = "[ui] recordar tarea";
+
 export const loguearConNuevoUsuario = () => ({
     type: LOGUEAR_CON_NUEVO_USUARIO,
 });
@@ -87,4 +89,9 @@ export const selection = (option) => ({
 export const setStep = (step) => ({
     type: STEP,
     step: step,
+});
+
+export const recordarTarea = (tarea) => ({
+    type: RECORDAR_TAREA,
+    tarea: tarea,
 });

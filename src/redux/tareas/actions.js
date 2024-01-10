@@ -1,9 +1,12 @@
+/** @format */
+
 export const GET = "[tareas] GET";
 export const GET_BY_ID = "[tareas] GET_BY_ID";
 export const GET_BY_PLAN_ID = "[tareas] GET_BY_PLAN_ID";
 export const GET_MI_SECTOR = "[sectores] GET_MI_SECTOR";
 export const ADD = "[tareas] ADD";
 export const ADD_SIMPLE = "[tareas] ADD_SIMPLE";
+export const ADD_SIMPLE_Y_RECORDAR = "[tareas] ADD_SIMPLE Y RECORDAR";
 export const ADD_LAPSO = "[tareas] ADD_LAPSO";
 export const ADD_FECHA = "[tareas] ADD_FECHA";
 export const PATCH = "[tareas] PATCH";
@@ -42,91 +45,97 @@ export const DAR_CUMPLIMIENTO_ERROR = "[tareas] DAR_CUMPLIMIENTO error";
 export const QUITAR_CUMPLIMIENTO_ERROR = "[tareas] QUITAR_CUMPLIMIENTO error";
 
 export const get = (options) => ({
-	type: GET,
-	options: options,
-	success: GET_SUCCESS,
-	error: GET_ERROR,
+    type: GET,
+    options: options,
+    success: GET_SUCCESS,
+    error: GET_ERROR,
 });
 
 export const getById = (id) => ({
-	type: GET_BY_ID,
-	id: id,
-	success: GET_BY_ID_SUCCESS,
-	error: GET_BY_ID_ERROR,
+    type: GET_BY_ID,
+    id: id,
+    success: GET_BY_ID_SUCCESS,
+    error: GET_BY_ID_ERROR,
 });
 
 export const getByPlanId = (options) => ({
-	type: GET_BY_PLAN_ID,
-	options: options,
-	success: GET_BY_PLAN_ID_SUCCESS,
-	error: GET_BY_PLAN_ID_ERROR,
+    type: GET_BY_PLAN_ID,
+    options: options,
+    success: GET_BY_PLAN_ID_SUCCESS,
+    error: GET_BY_PLAN_ID_ERROR,
 });
 
 export const getMiSector = () => ({
-	type: GET_MI_SECTOR,
-	success: GET_MI_SECTOR_SUCCESS,
-	error: GET_MI_SECTOR_ERROR,
+    type: GET_MI_SECTOR,
+    success: GET_MI_SECTOR_SUCCESS,
+    error: GET_MI_SECTOR_ERROR,
 });
 
 export const add = (body, token) => ({
-	type: ADD,
-	body: body,
-	token: token,
+    type: ADD,
+    body: body,
+    token: token,
 });
 
 export const addSimple = (body, token) => ({
-	type: ADD_SIMPLE,
-	body: body,
-	token: token,
+    type: ADD_SIMPLE,
+    body: body,
+    token: token,
+});
+
+export const addSimpleYRecordar = (body, token) => ({
+    type: ADD_SIMPLE_Y_RECORDAR,
+    body: body,
+    token: token,
 });
 
 export const addLapso = (body, token) => ({
-	type: ADD_LAPSO,
-	body: body,
-	token: token,
+    type: ADD_LAPSO,
+    body: body,
+    token: token,
 });
 
 export const addFecha = (body, token) => ({
-	type: ADD_FECHA,
-	body: body,
-	token: token,
+    type: ADD_FECHA,
+    body: body,
+    token: token,
 });
 
 export const update = (id, body, token) => ({
-	type: UPDATE,
-	id: id,
-	body: body,
-	token: token,
+    type: UPDATE,
+    id: id,
+    body: body,
+    token: token,
 });
 
 export const patch = (id, body, token) => ({
-	type: PATCH,
-	id: id,
-	body: body,
-	token: token,
+    type: PATCH,
+    id: id,
+    body: body,
+    token: token,
 });
 
 export const remove = (id, token) => ({
-	type: REMOVE,
-	id: id,
-	token: token,
+    type: REMOVE,
+    id: id,
+    token: token,
 });
 
 export const edit = (modo, item) => ({
-	type: EDIT,
-	item: item || {
-		Descripcion: 0,
-		Activo: 1,
-	},
-	modo: modo,
+    type: EDIT,
+    item: item || {
+        Descripcion: 0,
+        Activo: 1,
+    },
+    modo: modo,
 });
 
 export const darCumplimiento = (idTarea) => ({
-	type: DAR_CUMPLIMIENTO,
-	idTarea: idTarea,
+    type: DAR_CUMPLIMIENTO,
+    idTarea: idTarea,
 });
 
 export const quitarCumplimiento = (idTarea) => ({
-	type: QUITAR_CUMPLIMIENTO,
-	idTarea: idTarea,
+    type: QUITAR_CUMPLIMIENTO,
+    idTarea: idTarea,
 });

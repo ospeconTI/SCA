@@ -6,6 +6,7 @@ export const GET_ALL = "[planes] GET_ALL";
 export const GET_MY_PLAN = "[planes] GET_MY_PLAN";
 export const ADD = "[planes] ADD";
 export const ADD_SIMPLE = "[planes] ADD_SIMPLE";
+export const ADD_SIMPLE_Y_RECORDAR = "[planes] ADD_SIMPLE Y RECORDAR";
 export const ADD_LAPSO = "[planes] ADD_LAPSO";
 export const ADD_FECHA = "[planes] ADD_FECHA";
 export const PATCH = "[planes] PATCH";
@@ -36,81 +37,86 @@ export const UPDATE_ERROR = "[planes] UPDATE error";
 export const REMOVE_ERROR = "[planes] REMOVE error";
 
 export const get = (options) => ({
-	type: GET,
-	options: options,
-	success: GET_SUCCESS,
-	error: GET_ERROR,
+    type: GET,
+    options: options,
+    success: GET_SUCCESS,
+    error: GET_ERROR,
 });
 
 export const getById = (id) => ({
-	type: GET_BY_ID,
-	id: id,
-	success: GET_BY_ID_SUCCESS,
-	error: GET_BY_ID_ERROR,
+    type: GET_BY_ID,
+    id: id,
+    success: GET_BY_ID_SUCCESS,
+    error: GET_BY_ID_ERROR,
 });
 
 export const getAll = (options) => ({
-	type: GET_ALL,
-	options: options,
-	success: GET_ALL_SUCCESS,
-	error: GET_ALL_ERROR,
+    type: GET_ALL,
+    options: options,
+    success: GET_ALL_SUCCESS,
+    error: GET_ALL_ERROR,
 });
 
 export const getMyPlan = (options) => ({
-	type: GET_MY_PLAN,
-	options: options,
-	success: GET_ALL_SUCCESS,
-	error: GET_ALL_ERROR,
+    type: GET_MY_PLAN,
+    options: options,
+    success: GET_ALL_SUCCESS,
+    error: GET_ALL_ERROR,
 });
 
 export const add = (body, token) => ({
-	type: ADD,
-	body: body,
-	token: token,
+    type: ADD,
+    body: body,
+    token: token,
 });
 
 export const addSimple = (body, token) => ({
-	type: ADD_SIMPLE,
-	body: body,
-	token: token,
+    type: ADD_SIMPLE,
+    body: body,
+    token: token,
+});
+export const addSimpleYRecordar = (body, token) => ({
+    type: ADD_SIMPLE_Y_RECORDAR,
+    body: body,
+    token: token,
 });
 
 export const addLapso = (body, token) => ({
-	type: ADD_LAPSO,
-	body: body,
-	token: token,
+    type: ADD_LAPSO,
+    body: body,
+    token: token,
 });
 
 export const addFecha = (body, token) => ({
-	type: ADD_FECHA,
-	body: body,
-	token: token,
+    type: ADD_FECHA,
+    body: body,
+    token: token,
 });
 
 export const update = (body, token) => ({
-	type: UPDATE,
-	body: body,
-	token: token,
+    type: UPDATE,
+    body: body,
+    token: token,
 });
 
 export const patch = (id, body, token) => ({
-	type: PATCH,
-	id: id,
-	body: body,
-	token: token,
+    type: PATCH,
+    id: id,
+    body: body,
+    token: token,
 });
 
 export const remove = (id, token) => ({
-	type: REMOVE,
-	id: id,
-	token: token,
+    type: REMOVE,
+    id: id,
+    token: token,
 });
 
 export const edit = (modo, item) => ({
-	type: EDIT,
-	item: item || {
-		Descripcion: 0,
-		Activo: 1,
-	},
-	modo: modo,
+    type: EDIT,
+    item: item || {
+        Descripcion: 0,
+        Activo: 1,
+    },
+    modo: modo,
 });
