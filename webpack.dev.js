@@ -20,10 +20,10 @@ module.exports = merge(common, {
     },
     plugins: [
         new webpack.DefinePlugin({
-            //https://scatest.uocra.net/api/v1/Plan
             SERVICE_URL: JSON.stringify("http://localhost:4000"),
             //SERVICE_URL: JSON.stringify("https://scatest.uocra.net"),
             AUTHENTICATION_URL: JSON.stringify("https://fronttest.uocra.net"),
+            AYUDA_URL: JSON.stringify("https://amparostest.uocra.net/AmparosImagenes/getImagen/%7CAyuda%7CAyudaSCA.pdf"),
         }),
     ],
 });

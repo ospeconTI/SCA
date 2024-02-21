@@ -40,7 +40,7 @@ export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET
         this.visible = false;
         this.arrastrando = false;
         this.usuario = null;
-        this.optionsCount = 4;
+        this.optionsCount = 5;
         this.defaultOption = 0;
         this.selectedOption = new Array(this.optionsCount).fill(false);
         this.selectedOption[this.defaultOption] = true;
@@ -253,6 +253,7 @@ export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET
                 <button link ?selected="${this.selectedOption[1]}" @click=${this.click} .option=${"amparos"} ?hidden=${hiddenOpcion("menu-planes")}>Planes</button>
                 <button link ?selected="${this.selectedOption[2]}" @click=${this.click} .option=${"verSectores"} ?hidden=${hiddenOpcion("menu-sectores")}>Sectores</button>
                 <button link ?selected="${this.selectedOption[3]}" @click=${this.click} .option=${"abmUsuarios"} ?hidden=${hiddenOpcion("menu-usuarios")}>Usuarios</button>
+                <button link ?selected="${this.selectedOption[4]}" @click=${() => window.open(AYUDA_URL)} .option=${"ayuda"}>Ayuda</button>
 
                 <div id="acceso" ?logueado="${this.logueado}">
                     <button link etiqueta ?selected="${this.selectedOption[2]}" @click=${this.abrir} .option=${"log"}>
