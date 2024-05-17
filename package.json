@@ -21,6 +21,7 @@
         "@brunomon/template-lit": "^1.7.1",
         "@material-ui/icons": "^4.11.2",
         "css-loader": "^3.4.1",
+        "esbuild": "^0.21.3",
         "file-loader": "^5.0.2",
         "lit": "^2.0.2",
         "redux": "^4.0.5",

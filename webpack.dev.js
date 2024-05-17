@@ -4,7 +4,7 @@ const { merge } = require("webpack-merge");
 const common = require("./webpack.common.js");
 const path = require("path");
 const webpack = require("webpack");
-const WorkboxPlugin = require("workbox-webpack-plugin");
+const { InjectManifest } = require("workbox-webpack-plugin");
 
 module.exports = merge(common, {
     mode: "development",
@@ -20,12 +20,12 @@ module.exports = merge(common, {
         publicPath: "/",
     },
     plugins: [
-        new WorkboxPlugin.GenerateSW({
-            // these options encourage the ServiceWorkers to get in there fast
-            // and not allow any straggling "old" SWs to hang around
-            clientsClaim: true,
-            skipWaiting: false,
-            maximumFileSizeToCacheInBytes: 5000000,
+        new InjectManifest({
+            // These are some common options, and not all are required.
+            // Consult the docs for more info.
+            maximumFileSizeToCacheInBytes: 4000000,
+            exclude: [/.../, "..."],
+            swSrc: "./src/libs/service-worker.js",
         }),
         new webpack.DefinePlugin({
             //SERVICE_URL: JSON.stringify("http://localhost:4000"),
