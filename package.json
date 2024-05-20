@@ -1,6 +1,10 @@
 {
     "name": "sca",
+<<<<<<< HEAD
     "version": "2.0.0",
+=======
+    "version": "1.7.1",
+>>>>>>> 6b155e7 (Bug de Sector)
     "description": "Control de Amparos",
     "main": "./src/index.js",
     "scripts": {

@@ -28,8 +28,8 @@ module.exports = merge(common, {
             swSrc: "./src/libs/service-worker.js",
         }), */
         new webpack.DefinePlugin({
-            SERVICE_URL: JSON.stringify("http://localhost:4000"),
-            //SERVICE_URL: JSON.stringify("https://scatest.uocra.net"),
+            //SERVICE_URL: JSON.stringify("http://localhost:4000"),
+            SERVICE_URL: JSON.stringify("https://scatest.uocra.net"),
             AUTHENTICATION_URL: JSON.stringify("https://fronttest.uocra.net"),
             AYUDA_URL: JSON.stringify("https://amparostest.uocra.net/AmparosImagenes/getImagen/%7CAyuda%7CAyudaSCA.pdf"),
             WEBPUSH_URL: JSON.stringify("http://localhost:3333"),
