@@ -1,6 +1,6 @@
 {
     "name": "sca",
-    "version": "1.7.0",
+    "version": "1.7.1",
     "description": "Control de Amparos",
     "main": "./src/index.js",
     "scripts": {

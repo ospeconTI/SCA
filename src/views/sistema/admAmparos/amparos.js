@@ -437,7 +437,7 @@ export class amparosScreen extends connect(
             let tareaPorLapso = state.eventos.mostrarPopupTareas.registro?.esPorLapso;
             let tareaEstado = state.eventos.mostrarPopupTareas.registro?.estado;
             let tareaConHijos = state.eventos.mostrarPopupTareas.registro?.conTareas;
-            let usuarioSector = state.autorizacion.entities.result.sectores[0].id;
+            let usuarioSector = state.miPerfil.sector.id;
 
             let soySoloCreador = tareaSectorCreador == usuarioSector && tareaSectorEjecutor != usuarioSector;
             let soySoloEjecutor = tareaSectorCreador != usuarioSector && tareaSectorEjecutor == usuarioSector;

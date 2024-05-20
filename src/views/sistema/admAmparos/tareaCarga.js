@@ -377,7 +377,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
     }
     selectedEjecutor(a) {
         let reto = false;
-        if (this.accion == "add") a == store.getState().autorizacion.entities.result.sectores[0].id ? (reto = true) : (reto = false);
+        if (this.accion == "add") a == store.getState().miPerfil.sector.id ? (reto = true) : (reto = false);
         if (this.accion != "add") a == this.tarea?.creador?.id ? (reto = true) : (reto = false);
         return reto;
     }
@@ -477,7 +477,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                 const recordado = store.getState().ui.tareaRecordada;
 
                 this.tarea = null;
-                this._creador.value = store.getState().autorizacion.entities.result.sectores[0].id ? store.getState().autorizacion.entities.result.sectores[0].id : -1;
+                this._creador.value = store.getState().miPerfil.sector.id ? store.getState().miPerfil.sector.id : -1;
                 this._ejecutor.value = this._creador.value;
                 if (recordado.vigenteDesde) {
                     this._vigencia.value = recordado.vigenteDesde;
