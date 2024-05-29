@@ -6,6 +6,7 @@ import { goTo } from "../routing/actions";
 import { apiRequest, apiAction, apiFunction } from "../../redux/api/actions";
 import { autorizacionFetch, acceptFetch, autorizacionAceptarUsuarioFetch } from "../fetchs";
 import { autorizacion as autorizar } from "./actions";
+import { subscribe } from "../notifications/actions";
 
 export const processLogin =
     ({ dispatch, getState }) =>
@@ -61,6 +62,11 @@ export const autorizacionSuccess =
     (action) => {
         next(action);
         if (action.type === AUTORIZACION_SUCCESS) {
+            if (getState().notifications.suscribir) {
+                action.payload.receive.result.sectores.forEach((element) => {
+                    dispatch(subscribe(localStorage.subscription, element.descripcion));
+                });
+            }
         }
     };
 

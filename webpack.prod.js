@@ -24,9 +24,10 @@ module.exports = merge(common, {
             maximumFileSizeToCacheInBytes: 4000000,
         }),
         new webpack.DefinePlugin({
-            SERVICE_URL: JSON.stringify("https://sca.uocra.net"),
-            AUTHENTICATION_URL: JSON.stringify("https://front.uocra.net"),
+            SERVICE_URL: JSON.stringify("https://scatest.uocra.net"),
+            AUTHENTICATION_URL: JSON.stringify("https://fronttest.uocra.net"),
             AYUDA_URL: JSON.stringify("https://amparostest.uocra.net/AmparosImagenes/getImagen/%7CAyuda%7CAyudaSCA.pdf"),
+            WEBPUSH_URL: JSON.stringify("http://192.168.40.33:3333"),
         }),
     ],
 });

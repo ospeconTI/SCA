@@ -36,6 +36,7 @@ module.exports = {
             theme_color: "#ffffff",
             orientation: "portrait",
             fingerprints: false,
+            gcm_sender_id: "71562645622",
             icons: [
                 {
                     src: path.resolve("assets/icons/ic_launcher.png"),

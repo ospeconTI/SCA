@@ -14,26 +14,17 @@ import { viewManager } from "./views/manager";
 import { activate as activateSW, register as registerSW } from "./libs/serviceWorker";
 
 import { getAll as getProtocolos } from "./redux/protocolos/actions";
+import { subscribe, suscribir } from "./redux/notifications/actions";
 
 //if (process.env.NODE_ENV === "production") {
 registerSW();
+//activateSW();
 
 //}
-/* if ("serviceWorker" in navigator) {
-    // Use the window load event to keep the page load performant
-    window.addEventListener("load", () => {
-        navigator.serviceWorker.register("/service-worker.js");
-    });
-} */
 
 store.dispatch(captureMedia());
 store.dispatch(getProtocolos());
 
-const poll = (since) => {
-    return fetch("http://localhost:7777/brunomon/json?poll=1&since=" + since)
-        .then((response) => response.text())
-        .then((texto) => texto.split("\n"));
-};
 async function pollAndSave() {
     const requestDB = window.indexedDB.open("ntfy", 1);
 
@@ -75,7 +66,7 @@ async function pollAndSave() {
             if (mensajeObject != null) {
                 const objectStoreRequest = mensajesObjectStore.add(mensajeObject);
                 objectStoreRequest.onsuccess = (event) => {
-                    showNotification(mensajeObject);
+                    //showNotification(mensajeObject);
                     //console.log(event);
                 };
                 objectStoreRequest.onerror = (err) => {
@@ -92,18 +83,10 @@ const JsonOrDefault = (text) => {
         return null;
     }
 };
-const showNotification = (datos) => {
-    navigator.serviceWorker.ready.then((registration) => {
-        registration.showNotification("Notificacion SCA", {
-            body: datos.message,
-            icon: datos.icon,
-        });
-    });
-};
 
 Notification.requestPermission().then(async (result) => {
     if (result === "granted") {
-        setInterval(await pollAndSave, 5000);
+        store.dispatch(suscribir());
     }
 });
 

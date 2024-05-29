@@ -15,6 +15,7 @@ import { reducer as sectoresReducer } from "./sectores/reducer";
 import { reducer as miPerfilReducer } from "./miPerfil/reducer";
 import { reducer as getCombinadosReducer } from "./getCombinados/reducer";
 import { reducer as protocolosReducer } from "./protocolos/reducer";
+import { reducer as notificationsReducer } from "./notifications/reducer";
 
 export const rootReducer = (state = {}, action) => {
     const presentacionesEstadosRed = state.presentacionesEstados;
@@ -33,5 +34,6 @@ export const rootReducer = (state = {}, action) => {
         miPerfil: miPerfilReducer(state.miPerfil, action),
         getCombinados: getCombinadosReducer(state.getCombinados, action),
         protocolos: protocolosReducer(state.protocolos, action),
+        notifications: notificationsReducer(state.notifications, action),
     };
 };
