@@ -1,14 +1,6 @@
 {
     "name": "sca",
-<<<<<<< HEAD
-<<<<<<< HEAD
     "version": "2.0.0",
-=======
-    "version": "1.7.1",
->>>>>>> 6b155e7 (Bug de Sector)
-=======
-    "version": "2.0.0",
->>>>>>> 5ebd878 (Configurar Notificaciones)
     "description": "Control de Amparos",
     "main": "./src/index.js",
     "scripts": {

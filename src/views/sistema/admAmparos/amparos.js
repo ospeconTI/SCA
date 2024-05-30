@@ -367,7 +367,7 @@ export class amparosScreen extends connect(
             if (this.cargaArbolDe0) {
                 this.update();
             } else {
-                if (this.sectorEjecutorFiltro.ejecutorCreador == "") {
+                if (this.sectorEjecutorFiltro.ejecutorCreador == "" || this.sectorEjecutorFiltro.ejecutorCreador == "con mi sector") {
                     store.dispatch(getTareasByPlanId(this.itemsSeleccionados[0].planId));
                 } else {
                     store.dispatch(getTareasByPlanId(this.itemsSeleccionados[0].planId + "?ejecutorCreador=" + this.sectorEjecutorFiltro.ejecutorCreador + "&sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
@@ -584,8 +584,16 @@ export class amparosScreen extends connect(
                     });
                 });
             }
+            /* if (this.sectorEjecutorFiltro.ejecutorCreador == "") {
+                store.dispatch(getPlanesAll());
+            } else {
+                store.dispatch(getPlanesAll("?ejecutorCreador=" + this.sectorEjecutorFiltro.ejecutorCreador + "&sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
+            } */
+
             if (this.sectorEjecutorFiltro.ejecutorCreador == "") {
                 store.dispatch(getPlanesAll());
+            } else if (this.sectorEjecutorFiltro.ejecutorCreador == "con mi sector") {
+                store.dispatch(getMisPlanes("?sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
             } else {
                 store.dispatch(getPlanesAll("?ejecutorCreador=" + this.sectorEjecutorFiltro.ejecutorCreador + "&sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
             }
