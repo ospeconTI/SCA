@@ -9,23 +9,29 @@ import {} from "../css/shadows.css";
 
 import { store } from "./redux/store";
 import { captureMedia } from "./redux/ui/actions";
-import { goTo } from "./redux/routing/actions";
+
 import { viewManager } from "./views/manager";
-import { activate as activateSW, register as registerSW } from "./libs/serviceWorker";
+import { register as registerSW } from "./libs/serviceWorker";
 
 import { getAll as getProtocolos } from "./redux/protocolos/actions";
-import { subscribe, suscribir } from "./redux/notifications/actions";
+import { suscribir } from "./redux/notifications/actions";
 
-//if (process.env.NODE_ENV === "production") {
-registerSW();
-//activateSW();
-
-//}
+if (process.env.NODE_ENV === "production") {
+    registerSW();
+}
 
 store.dispatch(captureMedia());
 store.dispatch(getProtocolos());
 
-async function pollAndSave() {
+Notification.requestPermission().then(async (result) => {
+    if (result === "granted") {
+        store.dispatch(suscribir());
+    }
+});
+
+console.log("Sirviendo datos de :" + SERVICE_URL);
+
+/* async function pollAndSave() {
     const requestDB = window.indexedDB.open("ntfy", 1);
 
     requestDB.onerror = (event) => {
@@ -83,11 +89,4 @@ const JsonOrDefault = (text) => {
         return null;
     }
 };
-
-Notification.requestPermission().then(async (result) => {
-    if (result === "granted") {
-        store.dispatch(suscribir());
-    }
-});
-
-console.log("Sirviendo datos de :" + SERVICE_URL);
+ */
