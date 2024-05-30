@@ -21,7 +21,7 @@
         ],
         "tipo": null,
         "svg": null,
-        "titulo": "Descripcion del plan",
+        "titulo": "Descripcion del caso",
         "accion": "[entreComponentes] BUSQUEDA_DESCRIPCION__LOAD01",
         "param": {
             "accion": "find",
@@ -41,12 +41,12 @@
         ],
         "tipo": null,
         "svg": null,
-        "titulo": "Identificador del plan",
+        "titulo": "Identificador del Caso",
         "accion": "[entreComponentes] BUSQUEDA_DESCRIPCION__LOAD01",
         "param": {
             "accion": "find",
             "descripciones": {
-                "titulo": "Identificador del plan",
+                "titulo": "Identificador del Caso",
                 "caption": "Ingrese el identificador",
                 "campo": "urlReferencia"
             }
@@ -304,7 +304,7 @@
         ],
         "tipo": null,
         "svg": null,
-        "titulo": "Planes con mi sector",
+        "titulo": "Casos con mi sector",
         "accion": "[entreComponentes] AMPAROS_MY_PLANES__FILTER01",
         "param": {
             "campo": "mis_planes",
@@ -324,7 +324,7 @@
         ],
         "tipo": "titulo",
         "svg": null,
-        "titulo": "PLANES",
+        "titulo": "CASOS",
         "accion": null,
         "param": null
     },
@@ -380,7 +380,7 @@
         ],
         "tipo": null,
         "svg": null,
-        "titulo": "Modificar el plan",
+        "titulo": "Modificar el Caso",
         "accion": "[entreComponentes] PLAN_CARGA__LOAD01",
         "param": {
             "accion": "edit"
@@ -395,7 +395,7 @@
         ],
         "tipo": null,
         "svg": null,
-        "titulo": "Eliminar el plan",
+        "titulo": "Eliminar el Caso",
         "accion": "[entreComponentes] PLAN_CARGA__LOAD01",
         "param": {
             "accion": "delete"
@@ -414,7 +414,7 @@
         ],
         "tipo": null,
         "svg": null,
-        "titulo": "Ver plan",
+        "titulo": "Ver Caso",
         "accion": "[entreComponentes] PLAN_CARGA__LOAD01",
         "param": {
             "accion": "view"

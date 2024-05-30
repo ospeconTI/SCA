@@ -250,7 +250,7 @@ export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET
             <div id="opciones" class="grid column" @click=${this.toggleMenu}>
                 <button raised circle action class="menu-button">${RIGHT}</button>
                 <button link ?selected="${this.selectedOption[0]}" @click=${this.click} .option=${"inicial"}>Home</button>
-                <button link ?selected="${this.selectedOption[1]}" @click=${this.click} .option=${"amparos"} ?hidden=${hiddenOpcion("menu-planes")}>Planes</button>
+                <button link ?selected="${this.selectedOption[1]}" @click=${this.click} .option=${"amparos"} ?hidden=${hiddenOpcion("menu-planes")}>Casos</button>
                 <button link ?selected="${this.selectedOption[2]}" @click=${this.click} .option=${"verSectores"} ?hidden=${hiddenOpcion("menu-sectores")}>Sectores</button>
                 <button link ?selected="${this.selectedOption[3]}" @click=${this.click} .option=${"abmUsuarios"} ?hidden=${hiddenOpcion("menu-usuarios")}>Usuarios</button>
                 <button link ?selected="${this.selectedOption[4]}" @click=${() => window.open(AYUDA_URL)} .option=${"ayuda"}>Ayuda</button>

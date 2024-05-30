@@ -202,9 +202,9 @@ export class amparosScreen extends connect(
     render() {
         if (this.arbol) {
             return html` <div id="div-titulo">
-                    <div id="div-alta-amparo" class="titulo-boton" @click="${this.altaAmparo}" title="Alta de nuevo plan">${MAS}</div>
-                    <div id="div-refresh" class="titulo-boton" @click="${this.refresh}" title="Refrescar la lista de planes">${REFRESH}</div>
-                    <div id="div-menu" class="titulo-boton" @click="${this.filtroMenu}" title="filtro de amparos">${FILTRO}</div>
+                    <div id="div-alta-amparo" class="titulo-boton" @click="${this.altaAmparo}" title="Alta de nuevo Caso">${MAS}</div>
+                    <div id="div-refresh" class="titulo-boton" @click="${this.refresh}" title="Refrescar la lista de Casos">${REFRESH}</div>
+                    <div id="div-menu" class="titulo-boton" @click="${this.filtroMenu}" title="filtro de Casos">${FILTRO}</div>
                     <div id="div-sacar-filtro" class="titulo-boton" @click="${this.filtroSacar}" ?hidden=${!this.filtro} title="Sacar filtros">${FILTROSACAR}</div>
                     <div id="div-sectores" class="titulo-boton" ?hidden=${hiddenOpcion("planes-filtrar-sectores")} @click="${this.filtroPorSector}" title="Filtro por sector">
                         <div>${HOME}</div>
