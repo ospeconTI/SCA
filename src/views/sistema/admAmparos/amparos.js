@@ -7,7 +7,7 @@ import { goTo } from "../../../redux/routing/actions";
 import { isInLayout } from "../../../redux/screens/screenLayouts";
 import { showWarning } from "../../../redux/ui/actions";
 import { dmdButton } from "../../css/dmdButton";
-import { FILTRO, FILTROSACAR, REFRESH, MAS, HOME } from "../../../../assets/icons/svgs";
+import { FILTRO, FILTROSACAR, REFRESH, MAS, HOME, SEARCH } from "../../../../assets/icons/svgs";
 
 import { popupControl } from "../../../views/componentes/popup";
 
@@ -150,6 +150,8 @@ export class amparosScreen extends connect(
                 cursor: pointer;
                 border-radius: 0.4rem;
                 background-color: rgba(0, 0, 0, 0.1);
+                display: grid;
+                grid-auto-flow: column;
             }
             #div-buscar {
                 display: grid;
@@ -204,14 +206,20 @@ export class amparosScreen extends connect(
             return html` <div id="div-titulo">
                     <div id="div-alta-amparo" class="titulo-boton" @click="${this.altaAmparo}" title="Alta de nuevo Caso">${MAS}</div>
                     <div id="div-refresh" class="titulo-boton" @click="${this.refresh}" title="Refrescar la lista de Casos">${REFRESH}</div>
-                    <div id="div-menu" class="titulo-boton" @click="${this.filtroMenu}" title="filtro de Casos">${FILTRO}</div>
+                    <div id="div-menu" class="titulo-boton" @click="${this.filtroMenu}" title="filtro de Casos">
+                        <div>${SEARCH}</div>
+                        <div id="div-sectores-Descri">POR ESTADO</div>
+                    </div>
+
                     <div id="div-sacar-filtro" class="titulo-boton" @click="${this.filtroSacar}" ?hidden=${!this.filtro} title="Sacar filtros">${FILTROSACAR}</div>
                     <div id="div-sectores" class="titulo-boton" ?hidden=${hiddenOpcion("planes-filtrar-sectores")} @click="${this.filtroPorSector}" title="Filtro por sector">
-                        <div>${HOME}</div>
+                        <div>${SEARCH}</div>
+                        <div id="div-sectores-Descri" ?hidden=${this.sectorEjecutorFiltro.ejecutorCreador != ""}>POR SECTOR</div>
                         <div id="div-sectores-Descri" ?hidden=${this.sectorEjecutorFiltro.ejecutorCreador == ""}>${this.sectorEjecutorFiltro.ejecutorCreador.toUpperCase() + ": " + this.sectorEjecutorFiltro.sectorDescripcion}</div>
                     </div>
                     <div id="div-sectores" class="titulo-boton" ?hidden=${!hiddenOpcion("planes-filtrar-sectores")} @click="${this.filtroPorSectorSinDescripicion}" title="Filtro por sector">
-                        <div>${HOME}</div>
+                        <div>${SEARCH}</div>
+                        <div id="div-sectores-Descri" ?hidden=${this.sectorEjecutorFiltro.ejecutorCreador != ""}>POR SECTOR</div>
                         <div id="div-sectores-Descri" ?hidden=${this.sectorEjecutorFiltro.ejecutorCreador == ""}>${this.sectorEjecutorFiltro.ejecutorCreador.toUpperCase() + ": " + this.sectorEjecutorFiltro.sectorDescripcion}</div>
                     </div>
                 </div>

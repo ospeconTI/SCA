@@ -313,9 +313,9 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                             <div title="fecha de alerta" class="center">
                                 <div class="caption center">${NOTIFCATION_IMPORTANT}</div>
                                 <div class="dmd-input" helper ?hidden=${this.accion == "edit"}>
-                                    <input type="number" id="alerta" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
-                                    <div>Ingrese fecha de alerta</div>
-                                    <span>Alerta al vencimiento</span>
+                                    <input type="number" id="alerta" min=${0} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
+                                    <div>debe ser positivo y menor al vencimiento</div>
+                                    <span>Ingrese días de alerta</span>
                                 </div>
                             </div>
                             <div title="fecha de vencimiento" class="end">
@@ -559,7 +559,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
             mensageError = "La fecha de vencimiento debe ser mayor o igual a la fecha de vigencia";
         }
 
-        if (this._alerta.value == "" || this._alerta.value == "0") {
+        if (this._alerta.value == "" || parseInt(this._alerta.value, 10) < 0) {
             ok = false;
             this._alerta.setAttribute("error", "");
         } else if (parseInt(this._alerta.value, 10) > (new Date(this._vencimiento.value).getTime() - new Date(this._vigencia.value).getTime()) / (1000 * 60 * 60 * 24)) {
