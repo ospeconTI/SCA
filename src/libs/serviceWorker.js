@@ -31,7 +31,7 @@ export const register = () => {
             });
             navigator.serviceWorker
                 .register("./service-worker.js", {
-                    scope: "/SCA/",
+                    scope: SCOPE,
                 })
                 .then((registration) => {
                     console.log("SW registered: ", registration);

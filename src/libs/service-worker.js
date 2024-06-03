@@ -27,7 +27,7 @@ self.addEventListener("pushsubscriptionchange", async (event) => {
 
 self.addEventListener("push", (event) => {
     const eventNotification = event.data.json().body;
-    const title = eventNotification.Descripcion;
+    /*  const title = eventNotification.Descripcion;
     const vto = new Date(eventNotification.Vencimiento).toLocaleDateString();
     const notifiaction = {
         body: "Tarea enviada por " + eventNotification.Creador + ", con vencimiento el " + vto,
@@ -41,8 +41,8 @@ self.addEventListener("push", (event) => {
                 title: "Ver en SCA",
             },
         ],
-    };
-    self.registration.showNotification(title, notifiaction);
+    }; */
+    self.registration.showNotification(eventNotification.title, eventNotification);
 });
 
 self.addEventListener("notificationclick", (event) => {

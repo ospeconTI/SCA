@@ -16,9 +16,9 @@ import { register as registerSW } from "./libs/serviceWorker";
 import { getAll as getProtocolos } from "./redux/protocolos/actions";
 import { suscribir } from "./redux/notifications/actions";
 
-if (process.env.NODE_ENV === "production") {
-    registerSW();
-}
+//if (process.env.NODE_ENV === "production") {
+registerSW();
+//}
 
 store.dispatch(captureMedia());
 store.dispatch(getProtocolos());
