@@ -81,6 +81,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                 overflow-y: auto;
                 overflow-x: hidden;
                 padding: 1rem;
+                gap: 1rem;
             }
             :host([media-size="large"]) #cuerpo {
                 place-self: center;
@@ -89,7 +90,6 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
             }
             #titulo {
                 font-size: 1.2rem;
-                padding-top: 2rem;
                 height: 2rem;
                 justify-self: center;
                 color: var(--on-formulario);
@@ -103,18 +103,21 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
             hr {
                 border-top: 1px solid var(--on-formulario-separador);
                 width: 100%;
-                margin: 1rem 0;
+                margin: 0;
             }
             #datos {
                 display: grid;
                 position: relative;
-                height: 100%;
-                width: 100%;
                 grid-auto-flow: row;
                 grid-gap: 1rem;
                 justify-self: center;
                 overflow-y: scroll;
                 overflow-x: hidden;
+                grid-template-columns: 1fr 1.5fr;
+            }
+            .contenedor {
+                display: grid;
+                gap: 1rem;
             }
             #datos::-webkit-scrollbar {
                 display: none;
@@ -204,6 +207,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
             .botonera {
                 display: grid;
                 grid-auto-flow: column;
+                gap: 2rem;
             }
         `;
     }
@@ -265,111 +269,113 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                     <div id="titulo" ?hidden=${this.accion != "delete"}>ELIMINAR TAREA</div>
                     <hr />
                     <div id="datos">
-                        <div class="dmd-input" helper>
-                            <label>DESCRIPCIÓN</label>
-                            <input id="descripcion" placeholder="Ingrese breve descripción de la tarea" ?disabled=${!this.camposEditables} />
-                            <div>Debe ingresar la descripcion de la tarea</div>
-                            ${INFO}
-                        </div>
-                        <div id="div-sector">
-                            <div class="dmd-select" helper ?hidden=${this.accion == "edit"}>
-                                <label>SECTOR ORIGINANTE</label>
-                                <select id="creador" ?disabled=${true || !this.camposEditables}>
-                                    ${store.getState().sectores.all.entities
-                                        ? store.getState().sectores.all.entities.map((item, index) => {
-                                              return html`<option ?selected=${this.selectedEjecutor(item.id)} value=${item.id}>${item.descripcion}</option> `;
-                                              //	return html`<option ?selected=${item.id == store.getState().miSetup.set.sectorId || (this.tarea?.creador?.id && item.id == this.tarea.creador.id)} value=${item.id}>${item.descripcion}</option> `;
-                                          })
-                                        : ""}
-                                </select>
-                                <div>Debe cargar una opcion</div>
+                        <div class="contenedor">
+                            <div class="dmd-input" helper>
+                                <label>DESCRIPCIÓN</label>
+                                <input id="descripcion" placeholder="Ingrese breve descripción de la tarea" ?disabled=${!this.camposEditables} />
+                                <div>Debe ingresar la descripcion de la tarea</div>
                                 ${INFO}
                             </div>
-
-                            <div class="dmd-select" helper ?hidden=${this.accion == "edit"}>
-                                <label>SECTOR EJECUTOR</label>
-                                <select id="ejecutor" ?disabled=${!this.camposEditables}>
-                                    <option value="-1" disabled selected hidden>Seleccione opción</option>
-                                    ${store.getState().sectores.all.entities
-                                        ? store.getState().sectores.all.entities.map((item, index) => {
-                                              return html`<option ?selected=${this.tarea?.ejecutor?.id && item.id == this.tarea.ejecutor.id} value=${item.id}>${item.descripcion}</option> `;
-                                          })
-                                        : ""}
-                                </select>
-                                <div>Debe cargar una opción</div>
-                                ${INFO}
-                            </div>
-                        </div>
-
-                        <div class="lineas" ?hidden=${this.accion == "edit"}>
-                            <div title="fecha de inicio">
-                                <div class="caption">${START}</div>
-                                <div class="dmd-input" helper ?hidden=${this.accion == "edit"}>
-                                    <input type="date" id="vigencia" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
-                                    <div>Debe ingresar fecha de inicio</div>
-                                    <span>Fecha de inicio</span>
+                            <div id="div-sector">
+                                <div class="dmd-select" helper ?hidden=${this.accion == "edit"}>
+                                    <label>SECTOR ORIGINANTE</label>
+                                    <select id="creador" ?disabled=${true || !this.camposEditables}>
+                                        ${store.getState().sectores.all.entities
+                                            ? store.getState().sectores.all.entities.map((item, index) => {
+                                                  return html`<option ?selected=${this.selectedEjecutor(item.id)} value=${item.id}>${item.descripcion}</option> `;
+                                                  //	return html`<option ?selected=${item.id == store.getState().miSetup.set.sectorId || (this.tarea?.creador?.id && item.id == this.tarea.creador.id)} value=${item.id}>${item.descripcion}</option> `;
+                                              })
+                                            : ""}
+                                    </select>
+                                    <div>Debe cargar una opcion</div>
+                                    ${INFO}
                                 </div>
-                            </div>
-                            <div title="fecha de alerta" class="center">
-                                <div class="caption center">${NOTIFCATION_IMPORTANT}</div>
-                                <div class="dmd-input" helper ?hidden=${this.accion == "edit"}>
-                                    <input type="number" id="alerta" min=${0} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
-                                    <div>debe ser positivo y menor al vencimiento</div>
-                                    <span>Ingrese días de alerta</span>
-                                </div>
-                            </div>
-                            <div title="fecha de vencimiento" class="end">
-                                <div class="caption end">${END}</div>
-                                <div class="dmd-input" helper ?hidden=${this.accion == "edit"}>
-                                    <input type="date" id="vencimiento" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
-                                    <div>Ingrese fecha de vencimiento</div>
-                                    <span>Fecha de vencimiento</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Solo para fecha -->
-                        <div class="tareas">
-                            <div title="Dia del mes">
-                                <div class="caption center" ?hidden=${this.tipoTarea != "fecha" || this.accion == "edit"}>${CALENDARDAY}</div>
-                                <div class="dmd-input" helper ?hidden=${this.tipoTarea != "fecha" || this.accion == "edit"}>
-                                    <input type="number" id="diaDelMes" autocomplete="off" autocomplete="off" placeholder="" min="1" max="30" ?disabled=${!this.camposEditables} />
-                                    <span>Ingrese el dia del mes</span>
 
+                                <div class="dmd-select" helper ?hidden=${this.accion == "edit"}>
+                                    <label>SECTOR EJECUTOR</label>
+                                    <select id="ejecutor" ?disabled=${!this.camposEditables}>
+                                        <option value="-1" disabled selected hidden>Seleccione opción</option>
+                                        ${store.getState().sectores.all.entities
+                                            ? store.getState().sectores.all.entities.map((item, index) => {
+                                                  return html`<option ?selected=${this.tarea?.ejecutor?.id && item.id == this.tarea.ejecutor.id} value=${item.id}>${item.descripcion}</option> `;
+                                              })
+                                            : ""}
+                                    </select>
+                                    <div>Debe cargar una opción</div>
                                     ${INFO}
                                 </div>
                             </div>
 
-                            <!-- Solo para Lapso -->
-                            <div title="Lapso en dias" ?hidden=${this.tipoTarea != "lapso"}>
-                                <div class="caption center" ?hidden=${this.tipoTarea != "lapso" || this.accion == "edit"}>${LAPSE}</div>
-                                <div class="dmd-input" helper ?hidden=${this.tipoTarea != "lapso" || this.accion == "edit"}>
-                                    <input type="number" id="lapsoEnDias" autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
-
-                                    <span>Ingrese el lapso en dias</span>
-                                    ${INFO}
+                            <div class="lineas" ?hidden=${this.accion == "edit"}>
+                                <div title="fecha de inicio">
+                                    <div class="caption">${START}</div>
+                                    <div class="dmd-input" helper ?hidden=${this.accion == "edit"}>
+                                        <input type="date" id="vigencia" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
+                                        <div>Debe ingresar fecha de inicio</div>
+                                        <span>Fecha de inicio</span>
+                                    </div>
+                                </div>
+                                <div title="fecha de alerta" class="center">
+                                    <div class="caption center">${NOTIFCATION_IMPORTANT}</div>
+                                    <div class="dmd-input" helper ?hidden=${this.accion == "edit"}>
+                                        <input type="number" id="alerta" min=${0} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
+                                        <div>debe ser positivo y menor al vencimiento</div>
+                                        <span>Ingrese días de alerta</span>
+                                    </div>
+                                </div>
+                                <div title="fecha de vencimiento" class="end">
+                                    <div class="caption end">${END}</div>
+                                    <div class="dmd-input" helper ?hidden=${this.accion == "edit"}>
+                                        <input type="date" id="vencimiento" min=${new Date().toISOString().substring(0, 10)} autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
+                                        <div>Ingrese fecha de vencimiento</div>
+                                        <span>Fecha de vencimiento</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div title="Cantidad De repeticiones">
-                                <div class="caption center" ?hidden=${this.tipoTarea == "simple" || this.accion == "edit"}>${REPEAT}</div>
-                                <div class="dmd-input" helper ?hidden=${this.tipoTarea == "simple" || this.accion == "edit"}>
-                                    <input type="number" id="cantidad" autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
+                            <!-- Solo para fecha -->
+                            <div class="tareas">
+                                <div title="Dia del mes">
+                                    <div class="caption center" ?hidden=${this.tipoTarea != "fecha" || this.accion == "edit"}>${CALENDARDAY}</div>
+                                    <div class="dmd-input" helper ?hidden=${this.tipoTarea != "fecha" || this.accion == "edit"}>
+                                        <input type="number" id="diaDelMes" autocomplete="off" autocomplete="off" placeholder="" min="1" max="30" ?disabled=${!this.camposEditables} />
+                                        <span>Ingrese el dia del mes</span>
 
-                                    <span>Ingrese la cantidad</span>
-                                    ${INFO}
+                                        ${INFO}
+                                    </div>
+                                </div>
+
+                                <!-- Solo para Lapso -->
+                                <div title="Lapso en dias" ?hidden=${this.tipoTarea != "lapso"}>
+                                    <div class="caption center" ?hidden=${this.tipoTarea != "lapso" || this.accion == "edit"}>${LAPSE}</div>
+                                    <div class="dmd-input" helper ?hidden=${this.tipoTarea != "lapso" || this.accion == "edit"}>
+                                        <input type="number" id="lapsoEnDias" autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
+
+                                        <span>Ingrese el lapso en dias</span>
+                                        ${INFO}
+                                    </div>
+                                </div>
+                                <div title="Cantidad De repeticiones">
+                                    <div class="caption center" ?hidden=${this.tipoTarea == "simple" || this.accion == "edit"}>${REPEAT}</div>
+                                    <div class="dmd-input" helper ?hidden=${this.tipoTarea == "simple" || this.accion == "edit"}>
+                                        <input type="number" id="cantidad" autocomplete="off" autocomplete="off" placeholder="" ?disabled=${!this.camposEditables} />
+
+                                        <span>Ingrese la cantidad</span>
+                                        ${INFO}
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="dmd-input" helper>
                             <label>INSTRUCCIONES</label>
-                            <textarea id="instrucciones" placeholder="Ingresar las instrucciones de la tarea" rows="5" ?disabled=${!this.camposEditables}></textarea>
+                            <textarea id="instrucciones" placeholder="Ingresar las instrucciones de la tarea" rows="15" ?disabled=${!this.camposEditables}></textarea>
                             <div>Debe ingresar las instrucciones de la tarea</div>
                             ${INFO}
                         </div>
-                        <div class="botonera">
-                            <button id="btnAceptar" class="dmd-button" normal bordeRedondo @click="${this.grabar}" ?hidden=${this.accion == "view"}>Aceptar</button>
-                            <button id="btnAceptaryRecordar" class="dmd-button" normal bordeRedondo @click="${this.grabarRecordando}" ?hidden=${this.accion != "add"}>Agregar y Recordar</button>
-                        </div>
+                    </div>
+                    <div class="botonera">
+                        <button id="btnAceptar" style="justify-self:end" class="dmd-button" normal bordeRedondo @click="${this.grabar}" ?hidden=${this.accion == "view"}>Aceptar</button>
+                        <button id="btnAceptaryRecordar" style="justify-self:start" class="dmd-button" normal bordeRedondo @click="${this.grabarRecordando}" ?hidden=${this.accion != "add"}>Agregar y Recordar</button>
                     </div>
                 </div>
             `;

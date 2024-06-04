@@ -20,13 +20,13 @@ module.exports = merge(common, {
         publicPath: "/",
     },
     plugins: [
-        new InjectManifest({
+        /*  new InjectManifest({
             // These are some common options, and not all are required.
             // Consult the docs for more info.
             maximumFileSizeToCacheInBytes: 4000000,
             exclude: [/.../, "..."],
             swSrc: "./src/libs/service-worker.js",
-        }),
+        }), */
         new webpack.DefinePlugin({
             SERVICE_URL: JSON.stringify("http://localhost:4000"),
             //SERVICE_URL: JSON.stringify("https://scatest.uocra.net"),

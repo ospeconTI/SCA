@@ -3,8 +3,13 @@
 import { store } from "../redux/store";
 
 export const validaMail = (email) => {
-    var regex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    return regex.test(email) ? true : false;
+    const regex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    let mails = email.split(",");
+    let retorno = true;
+    mails.forEach((element) => {
+        retorno = retorno && regex.test(element);
+    });
+    return retorno;
 };
 
 export const isValidDateUS = (dateString) => {
