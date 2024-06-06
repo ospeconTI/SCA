@@ -24,7 +24,11 @@ export class planComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitElem
                 display: grid;
                 position: relative;
                 background-color: var(--formulario);
-                animation: fadeIn 1s;
+                transition: 0.5s;
+                transform: scale(0.9);
+            }
+            :host([expandido]) {
+                transform: scale(1);
             }
             :host::-webkit-scrollbar {
                 display: none;
@@ -40,7 +44,7 @@ export class planComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitElem
                 border: solid 1px var(--formulario);
             }
             #div-trajeta[seleccionado] {
-                background-color: var(--aplicacion);
+                background-color: var(--no-color);
                 box-shadow: var(--shadow-elevation-8-box);
             }
             #div-estado {
