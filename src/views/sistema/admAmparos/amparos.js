@@ -175,9 +175,20 @@ export class amparosScreen extends connect(
                 white-space: nowrap;
                 justify-content: flex-start;
             }
-            .div-arbol::-webkit-scrollbar {
-                display: none;
+            .div-arbol::-webkit-scrollbar-track {
+                -webkit-box-shadow: inset 0 0 4px transparent;
+                border-radius: 3px;
+                background-color: transparent;
             }
+            .div-arbol::-webkit-scrollbar {
+                height: 4px;
+                background-color: transparent;
+            }
+            .div-arbol::-webkit-scrollbar-thumb {
+                border-radius: 3px;
+                background-color: var(--secundario-10);
+            }
+
             .div-rama {
                 display: grid;
                 width: max-content;
@@ -188,8 +199,19 @@ export class amparosScreen extends connect(
                 align-content: flex-start;
                 padding: 0.5rem;
             }
+
+            .div-rama::-webkit-scrollbar-track {
+                -webkit-box-shadow: inset 0 0 4px transparent;
+                border-radius: 3px;
+                background-color: transparent;
+            }
             .div-rama::-webkit-scrollbar {
-                display: none;
+                width: 4px;
+                background-color: transparent;
+            }
+            .div-rama::-webkit-scrollbar-thumb {
+                border-radius: 4px;
+                background-color: var(--secundario-10);
             }
             svg {
                 width: 2rem;
