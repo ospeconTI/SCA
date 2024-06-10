@@ -48,8 +48,7 @@ export class tareaComponente extends connect(store, SECTOR_BY_ID, SECTOR_BY_ID_E
                 border: solid var(--on-formulario-bajada) 1px;
                 align-content: center;
                 padding: 0;
-                border-radius: 4px;
-                border: solid 1px var(--formulario);
+                border: none;
             }
             .div-etiqueta[cursorpointer] {
                 /* cursor: pointer; */
@@ -65,6 +64,7 @@ export class tareaComponente extends connect(store, SECTOR_BY_ID, SECTOR_BY_ID_E
                 height: 100%;
                 width: 0.5rem;
                 align-self: center;
+                border-radius: 3px 0 0 3px;
             }
             .estado[cumplido] {
                 background-color: var(--cumplido);

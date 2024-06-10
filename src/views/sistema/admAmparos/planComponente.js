@@ -39,9 +39,8 @@ export class planComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitElem
                 grid-template-columns: 0.4rem 18rem;
                 align-content: center;
                 padding: 0rem;
-                border-radius: 4px;
-                gap: 0m;
-                border: solid 1px var(--formulario);
+                gap: 0;
+                border: none;
             }
             #div-trajeta[seleccionado] {
                 background-color: var(--no-color);
