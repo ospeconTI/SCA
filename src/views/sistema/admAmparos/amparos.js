@@ -446,6 +446,11 @@ export class amparosScreen extends connect(
                 }
             }
             this.update();
+            setTimeout((e) => {
+                const ramas = this.shadowRoot.querySelector(".div-arbol").querySelectorAll(".div-rama");
+                const ultimaRama = ramas[ramas.length - 1];
+                ultimaRama.querySelector("tarea-componente").scrollIntoView({ behavior: "smooth", block: "end", inline: "end" });
+            }, 500);
         }
         if (name == TAREAS_BY_PLAN_ID_ERROR) {
             this.cargaArbolDe0 = true;
