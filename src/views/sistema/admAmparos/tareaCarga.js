@@ -494,7 +494,7 @@ export class tareaCargaScreen extends connect(store, TAREA_UPDATE, TAREA_UPDATE_
                     this._vigencia.value = hoyEnStringYYYYMMDD();
                     this._vencimiento.value = hoyEnStringYYYYMMDD();
                 }
-                this._alerta.value = recordado.alerta || "5";
+                this._alerta.value = recordado.alerta || "0";
                 this._descripcion.value = recordado.descripcion || "";
                 this._instrucciones.value = recordado.instrucciones || "";
                 this._lapsoEnDias.value = "1";
