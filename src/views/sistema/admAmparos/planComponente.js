@@ -184,7 +184,8 @@ export class planComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitElem
         e.preventDefault();
         e.stopPropagation();
         let largo = this.registro.urlReferencia.length;
-        window.open("https://fronttest.uocra.net/Amparos/index.html?carpeta=" + this.registro.urlReferencia.substr(0, largo - 1) + "&carpetaSub=" + this.registro.urlReferencia.substr(largo - 1, 1), "_blank");
+        let sector = store.getState().miPerfil.sector.descripcion;
+        window.open("https://fronttest.uocra.net/Amparos/index.html?carpeta=" + this.registro.urlReferencia.substr(0, largo - 1) + "&carpetaSub=" + this.registro.urlReferencia.substr(largo - 1, 1) + "&sector=" + sector, "_blank");
     }
     mostrarTareas(e) {
         e.preventDefault();
