@@ -56,17 +56,18 @@ export class menuPrincipal extends connect(store, SECTORES_GET_ALL, SECTORES_GET
             "message",
             (e) => {
                 var origin = e.origin;
-                if (origin == AUTHENTICATION_URL) {
+                var data = e.data;
+                if (origin == AUTHENTICATION_URL && data.source == "ospecon-authentication") {
                     try {
                         this.popUp.close();
                         document.getElementsByName("iframeLogin")[0].style.display = "none";
-                        const profile = this.parseJwt(e.data);
+                        const profile = this.parseJwt(data.token);
                         if (profile.exp < new Date().getTime() / 1000) {
                             store.dispatch(showConfirm("Control de Accesos", "Su permiso ha expirado, ¿ quiere actualizalo ?", loguearConNuevoUsuario(), null));
                             return;
                         } else {
                             this.logueado = true;
-                            store.dispatch(autorizacion(e.data));
+                            store.dispatch(autorizacion(data.token));
                         }
                     } catch (err) {
                         console.log(err);
