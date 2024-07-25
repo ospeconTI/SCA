@@ -567,8 +567,11 @@ export class amparosScreen extends connect(
         if (name == TAREA_DAR_CUMPLIMIENTO_OK || name == TAREA_QUITAR_CUMPLIMIENTO_OK) {
             store.dispatch(showWarning("Atencion", "Se dio como cumplido o descumplido la tarea", "fondoOk", 3000));
             this.cargaArbolDe0 = false;
+
             if (this.sectorEjecutorFiltro.ejecutorCreador == "") {
                 store.dispatch(getPlanesAll());
+            } else if (this.sectorEjecutorFiltro.ejecutorCreador == "con mi sector") {
+                store.dispatch(getMisPlanes("?sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
             } else {
                 store.dispatch(getPlanesAll("?ejecutorCreador=" + this.sectorEjecutorFiltro.ejecutorCreador + "&sectorDescripcion=" + this.sectorEjecutorFiltro.sectorDescripcion));
             }

@@ -104,7 +104,8 @@ export class tareaComponente extends connect(store, SECTOR_BY_ID, SECTOR_BY_ID_E
                 padding: 0.2rem 0.1rem;
                 cursor: default;
                 resize: none;
-                text-wrap: wrap;
+                text-wrap: initial;
+                white-space: initial;
             }
             #textarea-titulo::-webkit-scrollbar {
                 display: none;

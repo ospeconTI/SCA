@@ -91,6 +91,7 @@ export class planComponente extends connect(store, MEDIA_CHANGE, SCREEN)(LitElem
                 cursor: default;
                 resize: none;
                 text-wrap: initial;
+                white-space: initial;
             }
             #textarea-titulo::-webkit-scrollbar {
                 display: none;
